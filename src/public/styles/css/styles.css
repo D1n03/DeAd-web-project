@@ -39,9 +39,13 @@
   }
 
   body {
-    background-image: url("../../assets/home/bg-main1.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    background: linear-gradient(
+          rgba(0, 0, 0, 0.4), 
+          rgba(0, 0, 0, 0.4)
+        ),
+        url("../../assets/home/bg-main1.jpg");
   }
 
   :is(header, .first) :is(h1, p, a) {
@@ -441,7 +445,7 @@
   
   .login .container__form-buttons button {
     width: 100%;
-    background-color: rgb(75, 226, 95);
+    background-color: rgb(68, 199, 86);
     border-radius: 5rem;
     border: none;
     padding: 0.75rem 2.5rem;
