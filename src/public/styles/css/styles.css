@@ -507,25 +507,53 @@
     text-align: center;
   }
 
-  /* media screen */
-  
-  @media screen and (min-width: 875px) {
-    .first__description {
-      width: 90%;
-    }
-    .first__description::before {
-      font-size: 4rem;
-      left: -3rem;
-      top: -2rem;
-    }
-    .first__description::after {
-      font-size: 4rem;
-      right: -3rem;
-      top: -2rem;
-    }
+  /* Visitor Main Page content */
+
+  .visitor-main {
+    min-height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
   }
 
-  @media screen and (min-width: 1150px) {
+  .visitor-main .visitor-main-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    gap: 0rem;
+  }
+
+  .visitor-main .visitor-main-container .visit-left {
+    width: min(37%, 35rem);
+    box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0rem;
+    background-color: rgb(32, 30, 30, 0.8);
+    padding: 3rem 2.5rem;
+    border-radius: 2rem;
+  }
+
+  .visitor-main .visitor-main-container .visit-right {
+    width: min(57%, 70rem);
+    box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0rem;
+    background-color: rgb(32, 30, 30, 0.8);
+    padding: 3rem 2.5rem;
+    border-radius: 2rem;
+  }
+
+  /* media screen */
+
+  @media screen and (min-width: 481px) {
     .header .nav__toggle {
       display: none;
     }
@@ -542,6 +570,41 @@
     .header__nav-list .list__item {
       margin-block: 0;
     }
+    .first__description {
+      width: 90%;
+    }
+    .first__description::before {
+      font-size: 4rem;
+      left: -3rem;
+      top: -2rem;
+    }
+    .first__description::after {
+      font-size: 4rem;
+      right: -3rem;
+      top: -2rem;
+    }
+  }
+  
+  @media screen and (min-width: 875px) {
+    .first__description {
+      width: 90%;
+    }
+    .first__description::before {
+      font-size: 4rem;
+      left: -3rem;
+      top: -2rem;
+    }
+    .first__description::after {
+      font-size: 4rem;
+      right: -3rem;
+      top: -2rem;
+    }
+    .visitor-main .visitor-main-container {
+      flex-direction: row;
+    }
+  }
+
+  @media screen and (min-width: 1150px) {
     .first__description {
       width: 80%;
     }
