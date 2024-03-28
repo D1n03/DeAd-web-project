@@ -39,9 +39,13 @@
   }
 
   body {
-    background-image: url("../../assets/home/bg-main1.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    background: linear-gradient(
+          rgba(0, 0, 0, 0.4), 
+          rgba(0, 0, 0, 0.4)
+        ),
+        url("../../assets/home/bg-main1.jpg");
   }
 
   :is(header, .first) :is(h1, p, a) {
@@ -105,7 +109,7 @@
   }
 
   .error {
-    min-height: 89vh;
+    min-height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,7 +125,7 @@
   }
 
   .error__container-image {
-    max-width: min(20rem, 30%);
+    max-width: min(15rem, 20%);
     margin: 2rem 2rem 4rem 2rem;
   }
 
@@ -217,7 +221,7 @@
     max-width: 20%;
   }
   .header__nav-list .list__item-text {
-    color: hsl(0, 0%, 100%);
+    color: rgb(255, 255, 255);
   }
 
   .header .nav__toggle {
@@ -254,7 +258,7 @@
   }
 
   .header__nav-list .list__item-text {
-    color: hsl(0, 0%, 100%);
+    color: rgb(255, 255, 255);
   }
   
   .header__nav-list .list__item-icon {
@@ -286,7 +290,7 @@
     font-weight: 400;
     position: absolute;
     top: 130%;
-    left: 50%;
+    left: 30%;
     transform: translateX(-50%);
     width: 100px;
     padding: 8px;
@@ -325,12 +329,15 @@
 
   /* first content */
   .first {
-    min-height: 89vh;
+    min-height: 100%;
+    position: relative;
     background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10%;
+    margin-bottom: 5%;
   }
 
   .first .wrapper {
@@ -584,13 +591,15 @@
   /* Login content */
 
   .login {
-    min-height: 80vh;
+    min-height: 100%;
+    position: relative;
     display: flex;
     justify-content: start;
     align-items: center;
     gap: 0;
     flex-direction: column;
-    margin-top: 5rem;
+    margin-top: 2.5%;
+    margin-bottom: 5%;
   }
 
   .login .container {
@@ -645,7 +654,7 @@
   
   .login .container__form-buttons button {
     width: 100%;
-    background-color: rgb(75, 226, 95);
+    background-color: rgb(68, 199, 86);
     border-radius: 5rem;
     border: none;
     padding: 0.75rem 2.5rem;
@@ -702,25 +711,53 @@
     text-align: center;
   }
 
-  /* media screen */
-  
-  @media screen and (min-width: 875px) {
-    .first__description {
-      width: 90%;
-    }
-    .first__description::before {
-      font-size: 4rem;
-      left: -3rem;
-      top: -2rem;
-    }
-    .first__description::after {
-      font-size: 4rem;
-      right: -3rem;
-      top: -2rem;
-    }
+  /* Visitor Main Page content */
+
+  .visitor-main {
+    min-height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
   }
 
-  @media screen and (min-width: 1150px) {
+  .visitor-main .visitor-main-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    gap: 0rem;
+  }
+
+  .visitor-main .visitor-main-container .visit-left {
+    width: min(37%, 35rem);
+    box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0rem;
+    background-color: rgb(32, 30, 30, 0.8);
+    padding: 3rem 2.5rem;
+    border-radius: 2rem;
+  }
+
+  .visitor-main .visitor-main-container .visit-right {
+    width: min(57%, 70rem);
+    box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0rem;
+    background-color: rgb(32, 30, 30, 0.8);
+    padding: 3rem 2.5rem;
+    border-radius: 2rem;
+  }
+
+  /* media screen */
+
+  @media screen and (min-width: 481px) {
     .header .nav__toggle {
       display: none;
     }
@@ -737,6 +774,41 @@
     .header__nav-list .list__item {
       margin-block: 0;
     }
+    .first__description {
+      width: 90%;
+    }
+    .first__description::before {
+      font-size: 4rem;
+      left: -3rem;
+      top: -2rem;
+    }
+    .first__description::after {
+      font-size: 4rem;
+      right: -3rem;
+      top: -2rem;
+    }
+  }
+  
+  @media screen and (min-width: 875px) {
+    .first__description {
+      width: 90%;
+    }
+    .first__description::before {
+      font-size: 4rem;
+      left: -3rem;
+      top: -2rem;
+    }
+    .first__description::after {
+      font-size: 4rem;
+      right: -3rem;
+      top: -2rem;
+    }
+    .visitor-main .visitor-main-container {
+      flex-direction: row;
+    }
+  }
+
+  @media screen and (min-width: 1150px) {
     .first__description {
       width: 80%;
     }
