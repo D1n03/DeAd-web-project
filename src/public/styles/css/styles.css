@@ -353,6 +353,9 @@
 
   .first__title {
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--fs-huge);
+    font-weight: 600;
   }
   
   .first__description {
@@ -378,11 +381,185 @@
     background-color: rgb(61, 160, 74);
   }
 
-  .first__title {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: var(--fs-huge);
-    font-weight: 600;
+
+  /* About content */
+
+  .about {
+    min-height: 80vh;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 0;
+    flex-direction: column;
+    margin-top: 2.5%;
+    margin-bottom: 5%;
   }
+
+  .about .container {
+    width: min(90%, 32.5rem);
+    box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1rem;
+    flex-direction: column;
+    background-color: rgb(32, 30, 30, 0.8);
+    padding: 3rem 2.5rem;
+    border-radius: 2rem;
+  }
+
+  .about .container__title {
+    white-space: nowrap;
+    color: rgb(255, 255, 255);
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .about .container__text {
+    width: 100%;
+    color: white;
+    text-align: center;
+    position: relative;
+    font-size: 1.1rem;
+  }
+
+
+  /* Contact content */
+
+  .contact {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    flex-direction: row;
+    margin-top: 2.5%;
+    margin-bottom: 5%;
+    
+  }
+
+  .contact .container {
+    width: min(90%, 32.5rem);
+    box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0rem;
+    flex-direction: column;
+    background-color: rgb(32, 30, 30, 0.8);
+    padding: 3rem 2.5rem;
+    border-radius: 2rem;
+  }
+
+  
+
+  .contact .container__title {
+    white-space: nowrap;
+    color: rgb(255, 255, 255);
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .contact .container__text {
+    width: 100%;
+    color: white;
+    text-align: center;
+    position: relative;
+    font-size: 1.1rem;
+  }
+
+  .contact .container__form {
+    width: 100%;
+  }
+
+  .contact .container__form-field {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0rem;
+    flex-direction: column;
+    margin-top: 0.5rem;
+  }
+
+  .contact .container__form-field:nth-of-type(5) {
+    gap: 1rem;
+  }
+
+  .contact .container__form-field:nth-of-type(5) #photo-label {
+    width: 100%;
+  }
+
+  .contact .container__form-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-direction: column;
+    margin-top: 4rem;
+  }
+  
+  .contact .container__form-buttons button {
+    width: 100%;
+    background-color: rgb(75, 226, 95);
+    border-radius: 5rem;
+    border: none;
+    padding: 0.75rem 2.5rem;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    font-size: 1.15rem;
+    font-weight: 400;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: all 150ms ease-in-out;
+  }
+
+  .contact .container__form-buttons button:hover {
+    background-color: rgb(61, 160, 74);
+  }
+
+  .contact .container__form-buttons button:active {
+    background-color: rgb(61, 160, 74);
+  }
+
+  .contact .container label,
+  .contact .container .photo-upload {
+    font-weight: 400;
+    color: rgb(255, 255, 255);
+  }
+  .contact .container input:not([id=photo]) {
+    width: 100%;
+    background-color: rgb(217, 217, 217);
+    margin-top: 1.75rem;
+    border-radius: 2rem;
+    border: none;
+    padding: 0.65rem 1.5rem;
+    font-size: var(--fs-small);
+  }
+  .contact .container textarea[id=feedbackMessage] {
+    resize: none;
+    width: 100%;
+    background-color: rgb(217, 217, 217);
+    margin-top: 1.75rem;
+    border-radius: 2rem;
+    border: none;
+    padding: 0.65rem 1.5rem;
+    font-size: var(--fs-small);
+  }
+  .contact .container :is(textarea, input):is(:focus) {
+    outline: none;
+  }
+  .contact .container input[type=file] {
+    cursor: pointer;
+    display: none;
+    transition: all 350ms ease-in-out;
+  }
+  .contact .container label[for=photo] {
+    cursor: pointer;
+    background-color: rgb(89, 89, 89);
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+  }
+
 
   /* Login content */
 
@@ -402,7 +579,7 @@
     width: min(90%, 32.5rem);
     box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     gap: 0rem;
     flex-direction: column;
