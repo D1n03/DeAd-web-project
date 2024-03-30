@@ -53,10 +53,88 @@
   <main class="visitor-main">
     <div class="visitor-main-container">
       <section class="visit-left">
-        ADD SECTION
+        <div class="inmate__show ">
+          <div class="inmate__show-banner ">
+            <div class="delete-show">
+              <div class="line line-1"></div>
+              <div class="line line-2"></div>
+            </div>
+            <img src="../public/assets/visitormain/inmate-icon.webp" alt="inmate-picture" class="inmate__show-photo">
+            <h1 class="inmate__show-title">Name Surname</h1>
+          </div>
+        </div>
+        <form class="search-bar list-off">
+          <input type="text" name="searchInmate" id="searchInmate" placeholder="Search inmate">
+          <button type="submit">
+            <img src="../public/assets/visitormain/search-icon.svg" alt="search bar">
+          </button>
+          <ul class="result-list hidden"></ul>
+        </form>
+        <button id="add-visitor" class="visitor-main__aside__button">
+          Add visitor
+        </button>
       </section>
       <section class="visit-right">
-        VISITORS TABLE
+        <ul class="visitor-main__list">
+        <li>
+          <div class="visitor-element">
+          <img src="../public/assets/visitormain/person-icon.webp" alt="visitor photo" class="visitor-main__list__show__photo">
+          <div class="visitor-main__list__show__name">
+            <p class="visitor-main__list__show__label">
+              Name:
+              <span class="visitor-main__list__show__info">Visitor Name</span>
+            </p>
+          </div>
+          <div class="drop-arrow">
+            <span class="vBar"></span>
+            <span class="vBar"></span>
+          </div>
+          <div class="visitor-main__list__show__dBirth">
+            <p class="visitor-main__list__show__label">
+              ID Number:
+              <span class="visitor-main__list__show__info">Visitor Number</span>
+            </p>
+          </div>
+          <div class="visitor-main__list__show__buttons">
+            <button class="visitor-main__list__show__buttons__edit">
+              <img src="../public/assets/visitormain/edit-icon.svg" alt="edit button">
+            </button>
+            <button class="visitor-main__list__show__buttons__delete">
+              <img src="../public/assets/visitormain/delete-icon.svg" alt="delete button">
+            </button>
+          </div>
+        </div>
+        </li>
+        <li>
+          <div class="visitor-element">
+          <img src="../public/assets/visitormain/person-icon.webp" alt="visitor photo" class="visitor-main__list__show__photo">
+          <div class="visitor-main__list__show__name">
+            <p class="visitor-main__list__show__label">
+              Name:
+              <span class="visitor-main__list__show__info">Visitor Name </span>
+            </p>
+          </div>
+          <div class="drop-arrow">
+            <span class="vBar"></span>
+            <span class="vBar"></span>
+          </div>
+          <div class="visitor-main__list__show__dBirth">
+            <p class="visitor-main__list__show__label">
+              ID Number:
+              <span class="visitor-main__list__show__info">Visitor Number</span>
+            </p>
+          </div>
+          <div class="visitor-main__list__show__buttons">
+            <button class="visitor-main__list__show__buttons__edit">
+              <img src="../public/assets/visitormain/edit-icon.svg" alt="edit button">
+            </button>
+            <button class="visitor-main__list__show__buttons__delete">
+              <img src="../public/assets/visitormain/delete-icon.svg" alt="delete button">
+            </button>
+          </div>
+        </div>
+        </li>
+      </ul>
       </section>
     </div>
   </main>
