@@ -933,7 +933,6 @@
     min-height: 30rem;
     box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
     display: flex;
-    justify-content: space-around;
     align-items: center;
     flex-direction: column;
     gap: 0rem;
@@ -1078,11 +1077,11 @@
   }
 
   :is(.visitor-main__list__show__buttons__edit):hover {
-    background-color: rgb(60, 99, 65)
+    background-color: rgb(60, 99, 65);
   }
 
   :is(.visitor-main__list__show__buttons__delete):hover {
-    background-color: rgb(183, 28, 28)
+    background-color: rgb(183, 28, 28);
   }
 
   .visitor-main__list__show.extended {
@@ -1100,6 +1099,91 @@
     display: block;
     grid-column: 2/3;
     justify-self: center;
+  }
+
+  .visit-right .pagination-visitor-container {
+    margin-top: 2.5%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .visit-right .pagination-visitor-container .pagination-visitor-button-delete {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--fs-regular);
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    background-color: rgb(244, 67, 54);
+    box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    transition: all 150ms ease-in-out;
+  }
+
+  .visit-right .pagination-visitor-container .pagination-visitor-button-delete:hover {
+    background-color: rgb(183, 28, 28);
+  }
+
+  .visit-right .pagination-visitor-container .pagination-visitor-button-prev {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--fs-regular);
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    background-color: rgb(21, 178, 147);
+    box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    transition: all 150ms ease-in-out;
+  }
+
+  .visit-right .pagination-visitor-container .pagination-visitor-button-prev:hover {
+    background-color: rgb(17, 131, 108);
+  }
+
+  .visit-right .pagination-visitor-container .pagination-visitor-button-next {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--fs-regular);
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    background-color: rgb(21, 178, 147);
+    box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    transition: all 150ms ease-in-out;
+  }
+
+  .visit-right .pagination-visitor-container .pagination-visitor-button-next:hover {
+    background-color: rgb(17, 131, 108);
+  }
+
+  .visit-right .pagination-visitor-container .pagination-visitor-button-confirm {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--fs-regular);
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    background-color: rgb(75, 226, 95);
+    box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    transition: all 150ms ease-in-out;
+  }
+
+  .visit-right .pagination-visitor-container .pagination-visitor-button-confirm:hover {
+    background-color: rgb(61, 160, 74);
   }
 
   /* media screen */
