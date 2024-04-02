@@ -13,43 +13,42 @@
 </head>
 
 <body>
-  <header class="header" id="page-header">
-    <div class="header__container">
-      
-        <div class="nav__toggle">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-        <nav class="header__nav">
-            <ul class="header__nav-list">
-                <li class="list__item">
-                    <a href="/" class="nav-link">
-                      <img class="list__item-icon" src="../public/assets/header/home-icon.svg" alt="home-logo">
-                      <p class="list__item-text">Home</p>
-                    </a>
-                  </li>
-                  <li class="list__item">
-                    <a href="/views/about.html" class="nav-link">
-                      <img class="list__item-icon" src="../public/assets/header/about-icon.svg" alt="info-logo">
-                      <p class="list__item-text">About</p>
-                    </a>
-                  </li>
-                  <li class="list__item">
-                    <a href="/views/contact.html" class="nav-link">
-                      <img class="list__item-icon" src="../public/assets/header/contact-icon.svg" alt="contact-logo">
-                      <p class="list__item-text">Contact</p>
-                    </a>
-                  </li>
-                  <li class="list__item">
-                    <a href="#" class="profile-link">
-                      <img class="person-logo" src="../public/assets/header/person-icon.webp" alt="person-logo">
-                    </a>
-                  </li>
-            </ul>
-        </nav>
-    </div>
-  </header>
+  <div class="nav-container">
+    <nav class="navbar">
+      <h1 id="navbar-logo"></h1>
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="togglebar"></span>
+        <span class="togglebar"></span>
+        <span class="togglebar"></span>
+      </div>
+      <ul class="nav-list">
+        <li class="list__item">
+          <a href="/" class="nav-link">
+            <img class="list__item-icon" src="../public/assets/header/home-icon.svg" alt="home-logo">
+            <p class="list__item-text">Home</p>
+          </a>
+        </li>
+        <li class="list__item">
+          <a href="/" class="nav-link">
+            <img class="list__item-icon" src="../public/assets/header/about-icon.svg" alt="about-logo">
+            <p class="list__item-text">About</p>
+          </a>
+        </li>
+        <li class="list__item">
+          <a href="/" class="nav-link">
+            <img class="list__item-icon" src="../public/assets/header/contact-icon.svg" alt="contact-logo">
+            <p class="list__item-text">Contact</p>
+          </a>
+        </li>
+        <li class="list__item">
+          <a href="#" class="profile-link">
+            <img class="person-logo" src="../public/assets/header/person-icon.webp" alt="person-logo">
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <script src="app.js"></script>
 
   <main class="error">
     <div class="error__container">

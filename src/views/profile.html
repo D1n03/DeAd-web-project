@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Contact us at DeAd! We'd like to hear your feedback.">
+    content="Your profile here on DeAd.">
   <link rel="stylesheet" href="../public/styles/css/styles.css">
   <link rel="icon" href="../public/assets/header/police-icon.svg">
-  <title>Contact</title>
+  <title>Profile</title>
 </head>
 
 <body>
@@ -50,32 +50,22 @@
   </div>
   <script src="app.js"></script>
 
-  <main class="contact">
+  <main class="profile">
     <div class="container">
-        <h1 class="container__title">Contact Us</h1>
-        <p class="container__text">Have some feedback for our services? Let us know by completing the online form below: </p>
-        <form class="container__form" id="contact-form">
-            <div class="container__form-field">
-                <input id="firstName" required type="text" name="firstName" placeholder="Name">
-                <p class="validation-error first_name-error"></p>
-            </div>
-            <div class="container__form-field">
-                <input id="email" required type="email" name="email" placeholder="Email">
-                <p class="validation-error email-error"></p>
-            </div>
-            <div class="container__form-field">
-                <textarea id="feedbackMessage" name="feedback" placeholder="Feedback" rows="4" cols="50"></textarea>
-            </div>
-            <div class="container__form-buttons">
-                <button type="submit" class="container__form-submit">
-                  Submit
-                </button>
-            </div>
-        </form>     
-        
+        <h1 class="container__title">
+          Profile
+        </h1>
+        <img class="person-logo" src="../public/assets/header/person-icon.webp" alt="person-logo">
+        <!-- todo have separate class for name -->
+        <p class="container__text"> 
+            Name Surname
+        </p>
+        <p class="container__text"> 
+            name.surname@gmail.com
+        </p>
+        <a class="link" href="">Edit Profile</a>
+        <a class="link" href="">Visit History</a>
     </div>
-    
-  </section>
   </main>
 
 </body>
