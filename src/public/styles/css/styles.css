@@ -180,7 +180,6 @@
     align-items: center;
     height: 80px;
     width: 100%;
-    max-width: 1720px;
     justify-content: flex-end;
        
   }
@@ -195,7 +194,7 @@
     justify-self: end;
     align-items: center;
     gap: 80px;
-    margin-right: 40px;
+    margin-right: 15%;
     margin-top: 0px;
   }
 
@@ -418,18 +417,6 @@
     font-size: var(--fs-small);
     color: white;
   }
-
-  /* :is(.profile .container__text) {
-    padding: 0 2rem 0 2rem;
-    white-space: normal;
-    color: rgb(255, 255, 255);
-  }
-
-  .profile .container__text {
-    margin-bottom: 2rem;
-    font-weight: 900;
-    text-align: center;
-  } */
 
   .profile .link {
     font-size: var(--fs-medium);
