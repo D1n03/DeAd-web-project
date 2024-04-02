@@ -177,11 +177,11 @@
 
   .navbar {
     display:grid;
-    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     height: 80px;
     width: 100%;
     max-width: 1720px;
+    justify-content: flex-end;
        
   }
 
@@ -191,8 +191,12 @@
     list-style: none;
     text-align: center;
     width: 70%;
+    align-self: start;
     justify-self: end;
     align-items: center;
+    gap: 80px;
+    margin-right: 40px;
+    margin-top: 0px;
   }
 
 
@@ -397,13 +401,35 @@
     margin-bottom: 1rem;
   }
 
+  .profile .container__name-surname {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    font-size: var(--fs-medium);
+    color: white;
+  }
+
   .profile .container__text {
     width: 100%;
     text-align: center;
     position: relative;
-    font-size: 1.1rem;
+    /* overflow-x: auto; 
+    white-space: wrap;  */
+    font-size: var(--fs-small);
     color: white;
   }
+
+  /* :is(.profile .container__text) {
+    padding: 0 2rem 0 2rem;
+    white-space: normal;
+    color: rgb(255, 255, 255);
+  }
+
+  .profile .container__text {
+    margin-bottom: 2rem;
+    font-weight: 900;
+    text-align: center;
+  } */
 
   .profile .link {
     font-size: var(--fs-medium);
@@ -414,6 +440,7 @@
     border-radius: 2rem;
     transition: all 150ms ease-in-out;
     color: white;
+    text-align: center;
   }
 
   .profile .link:is(:hover) {
@@ -1199,6 +1226,7 @@
       left: -100%;
       opacity: 0;
       transition: all 0.5s ease;
+      gap: 10px;
     }
 
     .nav-list.active {
