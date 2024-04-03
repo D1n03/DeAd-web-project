@@ -1302,6 +1302,37 @@
       right: -3rem;
       top: -2rem;
     }
+    .visitor-main__list__show {
+      display: grid;
+      grid-template-columns: 1fr 2fr 2fr 1fr;
+      grid-template-rows: auto;
+      gap: 2rem;
+      justify-items: center;
+      justify-content: center;
+      align-items: center;
+      align-content: start;
+    }
+    .visitor-main__list__show__name {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-direction: row;
+    }
+    .visitor-main__list__show__dBirth {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-direction: row;
+    }
+    .visitor-main__list__show__buttons {
+      display: flex;
+      flex-direction: row;
+    }
+    .visitor-main__list__show .drop-arrow {
+      display: none;
+    }
   }
 
   @media screen and (min-width: 481px) {
