@@ -48,7 +48,55 @@
     </nav>
   </div>
   <script src="app.js"></script>
+  <main class="details">
+    <form action="#" class="details__form-visit" id="visitForm">
+      <div class="details__form-visit__labels">
+        <h1 class="details__form-visit__labels__title">
+          Details regarding the visit
+        </h1>
+        <div class="details__form-visit__labels__container">
+          <label class="form-text" for="visitDate">The date of the visit*</label>
+          <input class="form-input" required id="visitDate" type="date">
+          <p class="validation-error visitDate-error">I</p>
+        </div>
 
+        <div class="details__form-visit__labels__container">
+          <label class="form-text" for="visitTime">The visit duration*</label>
+          <input class="form-input" required id="visitTime" type="text" placeholder="e.g. 1h:30m">
+          <p class="validation-error visitTime-error">I</p>
+        </div>
+
+        <div class="details__form-visit__labels__container">
+          <label class="form-text" for="objectData">The items provided by the inmate*</label>
+          <input class="form-input" required id="objectData" type="text">
+          <p class="validation-error objectData-error">I</p>
+        </div>
+
+        <div class="details__form-visit__labels__container">
+          <label class="form-text" for="prisonerMood">The status of the inmate*</label>
+          <input class="form-input" required id="prisonerMood" type="text">
+          <p class="validation-error prisonerMood-error">I</p>
+        </div>
+        <div class="details__form-visit__labels__container">
+          <label class="form-text" for="visitNature">The purpose of the visit*</label>
+          <textarea class="form-textarea" required id="visitNature" maxlength="150"></textarea>
+          <p class="validation-error visitNature-error">I</p>
+        </div>
+
+        <div class="details__form-visit__labels__container">
+          <label class="form-text" for="summary">The summary of the discussions*</label>
+          <textarea class="form-textarea" required id="summary" maxlength="300"></textarea>
+          <p class="validation-error summary-error">I</p>
+        </div>
+      </div>
+      <div class="details__form-visit__buttons">
+        <a href="../views/visitormain.html" class="details__form-visit__buttons__back">Back</a>
+        <button type="submit" class="details__form-visit__buttons__submit">
+          Submit
+        </button>
+      </div>
+    </form>
+  </main>
 </body>
 
 </html>
