@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+/*@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"); */
 *,
 *::before,
 *::after {
@@ -723,7 +723,7 @@
     min-height: 30rem;
     box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
     display: flex;
-    justify-content:first baseline;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 0rem;
@@ -1196,6 +1196,197 @@
     background-color: rgb(61, 160, 74);
   }
 
+  .visitor-dialog {
+    font-family: Arial, Helvetica, sans-serif;
+    width: min(33rem, 100%);
+    margin: auto;
+    border: 0;
+    border-radius: 2rem;
+    background-color: rgb(32, 30, 30);
+    color: rgb(255, 255, 255);
+  }
+  
+  .visitor-dialog .header-wrapper {
+    width: min(100% - 4rem, 26rem);
+    margin-inline: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0rem;
+    padding-block: 2rem;
+  }
+
+  .visitor-dialog .header-wrapper .form-title {
+    font-size: var(--fs-regular);
+    text-align: center;
+    margin: 0 auto;
+    display: block; 
+  }
+  
+  .visitor-dialog .header-wrapper .form-toggle {
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .visitor-dialog .header-wrapper .form-toggle .bar {
+    display: block;
+    height: 5px;
+    margin-bottom: 0.5rem;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  .visitor-dialog .header-wrapper .form-toggle .bar:is(:nth-child(1)) {
+    transform: translateY(7px) rotate(-45deg);
+  }
+  .visitor-dialog .header-wrapper .form-toggle .bar:is(:nth-child(2)) {
+    transform: translateY(-6px) rotate(45deg);
+  }
+
+  .visitor-dialog .dialog__form {
+    width: min(100% - 4rem, 26rem);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 0.75rem;
+    justify-items: start;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding-bottom: 2rem;
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper {
+    width: 100%;
+    font-size: var(--fs-small);
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper label,
+  .visitor-dialog .dialog__form .field-wrapper input {
+    display: block;
+    width: 100%;
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper label {
+    margin-bottom: 0.5rem;
+    font-size: var(--fs-small);
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper input {
+    border: none;
+    outline: 0;
+    border-radius: 1rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper .error-message {
+    visibility: hidden;
+    color: rgb(252, 79, 79);
+    font-size: var(--fs-very-small);
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper .error-message.visible {
+    visibility: visible;
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper .error-outline {
+    outline: 3px solid rgb(252, 79, 79);
+    border-radius: 1rem;
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper .select-wrapper {
+    display: block;
+    width: 100%;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    border-radius: 1rem;
+    font-size: var(--fs-small);
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper .select-wrapper:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: rgb(0, 0, 0) transparent transparent transparent;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper select {
+    appearance: none;
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+    z-index: 10;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: 0;
+    border-radius: 1rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .visitor-dialog .dialog__form .field-wrapper option {
+    background-color: rgb(255, 255, 255);
+  }
+
+  .visitor-dialog .dialog__form .form-add {
+    background-color: rgb(75, 226, 95);
+    border: 0;
+    cursor: pointer;
+    border-radius: 1rem;
+    color: rgb(255, 255, 255);
+    padding: 0.75rem 2.5rem;
+    transition: all 150ms ease-in-out;
+    font-size: var(--fs-regular);
+    font-weight: 500;
+  }
+
+  .visitor-dialog .dialog__form .form-add:hover {
+    background-color: rgb(61, 160, 74);
+  }
+
+  .visitor-dialog .dialog__form .form-add:is(:hover) {
+    opacity: 70%;
+  }
+
+  .visitor-dialog .dialog__form .form-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .visitor-dialog .dialog__form .form-footer .field-wrapper input[type=file] {
+    display: none;
+  }
+  
+  .visitor-dialog .dialog__form .form-footer .field-wrapper label[for=photo] {
+    display: inline-block;
+    background-color: rgb(119, 203, 228);
+    margin-bottom: 0;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    cursor: pointer;
+    font-size: var(--fs-regular);
+    font-weight: 500;
+  }
+
+  .visitor-dialog .dialog__form .form-footer .field-wrapper label[for=photo]:hover {
+    background-color: rgb(96, 163, 184);
+  }
+
   /* Visit info content */
 
   .details__form-visit__buttons__submit, .details__form-visit__buttons__back {
@@ -1602,5 +1793,3 @@
       width: 70%;
     }
   }
-
-
