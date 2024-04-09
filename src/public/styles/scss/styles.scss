@@ -215,7 +215,7 @@ body {
       align-items: center;
       gap: 1rem;
 
-      .person-logo {
+      .person-icon {
         max-width: 2.5rem;
         border-radius: 100vh;
       }
@@ -1569,7 +1569,7 @@ body {
     }
 
     .list__item {
-      &:is(:last-child) .person-logo {
+      &:is(:last-child) .person-icon {
         max-width: 2.5rem;
         border-radius: 100vh;
         margin-top: 10px;
