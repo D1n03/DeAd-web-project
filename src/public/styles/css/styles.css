@@ -1514,6 +1514,16 @@ body {
     transform: translateY(-8px) translateX(4px) rotate(-45deg);
     width: 14px;
   }
+  .sub-menu-wrap {
+    position: absolute;
+    top: 20%;
+    right: 10%;
+    width: 320px;
+    z-index: 9999;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+  }
 }
 @media screen and (min-width: 481px) {
   .first__description {
