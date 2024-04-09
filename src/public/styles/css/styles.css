@@ -245,6 +245,75 @@ body {
   transition: all 0.2s ease-out;
 }
 
+.sub-menu-wrap {
+  position: absolute;
+  top: 6%;
+  right: 2.5%;
+  width: 320px;
+  z-index: 9999;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.5s;
+}
+.sub-menu-wrap.open-menu {
+  max-height: 240px;
+}
+.sub-menu {
+  background: rgb(255, 255, 255);
+  padding: 20px;
+  margin: 10px;
+  border-radius: 0.5rem;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+}
+.user-info h3 {
+  font-weight: 300;
+}
+.user-info img{
+  width: 3rem;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+.sub-menu hr {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  background: rgb(204, 204, 204);
+  margin: 15px 0 10px;
+}
+.sub-menu-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: rgb(82, 82, 82);
+  margin: 12px 0;
+}
+.sub-menu-link p{
+  width: 100%;
+}
+.sub-menu-link img{
+  width: 40px;
+  background: rgb(229, 229, 229);
+  border-radius: 50%;
+  padding: 8px;
+  margin-right: 15px;
+}
+
+.sub-menu-link span {
+  font-size: 22px;
+  transition: transform 0.5s;
+}
+
+.sub-menu-link:hover span {
+  transform: translateX(5px);
+}
+
+.sub-menu-link:hover p {
+  font-weight: 600;
+}
+
 /* first content */
 .first {
   min-height: 100%;

@@ -55,10 +55,31 @@
                 class="person-icon"
                 src="../public/assets/header/person-icon.webp"
                 alt="person-icon"
+                onclick="toggleMenu()"
+                id="person-icon"
               />
             </a>
           </li>
         </ul>
+        <div class="sub-menu-wrap" id="subMenu">
+          <div class="sub-menu">
+            <div class="user-info">
+              <img src="../public/assets/header/person-icon.webp">
+              <h2>Name Surname</h2>
+            </div>
+            <hr>
+            <a href="profile.html" class="sub-menu-link">
+              <img src="../public/assets/header/profile-icon.png">
+              <p>Profile</p>
+              <span>⯈</span>
+            </a>
+            <a href="#" class="sub-menu-link">
+              <img src="../public/assets/header/logout-icon.png">
+              <p>Logout</p>
+              <span>⯈</span>
+            </a>
+          </div>
+        </div>
       </nav>
     </div>
     <script src="app.js"></script>
