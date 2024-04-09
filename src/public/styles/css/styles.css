@@ -42,7 +42,7 @@ body {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../../assets/home/bg-main1.jpg");
 }
 
-:is(header, .first) :is(h1, p, a) {
+:is(.first) :is(h1, p, a) {
   color: rgb(255, 255, 255);
 }
 
@@ -247,7 +247,7 @@ body {
 
 .sub-menu-wrap {
   position: absolute;
-  top: 6%;
+  top: 3.3rem;
   right: 2.5%;
   width: 320px;
   z-index: 9999;
@@ -267,6 +267,7 @@ body {
 .user-info {
   display: flex;
   align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .user-info h3 {
   font-weight: 300;
@@ -289,6 +290,7 @@ body {
   text-decoration: none;
   color: rgb(82, 82, 82);
   margin: 12px 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .sub-menu-link p{
   width: 100%;

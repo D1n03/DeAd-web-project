@@ -14,77 +14,88 @@
   </head>
 
   <body>
-    <div class="nav-container">
-      <nav class="navbar">
-        <div class="menu-toggle" id="mobile-menu">
-          <span class="togglebar"></span>
-          <span class="togglebar"></span>
-          <span class="togglebar"></span>
-        </div>
-        <ul class="nav-list">
-          <li class="list__item">
-            <a href="index.html" class="nav-link">
-              <img
-                class="list__item-icon"
-                src="../public/assets/header/home-icon.svg"
-                alt="home-icon"
-              />
-              <p class="list__item-text">Home</p>
-            </a>
-          </li>
-          <li class="list__item">
-            <a href="about.html" class="nav-link">
-              <img
-                class="list__item-icon"
-                src="../public/assets/header/about-icon.svg"
-                alt="about-icon"
-              />
-              <p class="list__item-text">About</p>
-            </a>
-          </li>
-          <li class="list__item">
-            <a href="contact.html" class="nav-link">
-              <img
-                class="list__item-icon"
-                src="../public/assets/header/contact-icon.svg"
-                alt="contact-icon"
-              />
-              <p class="list__item-text">Contact</p>
-            </a>
-          </li>
-          <li class="list__item">
-            <a href="#" class="profile-link">
-              <img
-                class="person-icon"
-                src="../public/assets/header/person-icon.webp"
-                alt="person-icon"
-                onclick="toggleMenu()"
-                id="person-icon"
-              />
-            </a>
-          </li>
-        </ul>
-        <div class="sub-menu-wrap" id="subMenu">
-          <div class="sub-menu">
-            <div class="user-info">
-              <img src="../public/assets/header/person-icon.webp">
-              <h2>Name Surname</h2>
-            </div>
-            <hr>
-            <a href="profile.html" class="sub-menu-link">
-              <img src="../public/assets/header/profile-icon.png">
-              <p>Profile</p>
-              <span>⯈</span>
-            </a>
-            <a href="#" class="sub-menu-link">
-              <img src="../public/assets/header/logout-icon.png">
-              <p>Logout</p>
-              <span>⯈</span>
-            </a>
+    <header class="header" id="page-header">
+      <div class="nav-container">
+        <nav class="navbar">
+          <div class="menu-toggle" id="mobile-menu">
+            <span class="togglebar"></span>
+            <span class="togglebar"></span>
+            <span class="togglebar"></span>
           </div>
-        </div>
-      </nav>
-    </div>
+          <ul class="nav-list">
+            <li class="list__item">
+              <a href="index.html" class="nav-link">
+                <img
+                  class="list__item-icon"
+                  src="../public/assets/header/home-icon.svg"
+                  alt="home-icon"
+                />
+                <p class="list__item-text">Home</p>
+              </a>
+            </li>
+            <li class="list__item">
+              <a href="about.html" class="nav-link">
+                <img
+                  class="list__item-icon"
+                  src="../public/assets/header/about-icon.svg"
+                  alt="about-icon"
+                />
+                <p class="list__item-text">About</p>
+              </a>
+            </li>
+            <li class="list__item">
+              <a href="contact.html" class="nav-link">
+                <img
+                  class="list__item-icon"
+                  src="../public/assets/header/contact-icon.svg"
+                  alt="contact-icon"
+                />
+                <p class="list__item-text">Contact</p>
+              </a>
+            </li>
+            <li class="list__item">
+              <a href="#" class="profile-link">
+                <img
+                  class="person-icon"
+                  src="../public/assets/header/person-icon.webp"
+                  alt="person-icon"
+                  onclick="toggleMenu()"
+                  id="person-icon"
+                />
+              </a>
+            </li>
+          </ul>
+          <div class="sub-menu-wrap" id="subMenu">
+            <div class="sub-menu">
+              <div class="user-info">
+                <img
+                  src="../public/assets/header/person-icon.webp"
+                  alt="person-icon-sub"
+                />
+                <h2>Name Surname</h2>
+              </div>
+              <hr />
+              <a href="profile.html" class="sub-menu-link">
+                <img
+                  src="../public/assets/header/profile-icon.png"
+                  alt="profile-icon"
+                />
+                <p>Profile</p>
+                <span>⯈</span>
+              </a>
+              <a href="#" class="sub-menu-link">
+                <img
+                  src="../public/assets/header/logout-icon.png"
+                  alt="logout-icon"
+                />
+                <p>Logout</p>
+                <span>⯈</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
     <script src="app.js"></script>
 
     <main class="login">

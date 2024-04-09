@@ -19,3 +19,7 @@ document.onclick = function(e) {
         subMenu.classList.remove("open-menu");
     }
 }
+
+function redirectToVisitInfoPage() {
+    window.location.href = "visitInfo.html";
+}
