@@ -1,72 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Your profile here on DeAd." />
+    <link rel="stylesheet" href="../public/styles/css/styles.css" />
+    <link rel="icon" href="../public/assets/header/police-icon.svg" />
+    <title>Profile</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Your profile here on DeAd.">
-  <link rel="stylesheet" href="../public/styles/css/styles.css">
-  <link rel="icon" href="../public/assets/header/police-icon.svg">
-  <title>Profile</title>
-</head>
-
-<body>
-  <div class="nav-container">
-    <nav class="navbar">
-      <div class="menu-toggle" id="mobile-menu">
-        <span class="togglebar"></span>
-        <span class="togglebar"></span>
-        <span class="togglebar"></span>
+  <body>
+    <header class="header" id="page-header">
+      <div class="nav-container">
+        <nav class="navbar">
+          <div class="menu-toggle" id="mobile-menu">
+            <span class="togglebar"></span>
+            <span class="togglebar"></span>
+            <span class="togglebar"></span>
+          </div>
+          <ul class="nav-list">
+            <li class="list__item">
+              <a href="index.html" class="nav-link">
+                <img
+                  class="list__item-icon"
+                  src="../public/assets/header/home-icon.svg"
+                  alt="home-icon"
+                />
+                <p class="list__item-text">Home</p>
+              </a>
+            </li>
+            <li class="list__item">
+              <a href="about.html" class="nav-link">
+                <img
+                  class="list__item-icon"
+                  src="../public/assets/header/about-icon.svg"
+                  alt="about-icon"
+                />
+                <p class="list__item-text">About</p>
+              </a>
+            </li>
+            <li class="list__item">
+              <a href="contact.html" class="nav-link">
+                <img
+                  class="list__item-icon"
+                  src="../public/assets/header/contact-icon.svg"
+                  alt="contact-icon"
+                />
+                <p class="list__item-text">Contact</p>
+              </a>
+            </li>
+            <li class="list__item">
+              <a href="#" class="profile-link">
+                <img
+                  class="person-icon"
+                  src="../public/assets/header/person-icon.webp"
+                  alt="person-icon"
+                  onclick="toggleMenu()"
+                  id="person-icon"
+                />
+              </a>
+            </li>
+          </ul>
+          <div class="sub-menu-wrap" id="subMenu">
+            <div class="sub-menu">
+              <div class="user-info">
+                <img
+                  src="../public/assets/header/person-icon.webp"
+                  alt="person-icon-sub"
+                />
+                <h2>Name Surname</h2>
+              </div>
+              <hr />
+              <a href="profile.html" class="sub-menu-link">
+                <img
+                  src="../public/assets/header/profile-icon.png"
+                  alt="profile-icon"
+                />
+                <p>Profile</p>
+                <span>⯈</span>
+              </a>
+              <a href="#" class="sub-menu-link">
+                <img
+                  src="../public/assets/header/logout-icon.png"
+                  alt="logout-icon"
+                />
+                <p>Logout</p>
+                <span>⯈</span>
+              </a>
+            </div>
+          </div>
+        </nav>
       </div>
-      <ul class="nav-list">
-        <li class="list__item">
-          <a href="/" class="nav-link">
-            <img class="list__item-icon" src="../public/assets/header/home-icon.svg" alt="home-logo">
-            <p class="list__item-text">Home</p>
-          </a>
-        </li>
-        <li class="list__item">
-          <a href="/" class="nav-link">
-            <img class="list__item-icon" src="../public/assets/header/about-icon.svg" alt="about-logo">
-            <p class="list__item-text">About</p>
-          </a>
-        </li>
-        <li class="list__item">
-          <a href="/" class="nav-link">
-            <img class="list__item-icon" src="../public/assets/header/contact-icon.svg" alt="contact-logo">
-            <p class="list__item-text">Contact</p>
-          </a>
-        </li>
-        <li class="list__item">
-          <a href="#" class="profile-link">
-            <img class="person-logo" src="../public/assets/header/person-icon.webp" alt="person-logo">
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  <script src="app.js"></script>
+    </header>
+    <script src="app.js"></script>
 
-  <main class="profile">
-    <div class="container">
-        <h1 class="container__title">
-          Profile
-        </h1>
-        <img class="person-logo" src="../public/assets/header/person-icon.webp" alt="person-logo">
+    <main class="profile">
+      <div class="container">
+        <h1 class="container__title">Profile</h1>
+        <img
+          class="person-icon"
+          src="../public/assets/header/person-icon.webp"
+          alt="person-icon"
+        />
         <!-- todo have separate class for name -->
-        <p class="container__name-surname"> 
-            Name Surname
-        </p>
-        <p class="container__text"> 
-            name.surname@gmail.com
-        </p>
+        <p class="container__name-surname">Name Surname</p>
+        <p class="container__text">name.surname@gmail.com</p>
         <a class="link" href="">Edit Profile</a>
         <a class="link" href="">Visit History</a>
-    </div>
-  </main>
-
-</body>
-
+      </div>
+    </main>
+  </body>
 </html>

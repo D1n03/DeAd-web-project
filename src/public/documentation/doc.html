@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>DeAd Documentation</title>
+    <link rel="stylesheet" href="docstyle.css" />
+  </head>
+
+  <body prefix="schema: http://schema.org">
+    <header>
+      <div class="banner">
+        <img
+          src="scholarly-html.svg"
+          width="227"
+          height="50"
+          alt="Scholarly HTML logo"
+        />
+        <div class="status">Community Draft</div>
+      </div>
+      <h1>Detention Admin</h1>
+    </header>
+    <div role="contentinfo">
+      <dl>
+        <dt>Authors</dt>
+        <dd>
+          Rusu Andrei-Dudu (<a href="https://github.com/D1n03">@D1n03</a>),
+          Zloteanu Mircea (<a href="https://github.com/zmirch">@zmirch</a>)
+        </dd>
+        <dt>License</dt>
+        <dd>
+          <p>
+            Built under MIT License Copyright &copy; 2024. All copyrights
+            reserved.
+          </p>
+          <p>
+            Permission is hereby granted, free of charge, to any person
+            obtaining a copy of this software and associated documentation files
+            (the "Software"), to deal in the Software without restriction,
+            including without limitation the rights to use, copy, modify, merge,
+            publish, distribute, sublicense, and/or sell copies of the Software,
+            and to permit persons to whom the Software is furnished to do so,
+            subject to the following conditions:
+          </p>
+          <ul>
+            <li>
+              <p>
+                The above copyright notice and this permission notice shall be
+                included in all copies or substantial portions of the Software.
+              </p>
+            </li>
+            <li>
+              <p>
+                THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+                EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+                OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+                NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+                HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+                WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+                FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+                OTHER DEALINGS IN THE SOFTWARE.
+              </p>
+            </li>
+          </ul>
+        </dd>
+      </dl>
+    </div>
+    <section typeof="sa:Abstract" id="abstract" role="doc-abstract">
+      <h2>Abstract</h2>
+      <p>
+        DeAd (Detention Administration) is a web application designed to
+        facilitate the management of visitation schedules for individuals
+        incarcerated in a prison. This document outlines the functionality of
+        DeAd and its underlying encoding mechanisms.
+      </p>
+    </section>
+    <section id="introduction" role="doc-introduction">
+      <h2>Introduction</h2>
+      <p>
+        DeAd (Detention Admin) is a web app crafted to oversee visits for
+        incarcerated individuals, aiming to streamline the visitation process
+        efficiently while maintaining reliability in recording crucial visit
+        details.
+      </p>
+      <p>
+        The app will capture visitor information, including identity, photo,
+        relationship with the inmate (relative, friend, lawyer), and visit
+        purpose. Additionally, it will log meeting date, nature, duration (e.g.,
+        trial appeal consultation, friendly visit), items provided to the
+        inmate, and other pertinent data.
+      </p>
+      <p>
+        DeAd's main goal is to ensure precise and secure visit records within
+        prisons, benefiting staff, inmates, and visitors alike. It offers a
+        simplified process for visit booking, modifications, and cancellations,
+        minimizing errors or misunderstandings.
+      </p>
+      <p>
+        This documentation provides a comprehensive overview of DeAd's features
+        and functionalities, along with system requirements and user
+        instructions. It also details security measures safeguarding sensitive
+        information, prioritizing privacy and confidentiality.
+      </p>
+      <p>
+        To encapsulate, DeAd presents a user-friendly solution for effectively
+        managing prison visits, thereby enhancing efficiency and reliability for
+        all pertinent stakeholders.
+      </p>
+    </section>
+    <section id="structure">
+      <h2>Structure</h2>
+      <p>
+        The DeAd application consists of ten web pages, adhering to specific
+        methodologies for structuring web applications. With a logical and
+        well-designed architecture, the application provides clear and
+        user-friendly features for all users. The subsequent lines will
+        delineate the architecture of each page.
+      </p>
+      <p>The application pages share the same header structured as follows:</p>
+      <section class="component-1">
+        <h3>The header</h3>
+        <p>
+          The application header comprises a single area, with the navigation
+          bar positioned on the right side. This navigation bar facilitates
+          access to the home, about, and contact pages.
+        </p>
+      </section>
+      <section id="component-2">
+        <h3>The <code>index.html</code> page</h3>
+        <p>
+          The primary page of the application comprises a solitary "first"
+          section. The central element within this section is the button
+          designated for scheduling a visit.
+        </p>
+      </section>
+      <section id="component-3">
+        <h3>The <code>login.html</code> page</h3>
+        <p>
+          To schedule a visit, users must log in to their account in our
+          database. This leads to the "Login" page, featuring a bordered box
+          containing two fields. If a user already possesses an account, they
+          will input their email address and password, then click the "Log in"
+          button on the bottom. Conversely, if a user lacks an account, they
+          should press the "Sign up" button at the bottom to create one.
+        </p>
+      </section>
+      <section id="component-4">
+        <h3>The <code>signup.html</code> page</h3>
+        <p>
+          The Signup page serves as a registration form for new users to create
+          an account on the website. It includes fields for inputting the user's
+          first name, last name, email address, password, and password
+          confirmation. The user is required to enter their information
+          accurately to proceed with the sign-up process. Additionally, there is
+          a button labeled "Sign up" at the bottom of the form, which the user
+          can click to submit their details and complete the registration
+          process.
+        </p>
+      </section>
+      <section id="component-5">
+        <h3>The <code>visitormain.html</code> page</h3>
+        <p>
+          The page for registering the details of each visitor of the same
+          inmate offers users two distinct areas of action. In the first area,
+          users can search for the inmate intended for the visit and add a new
+          visitor as needed. In the second area, users can access the list of
+          visitors along with their associated information. Here, users have the
+          option to delete a specific visitor, edit the information pertaining
+          to them or delete all existing visitors.
+        </p>
+      </section>
+      <section id="component-6">
+        <h3>The <code>visitInfo.html</code> page</h3>
+        <p>
+          The page dedicated to visit information for a user comprises a form
+          for recording details such as the date and duration of the visit,
+          items provided by the inmate, the inmate's status, the purpose of the
+          visit, and a summary of discussions.
+        </p>
+      </section>
+      <section id="component-7">
+        <h3>The <code>about.html</code> page</h3>
+        <p>
+          This page provides a concise overview of our platform, highlighting
+          its purpose to improve the visitation process for individuals in
+          correctional facilities. It emphasizes the platform's features such as
+          seamless appointment initiation, access to visitation statistics, and
+          adherence to principles of security, accessibility, and efficiency.
+          Additionally, it underscores the platform's mission to support
+          prisoner rehabilitation by facilitating contact with the outside
+          world.
+        </p>
+      </section>
+      <section id="component-8">
+        <h3>The <code>contact.html</code> page</h3>
+        <p>
+          On this page, users, whether registered or not, can submit suggestions
+          or report system issues to administrators. Upon accessing the page,
+          users encounter a bordered box containing fields for first name, last
+          name, email, and suggestions. Each field must be filled for the form
+          to be considered, with the "Suggestions" field requiring concise
+          problem or suggestion descriptions. Subsequently, users can submit the
+          form by clicking the "Send" button located at the bottom of the
+          bordered box.
+        </p>
+      </section>
+      <section id="component-9">
+        <h3>The <code>error.html</code> page</h3>
+        <p>
+          In case users attempt to access a non-existent page or encounter an
+          error, they are directed to this "Page Not Found" error page, which
+          provides an apology message and offers a button to navigate back to
+          the home page.
+        </p>
+      </section>
+      <section id="component-10">
+        <h3>The <code>profile.html</code> page</h3>
+        <p>
+          In the main content area of this page, there is a section displaying
+          the user's profile information, including their name, email address,
+          and options to edit their profile or view their visit history.
+        </p>
+      </section>
+      <section id="component-11">
+        <h3>The <code>history.html</code> page</h3>
+        <p>
+          The "History" page provides users with a chronological list of past
+          visits, allowing them to view details about each visit. Additionally,
+          users have the option to export this data in various formats, such as
+          HTML, CSV, or JSON, using the provided export button.
+        </p>
+      </section>
+    </section>
+    <section id="semantics">
+      <h2>Actions</h2>
+      <p>The primary actors engaged with the web application include users.</p>
+      <p>
+        As a user, you will have the capability to perform the following
+        actions:
+      </p>
+      <ul>
+        <li>
+          The user will be able to schedule a visit, which necessitates logging
+          into an existing account. Upon successful login, the user will be
+          prompted to input their personal information as well as the details of
+          accompanying individuals. Following this, the final step involves
+          providing information regarding the visit.
+        </li>
+        <li>
+          A user will have the capability to access the page dedicated to
+          general information about the prison.
+        </li>
+        <li>
+          Additionally, the user possesses the capability to download reports
+          regarding visits made per individual, within specified time frames,
+          categorized by the type of offense committed or other relevant
+          criteria.
+        </li>
+        <li>
+          The final action available to a user actor is to provide feedback or
+          request information through the contact page.
+        </li>
+      </ul>
+    </section>
+    <section id="scholarly-article">
+      <h2>Technologies</h2>
+      <p>
+        For this project we used the following technologies: HTML, BEM and SASS.
+      </p>
+      <ul>
+        <li>
+          <p>
+            Initially, HTML (HyperText Markup Language) played a pivotal role as
+            it provided a framework for incorporating elements onto the webpage,
+            including titles, paragraphs, images, etc. Additionally, we
+            maintained a structured HTML format, emphasizing the importance of
+            the three fundamental tags: <code>html</code>, <code>body</code>,
+            and <code>head</code>. To further enhance clarity and coherence, we
+            employed semantic tags such as <code>main</code>,
+            <code>section</code>, <code>nav</code>, and others.
+          </p>
+        </li>
+        <li>
+          <p>
+            Secondly, we implemented the BEM (Block Element Modifier)
+            methodology, which enabled us to assign distinctive names to element
+            classes. This approach ensured that we avoided conflicts arising
+            from CSS class names throughout the project. Furthermore, by
+            employing concise names, we established a stronger linkage between
+            the HTML and CSS code.
+          </p>
+        </li>
+        <li>
+          <p>
+            Thirdly, the implementation of Sass proved instrumental in
+            optimizing our CSS code generation process. By harnessing Sass, we
+            streamlined organization, minimized code redundancy, and harnessed
+            advanced features such as mixin functions and variables to further
+            enhance efficiency.
+          </p>
+        </li>
+      </ul>
+    </section>
+    <section id="acks">
+      <h2>References</h2>
+      <ul>
+        <li>
+          <a href="https://tehnologii-web.vercel.app/">Laboratory Page</a>
+        </li>
+        <li>
+          <a href="https://edu.info.uaic.ro/web-technologies/">Course Page</a>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
