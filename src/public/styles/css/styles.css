@@ -403,6 +403,45 @@ body {
   font-size: 1.1rem;
 }
 
+/* Recover content */
+
+.recover {
+  min-height: 80vh;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0;
+  flex-direction: column;
+  margin-top: 8%;
+  margin-bottom: 5%;
+}
+.recover .container {
+  width: min(90%, 32.5rem);
+  box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: column;
+  background-color: rgba(32, 30, 30, 0.8);
+  padding: 3rem 2.5rem;
+  border-radius: 2rem;
+}
+.recover .container__title {
+  white-space: normal;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+.recover .container__text {
+  width: 100%;
+  color: white;
+  text-align: center;
+  position: relative;
+  font-size: 1.1rem;
+}
+
 /* Profile content */
 .profile {
   min-height: 80vh;
