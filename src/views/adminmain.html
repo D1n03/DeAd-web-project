@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Learn more about our app, how it works and the motivation behind it."
+      content="Help section about our app and how it works for each page"
     />
     <link rel="stylesheet" href="../public/styles/css/styles.css" />
     <link rel="icon" href="../public/assets/header/police-icon.svg" />
-    <title>About</title>
+    <title>Help</title>
   </head>
 
   <body>
@@ -41,6 +41,16 @@
                   alt="about-icon"
                 />
                 <p class="list__item-text">About</p>
+              </a>
+            </li>
+            <li class="list__item">
+              <a href="help.html" class="nav-link">
+                <img
+                  class="list__item-icon"
+                  src="../public/assets/header/help-icon.svg"
+                  alt="help-icon"
+                />
+                <p class="list__item-text">Help</p>
               </a>
             </li>
             <li class="list__item">
@@ -98,33 +108,5 @@
     </header>
     <script src="app.js"></script>
 
-    <main class="recover">
-      <div class="container">
-        <h1 class="container__title">Account recovery</h1>
-        <p class="container__text">
-            Enter your email address associated with your account and we'll send you a token to reset your password.
-          </p>
-        <form class="container__form" id="recover-form">
-            <div class="container__form-field">
-              <input
-                id="email"
-                required
-                type="text"
-                name="email"
-                placeholder="Email"
-              />
-              <p class="validation-error email-error"></p>
-            </div>
-            <div class="container__form-buttons">
-              <button
-                type="button"
-                class="container__form-submit-signup"
-              >
-                Next
-              </button>
-            </div>
-          </form>
-      </div>
-    </main>
   </body>
 </html>

@@ -113,9 +113,9 @@
     <section id="structure">
       <h2>Structure</h2>
       <p>
-        The DeAd application consists of ten web pages, adhering to specific
-        methodologies for structuring web applications. With a logical and
-        well-designed architecture, the application provides clear and
+        The DeAd application consists of fourteen web pages, adhering to
+        specific methodologies for structuring web applications. With a logical
+        and well-designed architecture, the application provides clear and
         user-friendly features for all users. The subsequent lines will
         delineate the architecture of each page.
       </p>
@@ -144,7 +144,9 @@
           containing two fields. If a user already possesses an account, they
           will input their email address and password, then click the "Log in"
           button on the bottom. Conversely, if a user lacks an account, they
-          should press the "Sign up" button at the bottom to create one.
+          should press the "Sign up" button at the bottom to create one. Lastly,
+          there is a section dedicated in case a user forgot the password of the
+          account.
         </p>
       </section>
       <section id="component-4">
@@ -187,14 +189,21 @@
           This page provides a concise overview of our platform, highlighting
           its purpose to improve the visitation process for individuals in
           correctional facilities. It emphasizes the platform's features such as
-          seamless appointment initiation, access to visitation statistics, and
-          adherence to principles of security, accessibility, and efficiency.
-          Additionally, it underscores the platform's mission to support
-          prisoner rehabilitation by facilitating contact with the outside
-          world.
+          seamless appointment initiation and adherence to principles of
+          security, accessibility, and efficiency. Additionally, it underscores
+          the platform's mission to support prisoner rehabilitation by
+          facilitating contact with the outside world.
         </p>
       </section>
       <section id="component-8">
+        <h3>The <code>help.html</code> page</h3>
+        <p>
+          The purpose of this page is to provide comprehensive details about
+          each page within the application, along with outlining the actions and
+          functionalities available to the users.
+        </p>
+      </section>
+      <section id="component-9">
         <h3>The <code>contact.html</code> page</h3>
         <p>
           On this page, users, whether registered or not, can submit suggestions
@@ -207,7 +216,7 @@
           bordered box.
         </p>
       </section>
-      <section id="component-9">
+      <section id="component-10">
         <h3>The <code>error.html</code> page</h3>
         <p>
           In case users attempt to access a non-existent page or encounter an
@@ -216,7 +225,7 @@
           the home page.
         </p>
       </section>
-      <section id="component-10">
+      <section id="component-11">
         <h3>The <code>profile.html</code> page</h3>
         <p>
           In the main content area of this page, there is a section displaying
@@ -224,7 +233,7 @@
           and options to edit their profile or view their visit history.
         </p>
       </section>
-      <section id="component-11">
+      <section id="component-12">
         <h3>The <code>history.html</code> page</h3>
         <p>
           The "History" page provides users with a chronological list of past
@@ -232,6 +241,28 @@
           users have the option to export this data in various formats, such as
           HTML, CSV, or JSON, using the provided export button.
         </p>
+      </section>
+      <section id="component-13">
+        <h3>The <code>forgotpassword.html</code> page</h3>
+        <p>
+          The "Forgot Password" page features a single field for users to input
+          their email address. Upon pressing the button below, users will
+          receive a verification token via email. Once received, users can input
+          the token in a newly displayed form to proceed with the password
+          reset.
+        </p>
+      </section>
+      <section id="component-14">
+        <h3>The <code>resetpassword.html</code> page</h3>
+        <p>
+          On this page, after users have acquired their token, they can reset
+          their password by entering a new one in the two fields provided below.
+          To complete the process, they simply need to click the button below.
+        </p>
+      </section>
+      <section id="component-15">
+        <h3>The <code>adminmain.html</code> page</h3>
+        <p>TODO</p>
       </section>
     </section>
     <section id="semantics">
