@@ -262,12 +262,24 @@
       </section>
       <section id="component-15">
         <h3>The <code>adminmain.html</code> page</h3>
-        <p>TODO</p>
+        <p>
+          This page is exclusively for the administrator, granting them the
+          ability to perform various actions involving both inmates and regular
+          users of the application. For inmates, the administrator can edit
+          their information, add new entries, or remove them from the database.
+          Regarding regular users, the administrator have the authority to
+          delete accounts, view visitation records, and make modifications to
+          visitation information. Additionally, the administrator can export
+          data based on specific criteria.
+        </p>
       </section>
     </section>
     <section id="semantics">
       <h2>Actions</h2>
-      <p>The primary actors engaged with the web application include users.</p>
+      <p>
+        The primary actors engaged with the web application include users and
+        the administrator.
+      </p>
       <p>
         As a user, you will have the capability to perform the following
         actions:
@@ -282,17 +294,33 @@
         </li>
         <li>
           A user will have the capability to access the page dedicated to
-          general information about the prison.
+          general information about the prison and also the page about the
+          functionalities of the application.
         </li>
         <li>
           Additionally, the user possesses the capability to download reports
-          regarding visits made per individual, within specified time frames,
-          categorized by the type of offense committed or other relevant
-          criteria.
+          regarding their visits.
         </li>
         <li>
           The final action available to a user actor is to provide feedback or
           request information through the contact page.
+        </li>
+      </ul>
+      <p>
+        The prison administrator assumes the role of the second main actor. They
+        are depicted through the following actions:
+      </p>
+      <ul>
+        <li>
+          The administrator actor shares all actions of a user actor, except for
+          scheduling a visit, viewing the history of their own visits, and
+          interacting with the contact page.
+        </li>
+        <li>
+          Additional actions for the administrator would include the ability to
+          delete or edit user-related information, manage information about
+          inmates (adding, deleting, or editing), and potentially download data
+          based on various criteria related to inmates, users, etc.
         </li>
       </ul>
     </section>
