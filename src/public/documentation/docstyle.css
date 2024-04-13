@@ -285,6 +285,16 @@ h4 {
     margin: 2em 0 .5em
 }
 
+img{
+    max-width: 85%;
+}
+
+figure{
+    text-align:center;
+    font-weight: bold;
+    font-size: 0.75em;
+}
+
 [role=contentinfo] a {
     text-decoration: none
 }
