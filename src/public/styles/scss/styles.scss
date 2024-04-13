@@ -1542,6 +1542,58 @@ body {
   }
 }
 
+$color_white: white;
+$font-family_accordion: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+$background-color_dark-grey: rgb(26, 25, 25);
+
+/* Help content */
+#accordion {
+	li {
+		list-style: none;
+		width: 100%;
+		margin-bottom: 1rem;
+		background-color: $background-color_dark-grey;
+		padding: 10px;
+		border-radius: 8px;
+		color: $color_white;
+		label {
+			padding: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			font-size: 18px;
+			cursor: pointer;
+			span {
+				font-family: $font-family_accordion;
+				transform: rotate(90deg);
+				font-size: 22px;
+			}
+		}
+	}
+	label {
+		+ {
+			input[type="radio"] {
+				display: none;
+				&:checked {
+					+ {
+						.accordion__content {
+							max-height: 400px;
+						}
+					}
+				}
+			}
+		}
+	}
+	.accordion__content {
+		padding: 0 10px;
+		line-height: 26px;
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.5s;
+	}
+}
+
+
 @media screen and (max-width: 768px) {
   .nav-container {
     position: relative;
