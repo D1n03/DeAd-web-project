@@ -39,7 +39,7 @@ input, button, textarea, select {
 body {
   background-size: cover;
   background-repeat: no-repeat;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/assets/home/bg-main1.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/../DeAd-web-project/assets/home/bg-main1.jpg");
 }
 
 :is(.first) :is(h1, p, a) {

@@ -118,7 +118,6 @@ include("Utils/Connection.php");
     </div>
   </main>
   <script src="app.js"></script>
-  <script src="../public/scripts/login.js"></script>
 </body>
 
 </html>

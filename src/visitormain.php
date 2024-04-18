@@ -190,8 +190,8 @@
     </div>
   </main>
   <script src="app.js"></script>
-  <script src="../public/scripts/modals.js"></script>
-  <script src="../public/scripts/visitormain.js"></script>
+  <script src="scripts/modals.js"></script>
+  <script src="scripts/visitormain.js"></script>
 </body>
 
 </html>
