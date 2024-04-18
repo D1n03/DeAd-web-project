@@ -4,13 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Apologies, it seems the page you were seeking couldn't be located. We regret any inconvenience caused. Feel free to browse the remaining sections of the DeAd website for additional engaging content and resources."
-    />
-    <link rel="stylesheet" href="../public/styles/css/styles.css" />
-    <link rel="icon" href="../public/assets/header/police-icon.svg" />
-    <title>Sign Up</title>
+    <meta name="description" content="Your profile here on DeAd." />
+    <link rel="stylesheet" href="../src/styles/css/styles.css" />
+    <link rel="icon" href="../assets/header/police-icon.svg" />
+    <title>Profile</title>
   </head>
 
   <body>
@@ -24,40 +21,40 @@
           </div>
           <ul class="nav-list">
             <li class="list__item">
-              <a href="index.html" class="nav-link">
+              <a href="index.php" class="nav-link">
                 <img
                   class="list__item-icon"
-                  src="../public/assets/header/home-icon.svg"
+                  src="../assets/header/home-icon.svg"
                   alt="home-icon"
                 />
                 <p class="list__item-text">Home</p>
               </a>
             </li>
             <li class="list__item">
-              <a href="about.html" class="nav-link">
+              <a href="about.php" class="nav-link">
                 <img
                   class="list__item-icon"
-                  src="../public/assets/header/about-icon.svg"
+                  src="../assets/header/about-icon.svg"
                   alt="about-icon"
                 />
                 <p class="list__item-text">About</p>
               </a>
             </li>
             <li class="list__item">
-              <a href="help.html" class="nav-link">
+              <a href="help.php" class="nav-link">
                 <img
                   class="list__item-icon"
-                  src="../public/assets/header/help-icon.svg"
+                  src="../assets/header/help-icon.svg"
                   alt="help-icon"
                 />
                 <p class="list__item-text">Help</p>
               </a>
             </li>
             <li class="list__item">
-              <a href="contact.html" class="nav-link">
+              <a href="contact.php" class="nav-link">
                 <img
                   class="list__item-icon"
-                  src="../public/assets/header/contact-icon.svg"
+                  src="../assets/header/contact-icon.svg"
                   alt="contact-icon"
                 />
                 <p class="list__item-text">Contact</p>
@@ -67,7 +64,7 @@
               <a href="#" class="profile-link">
                 <img
                   class="person-icon"
-                  src="../public/assets/header/person-icon.webp"
+                  src="../assets/header/person-icon.webp"
                   alt="person-icon"
                   onclick="toggleMenu()"
                   id="person-icon"
@@ -79,15 +76,15 @@
             <div class="sub-menu">
               <div class="user-info">
                 <img
-                  src="../public/assets/header/person-icon.webp"
+                  src="../assets/header/person-icon.webp"
                   alt="person-icon-sub"
                 />
                 <h2>Name Surname</h2>
               </div>
               <hr />
-              <a href="profile.html" class="sub-menu-link">
+              <a href="profile.php" class="sub-menu-link">
                 <img
-                  src="../public/assets/header/profile-icon.png"
+                  src="../assets/header/profile-icon.png"
                   alt="profile-icon"
                 />
                 <p>Profile</p>
@@ -95,7 +92,7 @@
               </a>
               <a href="#" class="sub-menu-link">
                 <img
-                  src="../public/assets/header/logout-icon.png"
+                  src="../assets/header/logout-icon.png"
                   alt="logout-icon"
                 />
                 <p>Logout</p>
@@ -108,27 +105,19 @@
     </header>
     <script src="app.js"></script>
 
-    <main class="error">
-      <div class="error__container">
+    <main class="profile">
+      <div class="container">
+        <h1 class="container__title">Profile</h1>
         <img
-          class="error__container-image"
-          src="../public/assets/error/sadface-error.webp"
-          alt="Sad face"
+          class="person-icon"
+          src="../assets/header/person-icon.webp"
+          alt="person-icon"
         />
-        <h1 class="error__container-title">
-          Oops! The page could not be found.
-        </h1>
-        <p class="error__container-info">
-          The page you wanted to access does not exist, has been deleted, its
-          name has been changed, or it is temporarily unavailable.
-        </p>
-        <button
-          class="error__container-button"
-          onclick="location.href = './index.html';"
-          type="button"
-        >
-          Go to the Home Page
-        </button>
+        <!-- todo have separate class for name -->
+        <p class="container__name-surname">Name Surname</p>
+        <p class="container__text">name.surname@gmail.com</p>
+        <a class="link" href="">Edit Profile</a>
+        <a class="link" onclick="location.href = './history.php';">Visit History</a>
       </div>
     </main>
   </body>

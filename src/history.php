@@ -8,8 +8,8 @@
       name="description"
       content="On this page you are able to see the history visits of your account, together with the posibility to export relevant data"
     />
-    <link rel="stylesheet" href="../public/styles/css/styles.css" />
-    <link rel="icon" href="../public/assets/header/police-icon.svg" />
+    <link rel="stylesheet" href="../src/styles/css/styles.css" />
+    <link rel="icon" href="../assets/header/police-icon.svg" />
     <title>History</title>
   </head>
 
@@ -24,40 +24,40 @@
           </div>
           <ul class="nav-list">
             <li class="list__item">
-              <a href="index.html" class="nav-link">
+              <a href="index.php" class="nav-link">
                 <img
                   class="list__item-icon"
-                  src="../public/assets/header/home-icon.svg"
+                  src="../assets/header/home-icon.svg"
                   alt="home-icon"
                 />
                 <p class="list__item-text">Home</p>
               </a>
             </li>
             <li class="list__item">
-              <a href="about.html" class="nav-link">
+              <a href="about.php" class="nav-link">
                 <img
                   class="list__item-icon"
-                  src="../public/assets/header/about-icon.svg"
+                  src="../assets/header/about-icon.svg"
                   alt="about-icon"
                 />
                 <p class="list__item-text">About</p>
               </a>
             </li>
             <li class="list__item">
-              <a href="help.html" class="nav-link">
+              <a href="help.php" class="nav-link">
                 <img
                   class="list__item-icon"
-                  src="../public/assets/header/help-icon.svg"
+                  src="../assets/header/help-icon.svg"
                   alt="help-icon"
                 />
                 <p class="list__item-text">Help</p>
               </a>
             </li>
             <li class="list__item">
-              <a href="contact.html" class="nav-link">
+              <a href="contact.php" class="nav-link">
                 <img
                   class="list__item-icon"
-                  src="../public/assets/header/contact-icon.svg"
+                  src="../assets/header/contact-icon.svg"
                   alt="contact-icon"
                 />
                 <p class="list__item-text">Contact</p>
@@ -67,7 +67,7 @@
               <a href="#" class="profile-link">
                 <img
                   class="person-icon"
-                  src="../public/assets/header/person-icon.webp"
+                  src="../assets/header/person-icon.webp"
                   alt="person-icon"
                   onclick="toggleMenu()"
                   id="person-icon"
@@ -79,15 +79,15 @@
             <div class="sub-menu">
               <div class="user-info">
                 <img
-                  src="../public/assets/header/person-icon.webp"
+                  src="../assets/header/person-icon.webp"
                   alt="person-icon-sub"
                 />
                 <h2>Name Surname</h2>
               </div>
               <hr />
-              <a href="profile.html" class="sub-menu-link">
+              <a href="profile.php" class="sub-menu-link">
                 <img
-                  src="../public/assets/header/profile-icon.png"
+                  src="../assets/header/profile-icon.png"
                   alt="profile-icon"
                 />
                 <p>Profile</p>
@@ -95,7 +95,7 @@
               </a>
               <a href="#" class="sub-menu-link">
                 <img
-                  src="../public/assets/header/logout-icon.png"
+                  src="../assets/header/logout-icon.png"
                   alt="logout-icon"
                 />
                 <p>Logout</p>
@@ -115,7 +115,7 @@
             <li>
               <div class="history-element">
                 <img
-                  src="../public/assets/visitormain/inmate-icon.webp"
+                  src="../assets/visitormain/inmate-icon.webp"
                   alt="inmate photo"
                   class="history__list__show__photo"
                 />
@@ -148,7 +148,7 @@
                 <div class="history__list__show__buttons">
                   <button class="history__list__show__buttons__info">
                     <img
-                      src="../public/assets/visitormain/info-icon.svg"
+                      src="../assets/visitormain/info-icon.svg"
                       alt="info button"
                     />
                   </button>
@@ -158,7 +158,7 @@
             <li>
               <div class="history-element">
                 <img
-                  src="../public/assets/visitormain/inmate-icon.webp"
+                  src="../assets/visitormain/inmate-icon.webp"
                   alt="inmate photo"
                   class="history__list__show__photo"
                 />
@@ -191,7 +191,7 @@
                 <div class="history__list__show__buttons">
                   <button class="history__list__show__buttons__info">
                     <img
-                      src="../public/assets/visitormain/info-icon.svg"
+                      src="../assets/visitormain/info-icon.svg"
                       alt="info button"
                     />
                   </button>
@@ -201,7 +201,7 @@
             <li>
               <div class="history-element">
                 <img
-                  src="../public/assets/visitormain/inmate-icon.webp"
+                  src="../assets/visitormain/inmate-icon.webp"
                   alt="inmate photo"
                   class="history__list__show__photo"
                 />
@@ -235,7 +235,7 @@
                 <div class="history__list__show__buttons">
                   <button class="history__list__show__buttons__info">
                     <img
-                      src="../public/assets/visitormain/info-icon.svg"
+                      src="../assets/visitormain/info-icon.svg"
                       alt="info button"
                     />
                   </button>
