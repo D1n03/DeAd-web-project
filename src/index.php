@@ -1,11 +1,6 @@
 <?php
-session_start(); //start the session
-if (!isset($_SESSION['is_logged_in'])) {
-  $_SESSION['is_logged_in'] = false;
-}
-
+session_start();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,46 +50,63 @@ if (!isset($_SESSION['is_logged_in'])) {
           </li>
           <li class="list__item">
             <a href="#" class="profile-link">
-              <img class="person-icon" src="../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+              <img class="person-icon" src="../assets/header/person-icon.webp" alt="person-icon" <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) {
+                                                                                                    echo 'onclick="toggleMenu()"';
+                                                                                                  } ?> id="person-icon" />
             </a>
           </li>
         </ul>
-        <div class="sub-menu-wrap" id="subMenu">
-          <div class="sub-menu">
-            <div class="user-info">
-              <img src="../assets/header/person-icon.webp" alt="person-icon-sub" />
-              <h2>Name Surname</h2>
+        <?php
+        if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
+        ?>
+          <div class="sub-menu-wrap" id="subMenu">
+            <div class="sub-menu">
+              <div class="user-info">
+                <img src="../assets/header/person-icon.webp" alt="person-icon-sub" />
+                <h2><?php echo $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; ?></h2>
+              </div>
+              <hr />
+              <a href="profile.php" class="sub-menu-link">
+                <img src="../assets/header/profile-icon.png" alt="profile-icon" />
+                <p>Profile</p>
+                <span>⯈</span>
+              </a>
+              <a href="logout_script.php" class="sub-menu-link">
+                <img src="../assets/header/logout-icon.png" alt="logout-icon" />
+                <p>Logout</p>
+                <span>⯈</span>
+              </a>
             </div>
-            <hr />
-            <a href="profile.php" class="sub-menu-link">
-              <img src="../assets/header/profile-icon.png" alt="profile-icon" />
-              <p>Profile</p>
-              <span>⯈</span>
-            </a>
-            <a href="#" class="sub-menu-link">
-              <img src="../assets/header/logout-icon.png" alt="logout-icon" />
-              <p>Logout</p>
-              <span>⯈</span>
-            </a>
           </div>
-        </div>
+        <?php endif; ?>
       </nav>
     </div>
   </header>
-  <script src="app.js"></script>
   <section class="first">
-    <div class="wrapper">
-      <h1 class="first__title">Welcome to DeAd Web App!</h1>
-      <p class="first__description">
-        Our platform is meticulously crafted to enhance the visitation
-        procedure for individuals visiting their acquaintances in correctional
-        facilities. Through our platform, users can seamlessly initiate and
-        oversee visitation appointments, thereby guaranteeing a structured and
-        efficient experience.
-      </p>
-      <a class="first__main-link" href="login.php">Schedule a visit</a>
-    </div>
+  <div class="wrapper">
+    <h1 class="first__title">Welcome to DeAd Web App!</h1>
+    <p class="first__description">
+      Our platform is meticulously crafted to enhance the visitation
+      procedure for individuals visiting their acquaintances in correctional
+      facilities. Through our platform, users can seamlessly initiate and
+      oversee visitation appointments, thereby guaranteeing a structured and
+      efficient experience.
+    </p>
+    <?php
+    if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) {
+      echo '<a class="first__main-link" href="visitormain.php">Schedule a visit</a>';
+    } else {
+      echo '<a class="first__main-link" href="login.php">Schedule a visit</a>';
+    }
+    ?>
+  </div>
   </section>
+  <?php
+    if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
+    ?>
+    <script src="scripts/submenu.js"></script>
+    <?php endif; ?>
+  <script src="scripts/navbar.js"></script>
 </body>
 
 </html>
