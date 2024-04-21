@@ -48,10 +48,10 @@ if ($conn->connect_errno) {
     $passwordStrength = check_password($password);
 
     if ($password != $password_confirm) {
-        header("Location: resetpassword.php?error=1");
+        header("Location: resetpassword.php?token=$token&error=1");
         exit();
     } else if ($passwordStrength < 1) {
-        header("Location: resetpassword.php?strength=$passwordStrength");
+        header("Location: resetpassword.php?token=$token&strength=$passwordStrength");
         exit();
     }
 
