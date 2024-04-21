@@ -90,10 +90,23 @@ session_start();
       <h1 class="error__container-title">
         Oops! The page could not be found.
       </h1>
-      <p class="error__container-info">
-        The page you wanted to access does not exist, has been deleted, its
-        name has been changed, or it is temporarily unavailable.
-      </p>
+      <?php
+      // Check if the 'reason' parameter is set in the URL
+      if (isset($_GET['reason'])) {
+        $reason = $_GET['reason'];
+
+        // Check the reason and display the appropriate error message
+        if ($reason == 1) {
+          echo "<p class='error__container-info'>The token doesn't exist.</p>";
+        } else if ($reason == 2) {
+          echo "<p class='error__container-info'>The token for the reset password form has expired.</p>";
+        } else {
+          echo "<p class='error__container-info'>The page you wanted to access does not exist, has been deleted, its name has been changed, or it is temporarily unavailable.</p>";
+        }
+      } else {
+        echo "<p class='error__container-info'>The page you wanted to access does not exist, has been deleted, its name has been changed, or it is temporarily unavailable.</p>";
+      }
+      ?>
       <button class="error__container-button" onclick="location.href = './index.php';" type="button">
         Go to the Home Page
       </button>

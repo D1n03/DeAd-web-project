@@ -49,8 +49,8 @@ if ($conn->connect_errno) {
             'nbf' => $issuedAt->getTimestamp(),         // not before
             'exp' => $expire,                           // expire
             'role' => $role,                            // user role
-            'firstName' => $row['first_name'],          // first name
-            'lastName' => $row['last_name']             // last name
+            'first_name' => $row['first_name'],         // first name
+            'last_name' => $row['last_name']            // last name
         ];
         $token  =  JWT::encode(
             $data,
@@ -63,7 +63,7 @@ if ($conn->connect_errno) {
         if ($role == "user") {
             header("Location: visitormain.php");
         } else if ($role == "admin") {
-            header("Location: /adminmain.php");
+            header("Location: adminmain.php");
         }
     } else {
         // redirect to the login page with an error message

@@ -1,5 +1,29 @@
 <?php
 session_start();
+$token = $_GET["token"];
+$token_hash = hash("sha256", $token);
+
+require 'Utils/Connection.php';
+$conn = Connection::getInstance()->getConnection();
+
+$sql = "SELECT * FROM users
+        WHERE reset_token_hash = ?";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $token_hash);
+$stmt->execute();
+
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+// redirect to error page reason 1 
+if ($user === null) {
+  header("Location: error.php?reason=1");
+}
+// redirect to error page reason 2
+if (strtotime($user["reset_token_expires_at"]) <= time()) {
+  header("Location: error.php?reason=2");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +32,7 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Once you got the token, you can complete the form in order to reset your password by providing a new one" />
+  <meta name="description" content="Once you got the email, you can complete the form in order to reset your password by providing a new one" />
   <link rel="stylesheet" href="../src/styles/css/styles.css" />
   <link rel="icon" href="../assets/header/police-icon.svg" />
   <title>Reset Password</title>
@@ -89,17 +113,31 @@ session_start();
       <p class="container__text">
         Enter your new password below.
       </p>
-      <form class="container__form" id="recovery-form">
+      <form class="container__form" id="recovery-form" action="resetpassword_script.php" method="POST">
+        <input type = "hidden" name="token" value="<?= htmlspecialchars($token) ?>">
         <div class="container__form-field">
           <input id="password" required type="password" name="password" placeholder="Password" />
           <p class="validation-error password-error"></p>
         </div>
         <div class="container__form-field">
-          <input id="password-confirm" required type="password" name="password" placeholder="Confirm Password" />
+          <input id="password_confirm" required type="password" name="password_confirm" placeholder="Confirm Password" />
           <p class="validation-error password-error"></p>
         </div>
+        <?php
+        if (isset($_GET['error'])) {
+          if ($_GET['error'] == 1) {
+            echo '<p class="error">Passwords do not match</p>';
+          }
+        } else if (isset($_GET['strength'])) {
+          if ($_GET['strength'] == 0) {
+            echo '<p class="error"> Password must contain at least 8 characters, a number, uppercase and lowercase letters</p>';
+          } else {
+            echo '<p class="error" style="color: green;">Password is strong!</p>';
+          }
+        }
+        ?>
         <div class="container__form-buttons">
-          <button type="button" class="container__form-submit-signup" onclick="location.href = './login.php';">
+          <button type="submit" class="container__form-submit-signup">
             Reset
           </button>
         </div>

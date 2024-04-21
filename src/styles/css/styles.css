@@ -428,6 +428,18 @@ body {
   padding: 3rem 2.5rem;
   border-radius: 2rem;
 }
+.recovery .error {
+  text-align: center;
+  color: rgb(255, 0, 0);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+.recovery .success {
+  text-align: center;
+  color: rgb(0, 128, 0);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
 .recovery .container__title {
   white-space: normal;
   text-align: center;
@@ -464,7 +476,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 .recovery .container__form-buttons button {
   width: 100%;

@@ -87,16 +87,30 @@ session_start();
     <div class="container">
       <h1 class="container__title">Account Recovery</h1>
       <p class="container__text">
-        Enter your email address associated with your account and we'll send you a token to reset your password.
+        Enter your email address associated with your account and we'll send you a link to reset your password.
       </p>
-      <form class="container__form" id="recover-form">
+      <form class="container__form" id="recover-form" action="forgotpass_script.php" method="POST">
         <div class="container__form-field">
           <input id="email" required type="text" name="email" placeholder="Email" />
           <p class="validation-error email-error"></p>
         </div>
+        <?php
+        if (isset($_GET['error'])) {
+          if ($_GET['error'] == 1) {
+            echo '<p class="error">Email not found</p>';
+          } else if ($_GET['error'] == 2) {
+            echo "<p class='error'>Error: The email couldn't be send</p>";
+          }
+        } else if (isset($_GET['success'])) {
+          if ($_GET['success'] == 1) {
+            echo "<p class='success'>Email sent!</p>";
+            echo "<meta http-equiv='refresh' content='2;url=index.php'>";
+          }
+        }
+        ?>
         <div class="container__form-buttons">
-          <button type="button" class="container__form-submit-signup" onclick="location.href = './resetpassword.php';">
-            Next
+          <button type="submit" class="container__form-submit-signup">
+            Send
           </button>
         </div>
       </form>

@@ -504,13 +504,25 @@ body {
       }
     }
   }
+  .error {
+    text-align: center;
+    color: rgb(255, 0, 0);
+    font-size: 1.25rem;
+    margin-top: 1rem;
+  }
+  .recovery .success {
+    text-align: center;
+    color: rgb(0, 128, 0);
+    font-size: 1.25rem;
+    margin-top: 1rem;
+  }
 
   .container__form-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 4rem;
+    margin-top: 2rem;
 
     button {
       width: 100%;
