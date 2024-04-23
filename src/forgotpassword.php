@@ -99,7 +99,7 @@ session_start();
           if ($_GET['error'] == 1) {
             echo '<p class="error">Email not found</p>';
           } else if ($_GET['error'] == 2) {
-            echo "<p class='error'>Error: The email couldn't be send</p>";
+            echo "<p class='error'>Error: The email couldn't be sent</p>";
           }
         } else if (isset($_GET['success'])) {
           if ($_GET['success'] == 1) {

@@ -91,17 +91,51 @@ session_start();
         Have some feedback for our services? Let us know by completing the
         online form below:
       </p>
-      <form class="container__form" id="contact-form">
+      <form action="contact_script.php" method="POST" id="contact-form" class="container__form">
         <div class="container__form-field">
-          <input id="firstName" required type="text" name="firstName" placeholder="Name" />
-          <p class="validation-error first_name-error"></p>
+          <?php
+          if (isset($_GET['name'])) {
+            $name = $_GET['name'];
+            echo "<input type='text' name='name' value='$name' required id='name'>";
+          } else {
+            echo "<input
+                    id='name'
+                    required
+                    type='text'
+                    name='name'
+                    placeholder='Name'
+                  />";
+          }
+          ?>
+          <p class="validation-error name-error"></p>
         </div>
         <div class="container__form-field">
-          <input id="email" required type="email" name="email" placeholder="Email" />
+          <?php
+          if (isset($_GET['email'])) {
+            $email = $_GET['email'];
+            echo "<input type='email' name='email' value='$email' required id='email'>";
+          } else {
+            echo "<input
+                    id='email'
+                    required
+                    type='email'
+                    name='email'
+                    placeholder='Email'
+                  />";
+          }
+          ?>
           <p class="validation-error email-error"></p>
         </div>
         <div class="container__form-field">
-          <textarea id="feedbackMessage" name="feedback" placeholder="Feedback" rows="4" cols="50"></textarea>
+          <!-- <textarea id="feedbackMessage" name="feedback" placeholder="Feedback" rows="4" cols="50"></textarea> -->
+          <?php
+          if (isset($_GET['feedback'])) {
+            $feedback = $_GET['feedback'];
+            echo "<textarea name='feedback' required id='feedbackMessage' rows='4' cols='50'>$feedback</textarea>";
+          } else {
+            echo "<textarea id='feedbackMessage' required name='feedback' placeholder='Feedback' rows='4' cols='50'></textarea>";
+          }
+          ?>
         </div>
         <div class="container__form-buttons">
           <button type="submit" class="container__form-submit">Submit</button>
