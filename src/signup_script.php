@@ -43,10 +43,14 @@ $conn = Connection::getInstance()->getConnection();
 if ($conn->connect_errno) {
     die('Could not connect to db: ' . $conn->connect_error);
 } else {
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    try {
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
 
     if (mysqli_num_rows($result) > 0) {
         // set the error and redirect to the register page with the credentials
@@ -71,9 +75,9 @@ if ($conn->connect_errno) {
         $_SESSION['last_name'] = $row['last_name'];
         $_SESSION['function'] = $row['function'];
         //$_SESSION['id'] = $user_id;
-        header('Location: login.php');
+        header('Location: signup.php?success=1');
     } else {
         //redirect to the register page
-        header('Location: signup.php');
+        header('Location: signup.php?error=3');
     }
 }

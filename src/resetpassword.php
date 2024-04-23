@@ -9,12 +9,16 @@ $conn = Connection::getInstance()->getConnection();
 $sql = "SELECT * FROM users
         WHERE reset_token_hash = ?";
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $token_hash);
-$stmt->execute();
+try {
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $token_hash);
+  $stmt->execute();
 
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
+  $result = $stmt->get_result();
+  $user = $result->fetch_assoc();
+} catch (Exception $e) {
+  echo $e->getMessage();
+}
 
 // redirect to error page reason 1 
 if ($user === null) {

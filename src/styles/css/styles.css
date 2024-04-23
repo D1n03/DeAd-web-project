@@ -436,7 +436,7 @@ body {
 }
 .recovery .success {
   text-align: center;
-  color: rgb(0, 128, 0);
+  color: rgb(75, 226, 95);
   font-size: 1.25rem;
   margin-top: 1rem;
 }
@@ -753,8 +753,14 @@ body {
   color: rgb(160, 160, 160);
 }
 .login .error {
-  text-align: left;
+  text-align: center;
   color: rgb(255, 0, 0);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+.login .success {
+  text-align: center;
+  color: rgb(75, 226, 95);
   font-size: 1.25rem;
   margin-top: 1rem;
 }

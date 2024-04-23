@@ -15,10 +15,15 @@ $conn = Connection::getInstance()->getConnection();
 if ($conn->connect_errno) {
     die('Could not connect to db: ' . $conn->connect_error);
 } else {
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    
+    try {
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
 
     // verify hash password
     $row = mysqli_fetch_assoc($result); // get the row from the result

@@ -153,12 +153,19 @@ session_start();
             echo '<p class="error">Email already exists</p>';
           } else if ($_GET['error'] == 2) {
             echo '<p class="error">Passwords do not match</p>';
+          } else if ($_GET['error'] == 3) {
+            echo '<p class="error">Error. Failed to create account</p>';
           }
         } else if (isset($_GET['strength'])) {
           if ($_GET['strength'] == 0) {
             echo '<p class="error"> Password must contain at least 8 characters, a number, uppercase and lowercase letters</p>';
           } else {
             echo '<p class="error" style="color: green;">Password is strong!</p>';
+          }
+        } else if (isset($_GET['success'])) {
+          if ($_GET['success'] == 1) {
+            echo "<p class='success'>Account created successfully!</p>";
+            echo "<meta http-equiv='refresh' content='1;url=login.php'>";
           }
         }
         ?>
