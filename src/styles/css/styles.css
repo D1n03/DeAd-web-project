@@ -1364,6 +1364,10 @@ body {
   box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.39);
 }
 
+.history__list__show__name {
+  display: none;
+}
+
 .history__list__show__dBirth {
   display: none;
 }
@@ -1419,7 +1423,8 @@ body {
 }
 
 .history__list__show__buttons {
-  display: none;
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
@@ -1438,26 +1443,12 @@ body {
   transition: all 150ms ease-in-out;
 }
 
-:is(.history__list__show__buttons__delete) {
-  min-width: 35px;
-  min-height: 35px;
-  cursor: pointer;
-  border-style: none;
-  background: none;
-  padding: 0.5rem;
-  background-color: rgb(244, 67, 54);
-  box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.39);
-  border-radius: 50%;
-  transition: all 150ms ease-in-out;
-}
 
 :is(.history__list__show__buttons__info):hover {
   background-color: rgb(60, 99, 65);
 }
 
-:is(.history__list__show__buttons__delete):hover {
-  background-color: rgb(183, 28, 28);
-}
+
 
 .history__list__show.extended {
   grid-template-rows: repeat(2, 1fr);
@@ -1477,6 +1468,7 @@ body {
 }
 
 .pagination-visitor-container {
+  flex-wrap: wrap;
   margin-top: 5%;
   width: 100%;
   display: flex;
@@ -2234,6 +2226,16 @@ body {
     transition: max-height 0.5s;
   }
 }
+@media screen and (min-width: 335px) {
+  .history__list__show__name {
+    font-size: var(--fs-small);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-direction: row;
+  }
+}
 @media screen and (min-width: 481px) {
   .first__description {
     width: 90%;
@@ -2308,14 +2310,11 @@ body {
     align-content: start;
   }
   .history__list__show__name, .history__list__show__dBirth {
+    font-size: var(--fs-regular);
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    flex-direction: row;
-  }
-  .history__list__show__buttons {
-    display: flex;
     flex-direction: row;
   }
   .history__list__show .drop-arrow {
