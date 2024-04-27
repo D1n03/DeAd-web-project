@@ -83,19 +83,13 @@ session_start();
   </header>
   <main class="visitor-main">
     <div class="visitor-main-container">
-      <div class="visit-left">
-        <div class="inmate__show">
-          <div class="inmate__show-banner">
-            <div class="delete-show">
-              <div class="line line-1"></div>
-              <div class="line line-2"></div>
-            </div>
-            <img src="../assets/visitormain/inmate-icon.webp" alt="inmate-picture" class="inmate__show-photo" />
-            <h1 class="inmate__show-title">Name Surname</h1>
-          </div>
+    <div class="visit-left">
+        <div class="inmate__show" id="inmateShow"> <!-- Placeholder div for displaying inmate information -->
+          <!-- Initially empty, will be populated dynamically -->
         </div>
-        <form class="search-bar list-off">
-          <input type="text" name="searchInmate" id="searchInmate" placeholder="Search inmate" />
+        <div class>Search inmate by first name and last name </div>
+        <form class="search-bar list-off" id="searchForm">
+          <input type="text" name="searchName" id="searchName" placeholder="" />
           <button type="submit">
             <img src="../assets/visitormain/search-icon.svg" alt="search bar" />
           </button>
@@ -192,6 +186,31 @@ session_start();
   <script src="scripts/navbar.js"></script>
   <script src="scripts/modals.js"></script>
   <script src="scripts/visitormain.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const searchForm = document.getElementById("searchForm");
+      const inmateShowDiv = document.getElementById("inmateShow");
+
+      searchForm.addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        const formData = new FormData(searchForm);
+
+        fetch("searchinmate_script.php", {
+            method: "POST",
+            body: formData
+          })
+          .then(response => response.text())
+          .then(data => {
+            inmateShowDiv.innerHTML = data; // Update the inmateShowDiv with the response
+          })
+          .catch(error => {
+            console.error("Error:", error);
+          });
+      });
+    });
+  </script>
+  <script src="scripts/deleteBanner.js"></script>
 </body>
 
 </html>
