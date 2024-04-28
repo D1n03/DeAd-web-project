@@ -819,6 +819,19 @@ body {
   text-align: center;
 }
 
+/* Visitor Main Page reworked */
+
+.visitor-title {
+  text-align: center;
+  margin: 1rem;
+  font-size: var(--fs-extra-large);
+}
+.visitor-context {
+  text-align: center;
+  margin: 1rem;
+  font-size: var(--fs-medium);
+}
+
 /* Visitor Main Page content */
 .visitor-main {
   min-height: 100%;
@@ -840,12 +853,13 @@ body {
 }
 .visitor-main .visitor-main-container .visit-left {
   width: min(70%, 70rem);
-  min-height: 30rem;
+  min-height: 25rem;
   box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  text-align: center;
   gap: 0rem;
   background-color: rgba(32, 30, 30, 0.8);
   padding: 3rem 2.5rem;
@@ -864,6 +878,11 @@ body {
   justify-content: center;
   align-items: center;
   align-content: center;
+}
+.visitor-main .info-search {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: var(--fs-small);
 }
 .visitor-main .inmate__show-title {
   white-space: normal;
@@ -1022,7 +1041,7 @@ body {
   font-weight: 500;
   color: rgb(255, 255, 255);
   background-color: rgb(59, 197, 183);
-  margin: 5%;
+  margin: 2.5%;
 }
 .visitor-main__aside__button:is(:hover) {
   background-color: rgb(4, 129, 117);
@@ -2002,7 +2021,7 @@ body {
   width: min(72rem, 90%);
   margin-inline: auto;
   padding-top: 3rem;
-  min-height: 100vh;
+  min-height: 20vh;
 }
 
 .details__form-visit {
@@ -2013,7 +2032,7 @@ body {
   gap: 2rem;
   flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: var(--fs-medium);
+  font-size: var(--fs-small);
   font-weight: 400;
 }
 
@@ -2390,3 +2409,17 @@ body {
   }
 }
 /*# sourceMappingURL=styles.css.map */
+
+.input[type="file"] {
+    outline: none;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.input-group {
+    /*make the buttons orizontal*/
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    color: var(--brown);
+}

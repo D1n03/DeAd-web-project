@@ -83,98 +83,23 @@ session_start();
   </header>
   <main class="visitor-main">
     <div class="visitor-main-container">
-    <div class="visit-left">
-        <div class="inmate__show" id="inmateShow"> <!-- Placeholder div for displaying inmate information -->
-          <!-- Initially empty, will be populated dynamically -->
+      <div class="visit-left">
+        <div class="visitor-title">
+          <?php 
+          if(isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
+              echo 'Welcome back, '.  $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; 
+          } else {
+              echo 'Not logged in.';
+          }
+          ?>
         </div>
-        <div class>Search inmate by first name and last name </div>
-        <form class="search-bar list-off" id="searchForm">
-          <input type="text" name="searchName" id="searchName" placeholder="" />
-          <button type="submit">
-            <img src="../assets/visitormain/search-icon.svg" alt="search bar" />
-          </button>
-          <ul class="result-list hidden"></ul>
-        </form>
-        <button id="add-visitor" class="visitor-main__aside__button">
-          Add visitor
-        </button>
-      </div>
-      <div class="visit-right">
-        <ul class="visitor-main__list">
-          <li>
-            <div class="visitor-element">
-              <img src="../assets/visitormain/profile-icon.png" alt="visitor photo" class="visitor-main__list__show__photo" />
-              <div class="visitor-main__list__show__name">
-                <p class="visitor-main__list__show__label">
-                  Name:
-                  <span class="visitor-main__list__show__info">Visitor Name</span>
-                </p>
-              </div>
-              <div class="drop-arrow">
-                <span class="vBar"></span>
-                <span class="vBar"></span>
-              </div>
-              <div class="visitor-main__list__show__dBirth">
-                <p class="visitor-main__list__show__label">
-                  ID Number:
-                  <span class="visitor-main__list__show__info">Visitor Number</span>
-                </p>
-              </div>
-              <div class="visitor-main__list__show__buttons">
-                <button class="visitor-main__list__show__buttons__edit">
-                  <img src="../assets/visitormain/edit-icon.svg" alt="edit button" />
-                </button>
-                <button class="visitor-main__list__show__buttons__delete">
-                  <img src="../assets/visitormain/delete-icon.svg" alt="delete button" />
-                </button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="visitor-element">
-              <img src="../assets/visitormain/profile-icon.png" alt="visitor photo" class="visitor-main__list__show__photo" />
-              <div class="visitor-main__list__show__name">
-                <p class="visitor-main__list__show__label">
-                  Name:
-                  <span class="visitor-main__list__show__info">Visitor Name
-                  </span>
-                </p>
-              </div>
-              <div class="drop-arrow">
-                <span class="vBar"></span>
-                <span class="vBar"></span>
-              </div>
-              <div class="visitor-main__list__show__dBirth">
-                <p class="visitor-main__list__show__label">
-                  ID Number:
-                  <span class="visitor-main__list__show__info">Visitor Number</span>
-                </p>
-              </div>
-              <div class="visitor-main__list__show__buttons">
-                <button class="visitor-main__list__show__buttons__edit">
-                  <img src="../assets/visitormain/edit-icon.svg" alt="edit button" />
-                </button>
-                <button class="visitor-main__list__show__buttons__delete">
-                  <img src="../assets/visitormain/delete-icon.svg" alt="delete button" />
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <nav class="pagination-visitor-container">
-          <button class="pagination-visitor-button-delete" id="del-all-button" title="Delete all visitors" aria-label="Delete all visitors">
-            <span class="button-text">Delete</span>
-          </button>
-          <button class="pagination-visitor-button-prev" id="prev-button" title="Previous page" aria-label="Previous page">
-            <span class="button-text">Prev</span>
-          </button>
-          <button class="pagination-visitor-button-next" id="next-button" title="Next page" aria-label="Next page">
-            <span class="button-text">Next</span>
-          </button>
-          <button class="pagination-visitor-button-confirm" id="confirm-button" title="Confirm" aria-label="Confirm" onclick="redirectToVisitInfoPage()">
-            <span class="button-text">Confirm</span>
-          </button>
-        </nav>
+        <div class="visitor-context"> Below you can create a visit here to either see someone or review your visit history. </div>
+        <a href="visit.php" class="visitor-main__aside__button">
+            Create a visit
+        </a>
+        <a href="history.php" class="visitor-main__aside__button">
+            Visits history
+        </a>
       </div>
     </div>
   </main>
@@ -184,33 +109,6 @@ session_start();
     <script src="scripts/submenu.js"></script>
     <?php endif; ?>
   <script src="scripts/navbar.js"></script>
-  <script src="scripts/modals.js"></script>
-  <script src="scripts/visitormain.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const searchForm = document.getElementById("searchForm");
-      const inmateShowDiv = document.getElementById("inmateShow");
-
-      searchForm.addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent the default form submission behavior
-
-        const formData = new FormData(searchForm);
-
-        fetch("searchinmate_script.php", {
-            method: "POST",
-            body: formData
-          })
-          .then(response => response.text())
-          .then(data => {
-            inmateShowDiv.innerHTML = data; // Update the inmateShowDiv with the response
-          })
-          .catch(error => {
-            console.error("Error:", error);
-          });
-      });
-    });
-  </script>
-  <script src="scripts/deleteBanner.js"></script>
 </body>
 
 </html>

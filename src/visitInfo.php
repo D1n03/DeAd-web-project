@@ -8,7 +8,7 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Please provide information about yourself and any other visitors who may accompany you to visit a prisoner. A visitor could be a family member, lawyer, or psychologist, and they are required to furnish personal details to schedule a visit on the DeAd website." />
+  <meta name="description" content="Please provide information regarding the visit." />
   <link rel="stylesheet" href="../src/styles/css/styles.css" />
   <link rel="icon" href="../assets/header/police-icon.svg" />
   <title>Visit Info</title>
@@ -88,17 +88,6 @@ session_start();
         <h1 class="details__form-visit__labels__title">
           Details regarding the visit
         </h1>
-        <div class="details__form-visit__labels__container">
-          <label class="form-text" for="visitDate">The date of the visit*</label>
-          <input class="form-input" required id="visitDate" type="date" />
-          <p class="validation-error visitDate-error">I</p>
-        </div>
-
-        <div class="details__form-visit__labels__container">
-          <label class="form-text" for="visitTime">The visit duration*</label>
-          <input class="form-input" required id="visitTime" type="text" placeholder="e.g. 1h:30m" />
-          <p class="validation-error visitTime-error">I</p>
-        </div>
 
         <div class="details__form-visit__labels__container">
           <label class="form-text" for="objectData">The items provided by the inmate*</label>
@@ -111,20 +100,36 @@ session_start();
           <input class="form-input" required id="prisonerMood" type="text" />
           <p class="validation-error prisonerMood-error">I</p>
         </div>
-        <div class="details__form-visit__labels__container">
-          <label class="form-text" for="visitNature">The purpose of the visit*</label>
-          <textarea class="form-textarea" required id="visitNature" maxlength="150"></textarea>
-          <p class="validation-error visitNature-error">I</p>
-        </div>
 
         <div class="details__form-visit__labels__container">
           <label class="form-text" for="summary">The summary of the discussions*</label>
           <textarea class="form-textarea" required id="summary" maxlength="300"></textarea>
           <p class="validation-error summary-error">I</p>
         </div>
+        <div class="details__form-visit__labels__container">
+          <label class="form-text" for="prisoner_health">Inmate's health: </label>
+          <select class="form-input" id="prisoner_health" name="prisoner_health" required="required">
+            <option value="ok" name="prisoner_health">Ok</option>
+            <option value="bad" name="prisoner_health">Bad</option>
+            <option value="good" name="prisoner_health">Good</option>
+          </select>
+          <div class="details__form-visit__labels__container" style="align-items:center">
+            <label class="form-text">Witnesses: </label>
+            <div class="input-group">
+
+              <label for="police">
+                <input type="radio" name="witnesses" value="relative" id="police"> Police Guard</label>
+              <label for="police">
+                <input type="radio" name="witnesses" value="legal_gurdian" id="legal_gurdian"> Legal
+                Guardian</label>
+              <label for="doctor">
+                <input type="radio" name="witnesses" value="doctor" id="doctor"> Doctor</label>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="details__form-visit__buttons">
-        <a href="visitormain.php" class="details__form-visit__buttons__back">Back</a>
+        <a href="visit.php" class="details__form-visit__buttons__back">Back</a>
         <button type="submit" class="details__form-visit__buttons__submit">
           Submit
         </button>

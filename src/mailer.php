@@ -17,7 +17,7 @@ $mail->Host = "smtp.gmail.com";                         // gmail SMTP
 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;     // encrypton type
 $mail->Port = 587;                                      // default port for STARTTLS encryption
 $mail->Username = "bubble03red@gmail.com";              // email account 
-$mail->Password = "PUT_PASS_HERE";                           // password for the SMTP
+$mail->Password = "izdvfcyclxzqzeqg";                   // password for the SMTP
 
 $mail->isHTML(true);
 
