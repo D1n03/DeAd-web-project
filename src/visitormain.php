@@ -93,13 +93,16 @@ session_start();
           }
           ?>
         </div>
-        <div class="visitor-context"> Below you can create a visit here to either see someone or review your visit history. </div>
-        <a href="visit.php" class="visitor-main__aside__button">
-            Create a visit
-        </a>
-        <a href="history.php" class="visitor-main__aside__button">
+        <div class="visitor-context"> Below, you can create a visit, view active visits, or explore visit history. </div>
+          <a href="visit.php" class="visitor-main__button visitor-main__create__button">
+            Create visit
+          </a>
+          <a href="activevisits.php" class="visitor-main__button visitor-main__update__button">
+            Active visits
+          </a>
+          <a href="history.php" class="visitor-main__button visitor-main__get__button">
             Visits history
-        </a>
+          </a>
       </div>
     </div>
   </main>

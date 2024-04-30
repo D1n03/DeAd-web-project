@@ -83,23 +83,23 @@ session_start();
     </div>
   </header>
   <main class="details">
-    <form class="details__form-visit" action="save_appointment.php" method="POST" enctype="multipart/form-data">
-      <div class="details__form-visit__labels" style="margin:2%">
+    <form class="details__form-visit" action="visit_script.php" method="POST" enctype="multipart/form-data" id="visit-form">
+      <div class="details__form-visit__labels">
         <h1 class="details__form-visit__labels__title">
           Create a visit
         </h1>
         <div class="details__form-visit__labels__container">
-          <label for="first_name" class="form-text">First name of the inmate*</label>
+          <label for="first_name" class="form-text">First name of the inmate</label>
           <input type="text" id="first_name" name="first_name" class="form-input" placeholder="First name" required="required" />
         </div>
 
         <div class="details__form-visit__labels__container">
-          <label for="last_name" class="form-text">Last name of the inmate*</label>
+          <label for="last_name" class="form-text">Last name of the inmate</label>
           <input type="text" id="last_name" name="last_name" class="form-input" placeholder="Last name" required="required" />
         </div>
 
         <div class="details__form-visit__labels__container" style="align-items:center">
-          <label class="form-text">Relationship with the inmate:*</label>
+          <label class="form-text">Relationship with the inmate:</label>
           <div class="input-group">
             <label for="first_degree_relative">
               <input type="radio" name="relationship" value="first_degree_relative" id="first_degree_relative"> First-degree relative</label>
@@ -115,7 +115,7 @@ session_start();
         </div>
 
         <div class="details__form-visit__labels__container" style="align-items:center">
-          <label class="form-text">The nature of the visit:*</label>
+          <label class="form-text">The nature of the visit:</label>
           <div class="input-group">
             <label>
               <input type="radio" name="visit_nature" value="parental"> Parental</label>
@@ -127,7 +127,7 @@ session_start();
         </div>
 
         <div class="details__form-visit__labels__container">
-          <label class="form-text" for="level">Source of Income:*</label>
+          <label class="form-text" for="level">Source of Income:</label>
           <select class="form-input" id="level" name="source_of_income">
             <option name="source_of_income" value="employed">Employed</option>
             <option name="source_of_income" value="self-employed">Self-employed</option>
@@ -147,15 +147,8 @@ session_start();
 
         <div class="details__form-visit__labels__container" style="align-items:center">
           <?php
-          if (isset($_GET['error'])) {
-            if ($_GET['error'] == 1) {
-              //the inmate already has a visit at that time
-              echo "<div class='details__form-visit__labels__container'><p class='error'>The inmate already has a visit at that time</p></div>";
-            }
-          }
-
           ?>
-          <label for="time-start" class="v">Time interval (max 2h)*</label>
+          <label for="time-start" class="v">Time interval (max 3h)</label>
           <label for="time-end" class="form-text"></label>
           <input type="time" id="time-start" name="visit_time_start" min="08:00" max="16:00" class="form-input" style="height:2rem;width:75%;padding:0;text-align:center" required>
           <input type="time" id="time-end" name="visit_time_end" min="08:00" max="16:00" class="form-input" style="height:2rem;width:75%;padding:0;text-align:center" required>
@@ -164,9 +157,15 @@ session_start();
         <?php
         if (isset($_GET['error'])) {
           if ($_GET['error'] == 1) {
-            echo "<p class='error'>Invalid inmate name !</p>";
+            echo "<p class='error'>Invalid inmate name!</p>";
           } elseif ($_GET['error'] == 2) {
-            echo "<p class='error'>Invalid file type  !</p>";
+            echo "<p class='error'>Invalid file type!</p>";
+          } elseif ($_GET['error'] == 3) {
+            echo "<p class='error'>Visit time is exceeding the maximum duration!</p>";
+          } elseif ($_GET['error'] == 4) {
+            echo "<p class='error'>Invalid start and end times!</p>";
+          } elseif ($_GET['error'] == 5) {
+            echo "<p class='error'>The inmate already has a visit at that time!</p>";
           }
         }
         ?>
@@ -175,7 +174,7 @@ session_start();
       <div class="details__form-visit__buttons">
         <a href="visitormain.php" class="details__form-visit__buttons__back">Back</a>
         <button type="submit" class="details__form-visit__buttons__submit">
-          Continue
+          Submit
         </button>
       </div>
     </form>

@@ -83,35 +83,50 @@ session_start();
     </div>
   </header>
   <main class="details">
-    <form action="#" class="details__form-visit" id="visitForm">
+    <form class="details__form-visit" action="visitInfo_script.php" method="POST" id="visit-form-info">
       <div class="details__form-visit__labels">
         <h1 class="details__form-visit__labels__title">
           Details regarding the visit
         </h1>
+        <?php
+          $base_url = "localhost";
+          $url = $base_url . "/DeAd-web-Project/src/get_visit_id.php" . "?visit_id=" . $_GET['visit_id'];
+          $curl = curl_init($url);
 
+          if(isset($_SESSION['token']))
+          {
+              curl_setopt($curl,CURLOPT_HTTPHEADER,array('Authorization: Bearer '.$_SESSION['token']));
+          }
+
+          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($curl, CURLOPT_HTTPGET, true);
+          $curl_response = curl_exec($curl);
+          curl_close($curl);
+          $response = json_decode($curl_response, true);
+
+          //send the appointment id to the next page
+          echo "<input type='hidden' name='visit_id' value='" . $response['visit_id'] . "'>";
+          ?>
         <div class="details__form-visit__labels__container">
-          <label class="form-text" for="objectData">The items provided by the inmate*</label>
-          <input class="form-input" required id="objectData" type="text" />
-          <p class="validation-error objectData-error">I</p>
+          <label class="form-text" for="objectData">The items offered by the inmate</label>
+          <input class="form-input" id="items_provided" type="text" name="itemsFrom"/>
         </div>
 
         <div class="details__form-visit__labels__container">
-          <label class="form-text" for="prisonerMood">The status of the inmate*</label>
-          <input class="form-input" required id="prisonerMood" type="text" />
-          <p class="validation-error prisonerMood-error">I</p>
+          <label class="form-text" for="inmateMood">The items provided to the inmate</label>
+          <input class="form-input" id="items_provided" type="text" name="itemsTo"/>
         </div>
 
         <div class="details__form-visit__labels__container">
-          <label class="form-text" for="summary">The summary of the discussions*</label>
-          <textarea class="form-textarea" required id="summary" maxlength="300"></textarea>
-          <p class="validation-error summary-error">I</p>
+          <label class="form-text" for="summary">The summary of the discussions</label>
+          <textarea class="form-textarea" required id="summary" maxlength="255" name="summary"></textarea>
         </div>
         <div class="details__form-visit__labels__container">
-          <label class="form-text" for="prisoner_health">Inmate's health: </label>
-          <select class="form-input" id="prisoner_health" name="prisoner_health" required="required">
-            <option value="ok" name="prisoner_health">Ok</option>
-            <option value="bad" name="prisoner_health">Bad</option>
-            <option value="good" name="prisoner_health">Good</option>
+          <label class="form-text" for="inmate_health">Inmate's health: </label>
+          <select class="form-input" id="inmate_health" name="inmate_health" required="required">
+            <option value="ok" name="inmate_health">Ok</option>
+            <option value="bad" name="inmate_health">Bad</option>
+            <option value="good" name="inmate_health">Good</option>
           </select>
           <div class="details__form-visit__labels__container" style="align-items:center">
             <label class="form-text">Witnesses: </label>
@@ -129,7 +144,7 @@ session_start();
         </div>
       </div>
       <div class="details__form-visit__buttons">
-        <a href="visit.php" class="details__form-visit__buttons__back">Back</a>
+        <a href="activevisits.php" class="details__form-visit__buttons__back">Back</a>
         <button type="submit" class="details__form-visit__buttons__submit">
           Submit
         </button>

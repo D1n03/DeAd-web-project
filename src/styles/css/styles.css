@@ -1047,6 +1047,46 @@ body {
   background-color: rgb(4, 129, 117);
 }
 
+.visitor-main__button {
+  min-width: 5rem;
+  width: 50%;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border-style: none;
+  box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.39);
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  font-size: 1.15rem;
+  font-size: var(--fs-regular);
+  font-weight: 500;
+  color: rgb(255, 255, 255);
+  margin: 2.5%;
+}
+
+.visitor-main__create__button {
+  background-color: rgb(67, 160, 71);
+}
+
+.visitor-main__create__button:hover {
+  background-color: rgb(46, 125, 50);
+}
+
+.visitor-main__update__button {
+  background-color: rgb(251, 192, 45);
+}
+
+.visitor-main__update__button:hover {
+  background-color: rgb(245, 127, 23);
+}
+
+.visitor-main__get__button {
+  background-color: rgb(0, 151, 167);
+}
+
+.visitor-main__get__button:hover {
+  background-color: rgb(0, 123, 137);
+}
+
 /* Visitor list right */
 .visitor-main .visitor-main-container .visit-right {
   width: min(90%, 70rem);
@@ -1177,7 +1217,6 @@ body {
   background: none;
   padding: 0.5rem;
   background-color: rgb(61, 160, 74);
-  box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.39);
   border-radius: 50%;
   transition: all 150ms ease-in-out;
 }
@@ -1190,7 +1229,6 @@ body {
   background: none;
   padding: 0.5rem;
   background-color: rgb(244, 67, 54);
-  box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.39);
   border-radius: 50%;
   transition: all 150ms ease-in-out;
 }
@@ -2423,3 +2461,75 @@ body {
     flex-direction: column;
     color: var(--brown);
 }
+
+.details .details__form-visit .details__form-visit__labels .error {
+  text-align: center;
+  color: rgb(255, 0, 0);
+  font-size: 1.25rem;
+}
+
+/* activevisits */
+
+.visitor-active-main {
+  min-height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.visitor-active-main .visitor-active-main-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  gap: 0rem;
+  color: rgb(255, 255, 255);
+}
+
+.visitor-active-main .visitor-active-main-container .visit-active {
+  width: min(85%, 65rem);
+  min-height: 30rem;
+  box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0rem;
+  background-color: rgba(32, 30, 30, 0.8);
+  padding: 3rem 2.5rem;
+  border-radius: 2rem;
+  margin-bottom: 5%;
+}
+
+.visitor-main-not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+}
+
+.visitor-active-main__button-add {
+  min-width: 5rem;
+  width: 50%;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border-style: none;
+  box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.39);
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  font-size: 1.15rem;
+  font-size: var(--fs-regular);
+  font-weight: 500;
+  color: rgb(255, 255, 255);
+  background-color: rgb(59, 197, 183);
+  margin: 2.5%;
+  text-align: center;
+}
+
+.visitor-active-main__button-add:is(:hover) {
+  background-color: rgb(4, 129, 117);
+}
+
