@@ -6,8 +6,8 @@ if (!isset($_SESSION['is_logged_in'])) {
     exit();
 }
 
-$config = require '../config.php';
-require 'Utils/Connection.php';
+$config = require '../../config.php';
+require '../Utils/Connection.php';
 $conn = Connection::getInstance()->getConnection();
 
 $user_id = $_SESSION['id'];
@@ -61,6 +61,6 @@ if ($conn->connect_errno) {
         echo $e->getMessage();
     }
 
-    header('Location: visitormain.php');
+    header('Location: ../VisitorMain/visitormain.php');
     exit();
 }

@@ -2,8 +2,8 @@
 //for the current user make a query to get all the visits and send them to the frontend
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-    $config = require '../config.php';
-    require 'Utils/Connection.php';
+    $config = require '../../config.php';
+    require '../Utils/Connection.php';
     $conn = Connection::getInstance()->getConnection();
 
     session_start();

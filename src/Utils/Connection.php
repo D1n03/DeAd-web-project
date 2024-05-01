@@ -7,7 +7,7 @@ class Connection
 
     private function __construct()
     {
-        $config = require '../config.php';
+        $config = require '../../config.php';
         $this->connection = new mysqli($config['hostname'], $config['username'], $config['password'],  $config['database']);
         if($this->connection->connect_errno){
             die('Could not connect to db: ' . $this->connection->connect_error);

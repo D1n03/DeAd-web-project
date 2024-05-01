@@ -15,7 +15,7 @@ function check_password($password)
 $token = $_POST["token"];
 $token_hash = hash("sha256", $token);
 
-require 'Utils/Connection.php';
+require '../Utils/Connection.php';
 $conn = Connection::getInstance()->getConnection();
 
 if ($conn->connect_errno) {
@@ -37,12 +37,12 @@ if ($conn->connect_errno) {
 
     // redirect to error page reason 1 => the token is not valid
     if ($user === null) {
-        header("Location: error.php?reason=1");
+        header("Location: ../Error/error.php?reason=1");
         exit();
     }
     // redirect to error page reason 2 => the token has expired
     if (strtotime($user["reset_token_expires_at"]) <= time()) {
-        header("Location: error.php?reason=2");
+        header("Location: ../Error/error.php?reason=2");
         exit();
     }
     // get the passwords
@@ -74,5 +74,5 @@ if ($conn->connect_errno) {
     } catch (Exception $e) {
         echo $e->getMessage();
     }
-    header('Location: index.php');
+    header('Location: ../Index/index.php');
 }

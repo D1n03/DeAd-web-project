@@ -37,7 +37,7 @@ if ($password != $password_confirm) {
     exit();
 }
 
-require 'Utils/Connection.php';
+require '../Utils/Connection.php';
 $conn = Connection::getInstance()->getConnection();
 
 if ($conn->connect_errno) {

@@ -2,7 +2,7 @@
 if (isset($_POST['visit_id'])) {
     $visit_id = $_POST['visit_id'];
 
-    require 'Utils/Connection.php';
+    require '../Utils/Connection.php';
     $conn = Connection::getInstance()->getConnection();
 
     // so the order of deletion is the most important thing here

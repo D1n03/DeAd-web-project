@@ -3,8 +3,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     // TODO TOKEN VALIDATION, MORE SECURITY
 
-    $config = require '../config.php';
-    require 'Utils/Connection.php';
+    $config = require '../../config.php';
+    require '../Utils/Connection.php';
     $conn = Connection::getInstance()->getConnection();
 
     header('Content-Type: application/json');

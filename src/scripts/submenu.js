@@ -12,5 +12,5 @@ document.onclick = function(e) {
 }
 
 function redirectToVisitInfoPage() {
-    window.location.href = "visitInfo.html";
+    window.location.href = "../ActiveVisits/visitInfo.html";
 }

@@ -2,7 +2,7 @@
 
 $email = $_POST["email"];
 
-require 'Utils/Connection.php';
+require '../Utils/Connection.php';
 $conn = Connection::getInstance()->getConnection();
 
 if ($conn->connect_errno) {
@@ -42,13 +42,13 @@ if ($conn->connect_errno) {
         }
 
         // set up stuff
-        $mail = require __DIR__ . "/mailer.php";
+        $mail = require __DIR__ . "../../mailer.php";
         $mail->setFrom("noreply@example.com");
         $mail->addAddress($email);
         $mail->Subject = "[DeAd] Password Reset";
         $mail->Body = <<<END
 
-        Click <a href="http://localhost/DeAd-web-project/src/resetpassword.php?token=$token">here</a>
+        Click <a href="http://localhost/DeAd-web-project/src/ResetPassword/resetpassword.php?token=$token">here</a>
         to reset your DeAd's account password.
 
         END;

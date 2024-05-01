@@ -2,14 +2,14 @@
 // Get the email and password from the form
 use Firebase\JWT\JWT;
 
-require_once  '../vendor/autoload.php';
+require_once  '../../vendor/autoload.php';
 
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$config =  require '../config.php';
-require 'Utils/Connection.php';
+$config = require '../../config.php';
+require '../Utils/Connection.php';
 $conn = Connection::getInstance()->getConnection();
 
 if ($conn->connect_errno) {
@@ -66,9 +66,9 @@ if ($conn->connect_errno) {
         $_SESSION['token'] = $token;
         // echo $token;
         if ($role == "user") {
-            header("Location: visitormain.php");
+            header("Location: ../VisitorMain/visitormain.php");
         } else if ($role == "admin") {
-            header("Location: adminmain.php");
+            header("Location: ../AdminMain/adminmain.php");
         }
     } else {
         // redirect to the login page with an error message

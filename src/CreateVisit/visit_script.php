@@ -2,11 +2,11 @@
 session_start();
 //if the user is not logged in, redirect to the login page
 if (!isset($_SESSION['is_logged_in'])) {
-    header('Location: login.php');
+    header('Location: ../Login/login.php');
 }
 
-$config = require '../config.php';
-require 'Utils/Connection.php';
+$config = require '../../config.php';
+require '../Utils/Connection.php';
 $conn = Connection::getInstance()->getConnection();
 
 $person_id = $_SESSION['id'];
@@ -69,7 +69,7 @@ if ($conn->connect_errno) {
     }
 
     //check if the inmate has a visit in the same time interval
-    $stmt3 = $conn->prepare("SELECT * FROM visits WHERE date = ? AND (visit_start < ? AND visit_end > ?) OR (visit_start < ? AND visit_end > ?) OR (visit_start > ? AND visit_end < ?) AND first_name = ? AND last_name = ?");
+    $stmt3 = $conn->prepare("SELECT * FROM visits WHERE date = ? AND ((visit_start < ? AND visit_end > ?) OR (visit_start < ? AND visit_end > ?) OR (visit_start > ? AND visit_end < ?)) AND first_name = ? AND last_name = ?");
     $stmt3->bind_param("sssssssss", $date, $visit_end, $visit_start, $visit_end, $visit_start, $visit_start, $visit_end, $first_name_inmate, $last_name_inmate);
     $stmt3->execute();
     $result3 = $stmt3->get_result();
@@ -143,5 +143,5 @@ if ($conn->connect_errno) {
     $stmt->get_result();
     $stmt->close();
 
-    header('Location: visitormain.php');
+    header('Location: ../VisitorMain/visitormain.php');
 }
