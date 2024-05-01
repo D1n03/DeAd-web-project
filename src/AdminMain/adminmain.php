@@ -84,45 +84,29 @@ session_start();
     </div>
   </header>
   <main class="admin-main">
-    <div class="admin-main-container">
-      <div class="main-menu">
-        <div class="person__show">
-          <div class="person__show-banner">
-            <div class="delete-show">
-              <div class="line line-1"></div>
-              <div class="line line-2"></div>
-            </div>
-            <img src="../../assets/visitormain/person-icon.webp" alt="person-picture" class="person__show-photo" />
-            <h1 class="person__show-title">Name Surname</h1>
-          </div>
+    <div class="admin-main-container ">
+        <div class="visitor-title">
+          <?php 
+          if(isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
+              echo 'Welcome back, '.  $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; 
+          } else {
+              echo 'Not logged in.';
+          }
+          ?>
         </div>
-        <form class="search-bar list-off">
-          <input type="text" name="searchPerson" id="searchPerson" placeholder="Search..." />
-          <button type="submit">
-            <img src="../../assets/visitormain/search-icon.svg" alt="search bar" />
-          </button>
-          <ul class="result-list hidden"></ul>
-        </form>
-        <div class="search-options">
-          <div class="radio-item">
-            <input type="radio" name="searchType" id="searchUser" value="user" checked />
-            <label for="searchUser">User</label>
-          </div>
-          <div class="radio-item">
-            <input type="radio" name="searchType" id="searchInmate" value="inmate" />
-            <label for="searchInmate">Inmate</label>
-          </div>
-        </div>
-        <button id="edit-person" class="admin-main__aside__button admin-main__aside__button-edit">
-          Edit
-        </button>
-        <button id="add-inmate" class="admin-main__aside__button admin-main__aside__button-add">
-          Add inmate
-        </button>
-        <button id="export-data" class="admin-main__aside__button admin-main__aside__button-export">
-          Export data
-        </button>
-      </div>
+        <div class="admin-context"> Below, you have options to add, delete or change data related to inmates, users and visits, or the possibility to export data. </div>
+          <a class="visitor-main__button visitor-main__create__button">
+            Inmates Panel
+          </a>
+          <a class="visitor-main__button visitor-main__update__button">
+            Users Panel
+          </a>
+          <a class="visitor-main__button visitor-main__get__button">
+            Visits Panel
+          </a>
+          <a href="../Export/exportmain.php" class="visitor-main__button visitor-main__get__button">
+            Export Data
+          </a>
     </div>
   </main>
   <?php

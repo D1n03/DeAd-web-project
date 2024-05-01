@@ -1,6 +1,7 @@
 <?php
 session_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,10 +9,10 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Please provide information about yourself and any other visitors who may accompany you to visit a prisoner. A visitor could be a family member, lawyer, or psychologist, and they are required to furnish personal details to schedule a visit on the DeAd website." />
+  <meta name="description" content="You, as an admin, you can do actions which involve the users and inmates" />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Visitor Main</title>
+  <title>Export data</title>
 </head>
 
 <body>
@@ -79,36 +80,15 @@ session_start();
             </div>
           </div>
         <?php endif; ?>
+      </nav>
     </div>
   </header>
-  <main class="visitor-main">
-    <div class="visitor-main-container">
-        <div class="visitor-title">
-          <?php 
-          if(isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
-              echo 'Welcome back, '.  $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; 
-          } else {
-              echo 'Not logged in.';
-          }
-          ?>
-        </div>
-        <div class="visitor-context"> Below, you can create a visit, view active visits, or explore visit history. </div>
-          <a href="../CreateVisit/visit.php" class="visitor-main__button visitor-main__create__button">
-            Create visit
-          </a>
-          <a href="../ActiveVisits/activevisits.php" class="visitor-main__button visitor-main__update__button">
-            Active visits
-          </a>
-          <a href="../VisitHistory/history.php" class="visitor-main__button visitor-main__get__button">
-            Visits history
-          </a>
-      </div>
-  </main>
+
   <?php
-    if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
-    ?>
+  if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
+  ?>
     <script src="../scripts/submenu.js"></script>
-    <?php endif; ?>
+  <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
 </body>
 
