@@ -17,7 +17,7 @@ session_start();
 </head>
 
 <body>
-  <header class="header" id="page-header">
+<header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -51,12 +51,18 @@ session_start();
             </a>
           </li>
           <li class="list__item">
-            <a href="#" class="profile-link">
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) {
-                                                                                                    echo 'onclick="toggleMenu()"';
-                                                                                                  } ?> id="person-icon" />
-            </a>
-          </li>
+          <a href="#" class="profile-link">
+            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
+              <?php if (isset($_SESSION['photo'])) : ?>
+                <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+              <?php else : ?>
+                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+              <?php endif; ?>
+            <?php else : ?>
+              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+            <?php endif; ?>
+          </a>
+        </li>
         </ul>
         <?php
         if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
@@ -64,7 +70,11 @@ session_start();
           <div class="sub-menu-wrap" id="subMenu">
             <div class="sub-menu">
               <div class="user-info">
-                <img src="../../assets/header/person-icon.webp" alt="person-icon-sub" />
+                <?php if (isset($_SESSION['photo'])) : ?>
+                  <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="person-icon-sub" />
+                <?php else : ?>
+                  <img src="../assets/header/person-icon.webp" alt="person-icon-sub" />
+                <?php endif; ?>
                 <h2><?php echo $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; ?></h2>
               </div>
               <hr />

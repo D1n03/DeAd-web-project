@@ -1,5 +1,24 @@
 <?php
+include("../Utils/Connection.php");
 session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
+    // Redirect the user to the login page if not logged in
+    header("Location: ../Login/login.php");
+    exit;
+}
+
+// Retrieve logged-in user's details
+if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_SESSION['email'])) {
+    $first_name = $_SESSION['first_name'];
+    $last_name = $_SESSION['last_name'];
+    $email = $_SESSION['email'];
+} else {
+    header("Location: ../Error/error.php");
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -9,10 +28,10 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="You, as an admin, you can export data about inmates, users and visits" />
+  <meta name="description" content="Edit your profile's information." />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Export data</title>
+  <title>Edit Profile</title>
 </head>
 
 <body>
@@ -94,81 +113,56 @@ session_start();
     </div>
   </header>
 
-  <main class="export__main">
-    <form class="export__main__form " action="export_all_data_script.php" method="POST" enctype="multipart/form-data" id="export-form">
-      <div class="export__main__form__labels">
-        <div class="export__form__labels__title">
-          Export data
-        </div>
+  <main class="editprofile">
+    <div class="container">
+      <h1 class="container__title">Edit Profile</h1>
+      <form class="container__form" id="edit-profile-form" action="editprofile_script.php" method="POST" enctype="multipart/form-data">
+
+        <p class="container__text">First Name:</p>
         <div class="container__form-field">
-          <label class="component__label-title" for="export">Export data for: </label>
-          <div class="form-export-group">
-            <select class="form-input" id="export" name="export">
-              <option name="export" value="inmates">Inmates</option>
-              <option name="export" value="users">Users</option>
-              <option name="export" value="all_visits">All Visits</option>
-            </select>
-          </div>
+          <input id="first_name" required type="text" name="first_name" value="<?php echo $first_name; ?>" />
+            <p class="validation-error first-name-error"></p>
         </div>
+
+        <p class="container__text">Last Name:</p>
         <div class="container__form-field">
-          <label class="component__label-title">Sort By:</label>
-          <div class="form-export-group" id="sortOptions">
-            <!-- sorting options will be dynamically added here -->
-          </div>
+            <input id="last_name" required type="text" name="last_name" value="<?php echo $last_name; ?>" />
+            <p class="validation-error last-name-error"></p>
         </div>
+
+        <p class="container__text">E-mail:</p>
         <div class="container__form-field">
-          <label class="component__label-title">Format: </label>
-          <div class="form-export-group">
-            <label>
-              <input type="radio" name="format" value="json" required>JSON</label>
-            <label>
-              <input type="radio" name="format" value="csv">CSV</label>
-            <label>
-              <input type="radio" name="format" value="html">HTML</label>
-          </div>
+            <input id="email" required type="email" name="email" value="<?php echo $email; ?>" />
+            <p class="validation-error email-error"></p>
         </div>
-      </div>
-      <div class="export__form__buttons">
-        <a href="../AdminMain/adminmain.php" class="export__form__buttons__back">Back</a>
-        <button type="submit" class="export__form__buttons__submit">
-          Export
-        </button>
-      </div>
-    </form>
+
+        <p class="container__text">Photo:</p>
+        <div class="container__form-field">
+            <label for="photo">Choose a photo:</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
+            <p class="validation-error photo-error"></p>
+        </div>
+        <?php
+        if (isset($_GET['success'])) {
+          if ($_GET['success'] == 1) {
+            echo "<p class='success'>Profile updated successfully!</p>";
+            echo "<meta http-equiv='refresh' content='1;url=../Profile/profile.php'>";
+          }
+        } 
+        ?>
+    
+        <div class="container__form-buttons">
+          <button type="submit" class="container__form-submit">Submit Changes</button>
+        </div>
+      </form>
+    </div>
   </main>
-
   <?php
-  if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
-  ?>
+    if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
+    ?>
     <script src="../scripts/submenu.js"></script>
-  <?php endif; ?>
+    <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var exportSelect = document.getElementById("export");
-      var sortOptions = document.getElementById("sortOptions");
-      var alphabeticallyRadio = document.getElementById("alphabetically");
-      var dateCreatedRadio = document.getElementById("date_created");
-
-      function toggleSortOptions() {
-        sortOptions.innerHTML = "";
-
-        if (exportSelect.value === "users") {
-          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
-        } else if (exportSelect.value === "inmates") {
-          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_start_date" id="sentence_start_date"> Sentence start date</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_duration" id="sentence_duration"> Sentence duration</label>';
-        } else if (exportSelect.value === "all_visits") {
-          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="date" id="date"> Date</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="visitor" id="visitor"> Visitor</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="inmate" id="inmate"> Inmate</label>';
-        }
-      }
-      toggleSortOptions();
-      exportSelect.addEventListener("change", toggleSortOptions);
-    });
-  </script>
 </body>
 
 </html>

@@ -1,7 +1,14 @@
 <?php
 session_start();
-?>
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
+    header("Location: ../Login/login.php");
+    exit;
+}
 
+if (isset($_GET['email'])) {
+    $email = $_GET['email'];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,14 +16,14 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="You, as an admin, you can export data about inmates, users and visits" />
-  <link rel="stylesheet" href="../../src/styles/css/styles.css" />
+  <meta name="description" content="In case you need to change the password, you can provide a valid one to replace it." />
+  <link rel="stylesheet" href="../styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Export data</title>
+  <title>Change Password</title>
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -94,48 +101,48 @@ session_start();
     </div>
   </header>
 
-  <main class="export__main">
-    <form class="export__main__form " action="export_all_data_script.php" method="POST" enctype="multipart/form-data" id="export-form">
-      <div class="export__main__form__labels">
-        <div class="export__form__labels__title">
-          Export data
+  <main class="changepassword">
+        <div class="container">
+            <h1 class="container__title">Change Your Password</h1>
+            <form class="container__form" id="change-password-form" action="changepassword_script.php" method="POST">
+                <div class="container__form-field">
+                    <input id="current_password" required type="password" name="current_password" placeholder="Current Password" />
+                    <p class="validation-error current-password-error"></p>
+                </div>
+                <div class="container__form-field">
+                    <input id="new_password" required type="password" name="new_password" placeholder="New Password" />
+                    <p class="validation-error new-password-error"></p>
+                </div>
+                <div class="container__form-field">
+                    <input id="confirm_new_password" required type="password" name="confirm_new_password" placeholder="Confirm New Password" />
+                    <p class="validation-error confirm-new-password-error"></p>
+                </div>
+                <?php
+                if (isset($_GET['error'])) {
+                    if ($_GET['error'] == 1) {
+                        echo '<p class="error">Current password is incorrect.</p>';
+                    } elseif ($_GET['error'] == 2) {
+                        echo '<p class="error">New passwords do not match.</p>';
+                    }
+                } else if (isset($_GET['strength'])) {
+                  if ($_GET['strength'] == 0) {
+                    echo '<p class="error"> Password must contain at least 8 characters, a number, uppercase and lowercase letters</p>';
+                  } else {
+                    echo '<p class="error" style="color: green;">Password is strong!</p>';
+                  }
+                } else if (isset($_GET['password_change_success'])) {
+                  if ($_GET['password_change_success'] == 1) {
+                    echo "<p class='success'>Password changed successfully!</p>";
+                    echo "<meta http-equiv='refresh' content='1;url=../Profile/profile.php'>";
+                  }
+                }
+                ?>
+                <div class="container__form-buttons">
+                    <button type="submit" class="container__form-submit">Change Password</button>
+                </div>
+            </form>
         </div>
-        <div class="container__form-field">
-          <label class="component__label-title" for="export">Export data for: </label>
-          <div class="form-export-group">
-            <select class="form-input" id="export" name="export">
-              <option name="export" value="inmates">Inmates</option>
-              <option name="export" value="users">Users</option>
-              <option name="export" value="all_visits">All Visits</option>
-            </select>
-          </div>
-        </div>
-        <div class="container__form-field">
-          <label class="component__label-title">Sort By:</label>
-          <div class="form-export-group" id="sortOptions">
-            <!-- sorting options will be dynamically added here -->
-          </div>
-        </div>
-        <div class="container__form-field">
-          <label class="component__label-title">Format: </label>
-          <div class="form-export-group">
-            <label>
-              <input type="radio" name="format" value="json" required>JSON</label>
-            <label>
-              <input type="radio" name="format" value="csv">CSV</label>
-            <label>
-              <input type="radio" name="format" value="html">HTML</label>
-          </div>
-        </div>
-      </div>
-      <div class="export__form__buttons">
-        <a href="../AdminMain/adminmain.php" class="export__form__buttons__back">Back</a>
-        <button type="submit" class="export__form__buttons__submit">
-          Export
-        </button>
-      </div>
-    </form>
-  </main>
+    </main>
 
   <?php
   if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
@@ -143,32 +150,6 @@ session_start();
     <script src="../scripts/submenu.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var exportSelect = document.getElementById("export");
-      var sortOptions = document.getElementById("sortOptions");
-      var alphabeticallyRadio = document.getElementById("alphabetically");
-      var dateCreatedRadio = document.getElementById("date_created");
-
-      function toggleSortOptions() {
-        sortOptions.innerHTML = "";
-
-        if (exportSelect.value === "users") {
-          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
-        } else if (exportSelect.value === "inmates") {
-          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_start_date" id="sentence_start_date"> Sentence start date</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_duration" id="sentence_duration"> Sentence duration</label>';
-        } else if (exportSelect.value === "all_visits") {
-          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="date" id="date"> Date</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="visitor" id="visitor"> Visitor</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="inmate" id="inmate"> Inmate</label>';
-        }
-      }
-      toggleSortOptions();
-      exportSelect.addEventListener("change", toggleSortOptions);
-    });
-  </script>
 </body>
 
 </html>

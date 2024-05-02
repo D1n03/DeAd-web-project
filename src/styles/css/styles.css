@@ -572,14 +572,26 @@ body {
   font-weight: 700;
   padding: 10px calc(10px + 5vw);
   background-color: rgb(75, 226, 95);
+  max-width: 270px;
+  text-wrap: nowrap;
   border-radius: 2rem;
   transition: all 150ms ease-in-out;
   color: white;
   text-align: center;
 }
+#changepassword {
+  padding: 10px 3vw;
+}
 .profile .link:is(:hover) {
   background-color: rgb(61, 160, 74);
 }
+.profile .profile-icon {
+  max-width: 234px;
+  max-height: 234px;
+  width: auto;
+  height: auto;
+}
+
 
 /* Contact content */
 .contact {
@@ -693,6 +705,136 @@ body {
   border-radius: 0.75rem;
   text-align: center;
 }
+
+/* Edit Profile content */
+.editprofile {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  flex-direction: row;
+  margin-top: 2.5%;
+  margin-bottom: 5%;
+}
+.editprofile .container {
+  width: min(90%, 32.5rem);
+  box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0rem;
+  flex-direction: column;
+  background-color: rgba(32, 30, 30, 0.8);
+  padding: 3rem 2.5rem;
+  border-radius: 2rem;
+}
+.editprofile .container__title {
+  white-space: normal;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+.editprofile .container__text {
+  width: 100%;
+  color: white;
+  text-align: left;
+  position: relative;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+}
+.editprofile .container__form {
+  width: 100%;
+}
+.editprofile .container__form-field {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0rem;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+.editprofile .container__form-field:nth-of-type(5) {
+  gap: 1rem;
+}
+.editprofile .container__form-field:nth-of-type(5) #photo-label {
+  width: 100%;
+}
+.editprofile .container__form-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: column;
+  margin-top: 4rem;
+}
+.editprofile .container__form-buttons button {
+  width: 100%;
+  background-color: rgb(75, 226, 95);
+  border-radius: 5rem;
+  border: none;
+  padding: 0.75rem 2.5rem;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  font-size: 1.15rem;
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: all 150ms ease-in-out;
+}
+.editprofile .container__form-buttons button:hover, .contact .container__form-buttons button:active {
+  background-color: rgb(61, 160, 74);
+}
+.editprofile .container input:not([id=photo]) {
+  width: 100%;
+  background-color: rgb(217, 217, 217);
+  border-radius: 2rem;
+  border: none;
+  padding: 0.65rem 1.5rem;
+  font-size: var(--fs-small);
+}
+.editprofile .container textarea[id=feedbackMessage] {
+  resize: none;
+  width: 100%;
+  background-color: rgb(217, 217, 217);
+  margin-top: 1.75rem;
+  border-radius: 2rem;
+  border: none;
+  padding: 0.65rem 1.5rem;
+  font-size: var(--fs-small);
+}
+.editprofile .container :is(textarea, input):is(:focus) {
+  outline: none;
+}
+.editprofile .container input[type=file] {
+  cursor: pointer;
+  display: none;
+  transition: all 350ms ease-in-out;
+}
+.editprofile .container label[for=photo] {
+  cursor: pointer;
+  background-color: rgb(89, 89, 89);
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  text-align: center;
+}
+.editprofile .edit-pass {
+  text-align: left;
+  color: rgb(255, 255, 255);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+.editprofile .edit-pass:hover {
+  color: rgb(160, 160, 160);
+}
+.editprofile .success {
+  text-align: center;
+  color: rgb(75, 226, 95);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
 
 /* Login content */
 .login {
@@ -830,6 +972,132 @@ body {
   text-align: center;
   margin: 1rem;
   font-size: var(--fs-medium);
+}
+
+
+/* Change Password content */
+.changepassword {
+  min-height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0;
+  flex-direction: column;
+  margin-top: 2.5%;
+  margin-bottom: 5%;
+}
+.changepassword .container {
+  width: min(90%, 32.5rem);
+  box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 0rem;
+  flex-direction: column;
+  background-color: rgba(32, 30, 30, 0.8);
+  padding: 3rem 2.5rem;
+  border-radius: 2rem;
+}
+.changepassword .container__title {
+  white-space: normal;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+.changepassword .container__form {
+  width: 100%;
+}
+.changepassword .container__form-field {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0rem;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+.changepassword .container__form-field:nth-of-type(5) {
+  gap: 1rem;
+}
+.changepassword .container__form-field:nth-of-type(5) #photo-label {
+  width: 100%;
+}
+.changepassword .forgot-pass {
+  text-align: left;
+  color: rgb(255, 255, 255);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+.changepassword .forgot-pass:hover {
+  color: rgb(160, 160, 160);
+}
+.changepassword .error {
+  text-align: left;
+  color: rgb(255, 0, 0);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+.changepassword .success {
+  text-align: center;
+  color: rgb(75, 226, 95);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+.changepassword .container__form-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+.changepassword .container__form-buttons button {
+  width: 100%;
+  background-color: rgb(68, 199, 86);
+  border-radius: 5rem;
+  border: none;
+  padding: 0.75rem 2.5rem;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  font-size: 1.15rem;
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: all 150ms ease-in-out;
+}
+.changepassword .container__form-buttons .container__form-submit-signup {
+  background-color: rgb(0, 128, 255);
+}
+.changepassword .container__form-buttons .container__form-submit-signup:hover {
+  background-color: rgb(25, 83, 189);
+}
+.changepassword .container__form-buttons button:hover, .login .container__form-buttons button:active {
+  background-color: rgb(61, 160, 74);
+}
+.changepassword .container input:not([id=photo]) {
+  width: 100%;
+  background-color: rgb(217, 217, 217);
+  margin-top: 1.75rem;
+  border-radius: 2rem;
+  border: none;
+  padding: 0.65rem 1.5rem;
+  font-size: var(--fs-small);
+}
+.changepassword .container :is(textarea, input):is(:focus) {
+  outline: none;
+}
+.changepassword .container input[type=file] {
+  cursor: pointer;
+  display: none;
+  transition: all 350ms ease-in-out;
+}
+.changepassword .container label[for=photo] {
+  cursor: pointer;
+  background-color: rgb(89, 89, 89);
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  text-align: center;
 }
 
 /* Visitor Main Page content */
