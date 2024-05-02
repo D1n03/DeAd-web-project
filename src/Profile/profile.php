@@ -71,7 +71,7 @@ session_start();
                 <?php if (isset($_SESSION['photo'])) : ?>
                   <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="person-icon-sub" />
                 <?php else : ?>
-                  <img src="../assets/header/person-icon.webp" alt="person-icon-sub" />
+                  <img src="../../assets/header/person-icon.webp" alt="person-icon-sub" />
                 <?php endif; ?>
                 <h2><?php echo $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; ?></h2>
               </div>
@@ -102,7 +102,7 @@ session_start();
         // display photo from session
         echo '<img class="profile-icon" src="data:image/jpeg;base64,' . base64_encode($_SESSION['photo']) . '" alt="User Photo" />';
       } else {
-        echo '<img class="profile-icon" src="../assets/header/person-icon.webp" alt="person-icon" />';
+        echo '<img class="profile-icon" src="../../assets/header/person-icon.webp" alt="person-icon" />';
       }
       ?>
       <p class="container__name-surname"><?php echo isset($_SESSION['first_name']) ? $_SESSION['first_name'] : 'First Name'; ?> <?php echo isset($_SESSION['last_name']) ? $_SESSION['last_name'] : 'Last Name'; ?></p>

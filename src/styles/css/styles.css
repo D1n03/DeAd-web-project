@@ -572,7 +572,7 @@ body {
   font-weight: 700;
   padding: 10px calc(10px + 5vw);
   background-color: rgb(75, 226, 95);
-  max-width: 270px;
+  width: 75%;
   text-wrap: nowrap;
   border-radius: 2rem;
   transition: all 150ms ease-in-out;

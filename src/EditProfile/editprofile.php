@@ -91,7 +91,7 @@ if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_S
                 <?php if (isset($_SESSION['photo'])) : ?>
                   <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="person-icon-sub" />
                 <?php else : ?>
-                  <img src="../assets/header/person-icon.webp" alt="person-icon-sub" />
+                  <img src="../../assets/header/person-icon.webp" alt="person-icon-sub" />
                 <?php endif; ?>
                 <h2><?php echo $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; ?></h2>
               </div>
