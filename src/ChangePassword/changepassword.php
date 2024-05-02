@@ -1,5 +1,13 @@
 <?php
 session_start();
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
+    header("Location: ../Login/login.php");
+    exit;
+}
+
+if (isset($_GET['email'])) {
+    $email = $_GET['email'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,14 +16,14 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Please provide information about yourself and any other visitors who may accompany you to visit a prisoner. A visitor could be a family member, lawyer, or psychologist, and they are required to furnish personal details to schedule a visit on the DeAd website." />
-  <link rel="stylesheet" href="../../src/styles/css/styles.css" />
+  <meta name="description" content="In case you need to change the password, you can provide a valid one to replace it." />
+  <link rel="stylesheet" href="../styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Visitor Main</title>
+  <title>Change Password</title>
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -92,34 +100,55 @@ session_start();
       </nav>
     </div>
   </header>
-  <main class="visitor-main">
-    <div class="visitor-main-container">
-        <div class="main-page-title">
-          <?php 
-          if(isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
-              echo 'Welcome back, '.  $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; 
-          } else {
-              echo 'Not logged in.';
-          }
-          ?>
+
+  <main class="changepassword">
+        <div class="container">
+            <h1 class="container__title">Change Your Password</h1>
+            <form class="container__form" id="change-password-form" action="changepassword_script.php" method="POST">
+                <div class="container__form-field">
+                    <input id="current_password" required type="password" name="current_password" placeholder="Current Password" />
+                    <p class="validation-error current-password-error"></p>
+                </div>
+                <div class="container__form-field">
+                    <input id="new_password" required type="password" name="new_password" placeholder="New Password" />
+                    <p class="validation-error new-password-error"></p>
+                </div>
+                <div class="container__form-field">
+                    <input id="confirm_new_password" required type="password" name="confirm_new_password" placeholder="Confirm New Password" />
+                    <p class="validation-error confirm-new-password-error"></p>
+                </div>
+                <?php
+                if (isset($_GET['error'])) {
+                    if ($_GET['error'] == 1) {
+                        echo '<p class="error">Current password is incorrect.</p>';
+                    } elseif ($_GET['error'] == 2) {
+                        echo '<p class="error">New passwords do not match.</p>';
+                    }
+                } else if (isset($_GET['strength'])) {
+                  if ($_GET['strength'] == 0) {
+                    echo '<p class="error"> Password must contain at least 8 characters, a number, uppercase and lowercase letters</p>';
+                  } else {
+                    echo '<p class="error" style="color: green;">Password is strong!</p>';
+                  }
+                } else if (isset($_GET['password_change_success'])) {
+                  if ($_GET['password_change_success'] == 1) {
+                    echo "<p class='success'>Password changed successfully!</p>";
+                    echo "<meta http-equiv='refresh' content='1;url=../Profile/profile.php'>";
+                  }
+                }
+                ?>
+                <div class="container__form-buttons">
+                    <button type="submit" class="container__form-submit">Change Password</button>
+                </div>
+            </form>
         </div>
-        <div class="main-page-context"> Below, you can create a visit, view active visits, or explore visit history. </div>
-          <a href="../CreateVisit/visit.php" class="visitor-main__button visitor-main__create__button">
-            Create visit
-          </a>
-          <a href="../ActiveVisits/activevisits.php" class="visitor-main__button visitor-main__update__button">
-            Active visits
-          </a>
-          <a href="../VisitHistory/history.php" class="visitor-main__button visitor-main__get__button">
-            Visits history
-          </a>
-      </div>
-  </main>
+    </main>
+
   <?php
-    if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
-    ?>
+  if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
+  ?>
     <script src="../scripts/submenu.js"></script>
-    <?php endif; ?>
+  <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
 </body>
 

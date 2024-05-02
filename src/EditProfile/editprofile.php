@@ -1,6 +1,26 @@
 <?php
+include("../Utils/Connection.php");
 session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
+    // Redirect the user to the login page if not logged in
+    header("Location: ../Login/login.php");
+    exit;
+}
+
+// Retrieve logged-in user's details
+if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_SESSION['email'])) {
+    $first_name = $_SESSION['first_name'];
+    $last_name = $_SESSION['last_name'];
+    $email = $_SESSION['email'];
+} else {
+    header("Location: ../Error/error.php");
+    exit;
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,10 +28,10 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Please provide information about yourself and any other visitors who may accompany you to visit a prisoner. A visitor could be a family member, lawyer, or psychologist, and they are required to furnish personal details to schedule a visit on the DeAd website." />
+  <meta name="description" content="Edit your profile's information." />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Visitor Main</title>
+  <title>Edit Profile</title>
 </head>
 
 <body>
@@ -92,28 +112,50 @@ session_start();
       </nav>
     </div>
   </header>
-  <main class="visitor-main">
-    <div class="visitor-main-container">
-        <div class="main-page-title">
-          <?php 
-          if(isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
-              echo 'Welcome back, '.  $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; 
-          } else {
-              echo 'Not logged in.';
-          }
-          ?>
+
+  <main class="editprofile">
+    <div class="container">
+      <h1 class="container__title">Edit Profile</h1>
+      <form class="container__form" id="edit-profile-form" action="editprofile_script.php" method="POST" enctype="multipart/form-data">
+
+        <p class="container__text">First Name:</p>
+        <div class="container__form-field">
+          <input id="first_name" required type="text" name="first_name" value="<?php echo $first_name; ?>" />
+            <p class="validation-error first-name-error"></p>
         </div>
-        <div class="main-page-context"> Below, you can create a visit, view active visits, or explore visit history. </div>
-          <a href="../CreateVisit/visit.php" class="visitor-main__button visitor-main__create__button">
-            Create visit
-          </a>
-          <a href="../ActiveVisits/activevisits.php" class="visitor-main__button visitor-main__update__button">
-            Active visits
-          </a>
-          <a href="../VisitHistory/history.php" class="visitor-main__button visitor-main__get__button">
-            Visits history
-          </a>
-      </div>
+
+        <p class="container__text">Last Name:</p>
+        <div class="container__form-field">
+            <input id="last_name" required type="text" name="last_name" value="<?php echo $last_name; ?>" />
+            <p class="validation-error last-name-error"></p>
+        </div>
+
+        <p class="container__text">E-mail:</p>
+        <div class="container__form-field">
+            <input id="email" required type="email" name="email" value="<?php echo $email; ?>" />
+            <p class="validation-error email-error"></p>
+        </div>
+
+        <p class="container__text">Photo:</p>
+        <div class="container__form-field">
+            <label for="photo">Choose a photo:</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
+            <p class="validation-error photo-error"></p>
+        </div>
+        <?php
+        if (isset($_GET['success'])) {
+          if ($_GET['success'] == 1) {
+            echo "<p class='success'>Profile updated successfully!</p>";
+            echo "<meta http-equiv='refresh' content='1;url=../Profile/profile.php'>";
+          }
+        } 
+        ?>
+    
+        <div class="container__form-buttons">
+          <button type="submit" class="container__form-submit">Submit Changes</button>
+        </div>
+      </form>
+    </div>
   </main>
   <?php
     if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
