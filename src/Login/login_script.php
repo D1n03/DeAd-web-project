@@ -39,6 +39,10 @@ if ($conn->connect_errno) {
         $_SESSION['function'] = $row['function'];
         $_SESSION['id'] = $row['user_id'];
 
+        // fetch and set the user's photo
+        $photo = $row['photo'];
+        $_SESSION['photo'] = $photo;
+
         // create a new authentification token
         $key = $config['secret_key'];
         $issuedAt = new DateTimeImmutable();
