@@ -83,7 +83,7 @@ session_start();
     <main class="visitor-active-main">
         <div class="visitor-active-main-container">
             <div class="visit-active">
-                <div class="visitor-title">
+                <div class="main-page-title">
                     Your active visits
                 </div>
                 <ol class="visitor-main__list">

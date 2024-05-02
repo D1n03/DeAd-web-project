@@ -85,7 +85,7 @@ session_start();
   </header>
   <main class="admin-main">
     <div class="admin-main-container ">
-        <div class="visitor-title">
+        <div class="main-page-title">
           <?php 
           if(isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
               echo 'Welcome back, '.  $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; 
@@ -94,20 +94,20 @@ session_start();
           }
           ?>
         </div>
-        <div class="admin-context"> Below, you have options to add, delete or change data related to inmates, users and visits, or the possibility to export data. </div>
-          <a class="visitor-main__button visitor-main__create__button">
+        <div class="main-page-context"> Below, you have options to add, delete or change data related to inmates, users and visits, or the possibility to export data. </div>
+          <a class="admin-main__button admin-main__inmates__button">
             Inmates Panel
           </a>
-          <a class="visitor-main__button visitor-main__update__button">
+          <a class="admin-main__button admin-main__users__button">
             Users Panel
           </a>
-          <a class="visitor-main__button visitor-main__get__button">
+          <a class="admin-main__button admin-main__visits__button">
             Visits Panel
           </a>
-          <a href="../Export/exportmain.php" class="visitor-main__button visitor-main__get__button">
+          <a href="../Export/exportmain.php" class="admin-main__button admin-main__export__button">
             Export Data
           </a>
-    </div>
+      </div>
   </main>
   <?php
   if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :

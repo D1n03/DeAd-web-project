@@ -52,8 +52,8 @@ session_start();
           <li class="list__item">
             <a href="#" class="profile-link">
               <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) {
-                                                                                                    echo 'onclick="toggleMenu()"';
-                                                                                                  } ?> id="person-icon" />
+                                                                                                      echo 'onclick="toggleMenu()"';
+                                                                                                    } ?> id="person-icon" />
             </a>
           </li>
         </ul>
@@ -84,12 +84,87 @@ session_start();
     </div>
   </header>
 
+  <main class="export__main">
+    <form class="export__main__form " action="export_all_data_script.php" method="POST" enctype="multipart/form-data" id="export-form">
+      <div class="export__main__form__labels">
+        <div class="export__form__labels__title">
+          Export data
+        </div>
+        <div class="container__form-field">
+          <label class="component__label-title" for="export">Export data for: </label>
+          <div class="form-export-group">
+            <select class="form-input" id="export" name="export">
+              <option name="export" value="inmates">Inmates</option>
+              <option name="export" value="users">Users</option>
+              <option name="export" value="all_visits">All Visits</option>
+            </select>
+          </div>
+        </div>
+        <div class="container__form-field">
+          <label class="component__label-title">Sort By:</label>
+          <div class="form-export-group" id="sortOptions">
+            <!-- sorting options will be dynamically added here -->
+          </div>
+        </div>
+        <div class="container__form-field">
+          <label class="component__label-title">Format: </label>
+          <div class="form-export-group">
+            <label>
+              <input type="radio" name="format" value="json">JSON</label>
+            <label>
+              <input type="radio" name="format" value="csv">CSV</label>
+            <label>
+              <input type="radio" name="format" value="html">HTML</label>
+
+          </div>
+        </div>
+      </div>
+      <div class="export__form__buttons">
+        <a href="../AdminMain/adminmain.php" class="export__form__buttons__back">Back</a>
+        <button type="submit" class="export__form__buttons__submit">
+          Export
+        </button>
+      </div>
+    </form>
+  </main>
+
   <?php
   if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
   ?>
     <script src="../scripts/submenu.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var exportSelect = document.getElementById("export");
+      var sortOptions = document.getElementById("sortOptions");
+      var alphabeticallyRadio = document.getElementById("alphabetically");
+      var dateCreatedRadio = document.getElementById("date_created");
+
+      function toggleSortOptions() {
+        sortOptions.innerHTML = "";
+
+        if (exportSelect.value === "users") {
+          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
+        } 
+        else if (exportSelect.value === "inmates") {
+          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
+          sortOptions.innerHTML += '<label for="sentence_start_date"><input type="radio" name="sorted" value="sentence_start_date" id="sentence_start_date"> Sentence start date</label>';
+        }
+        else if (exportSelect.value === "all_visits") {
+          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="date" id="date"> Date</label>';
+          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="visitor" id="visitor"> Visitor</label>';
+          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="inmate" id="inmate"> Inmate</label>';
+        }
+      }
+
+      // Initial call to toggleSortOptions to set the initial state based on the default selected export option
+      toggleSortOptions();
+
+      // Add event listener to the export select element to toggle the sort options when the selected option changes
+      exportSelect.addEventListener("change", toggleSortOptions);
+    });
+  </script>
 </body>
 
 </html>

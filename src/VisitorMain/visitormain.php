@@ -83,7 +83,7 @@ session_start();
   </header>
   <main class="visitor-main">
     <div class="visitor-main-container">
-        <div class="visitor-title">
+        <div class="main-page-title">
           <?php 
           if(isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
               echo 'Welcome back, '.  $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; 
@@ -92,7 +92,7 @@ session_start();
           }
           ?>
         </div>
-        <div class="visitor-context"> Below, you can create a visit, view active visits, or explore visit history. </div>
+        <div class="main-page-context"> Below, you can create a visit, view active visits, or explore visit history. </div>
           <a href="../CreateVisit/visit.php" class="visitor-main__button visitor-main__create__button">
             Create visit
           </a>
