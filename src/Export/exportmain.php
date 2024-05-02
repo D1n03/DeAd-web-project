@@ -9,7 +9,7 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="You, as an admin, you can do actions which involve the users and inmates" />
+  <meta name="description" content="You, as an admin, you can export data about inmates, users and visits" />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
   <title>Export data</title>
@@ -110,12 +110,11 @@ session_start();
           <label class="component__label-title">Format: </label>
           <div class="form-export-group">
             <label>
-              <input type="radio" name="format" value="json">JSON</label>
+              <input type="radio" name="format" value="json" required>JSON</label>
             <label>
               <input type="radio" name="format" value="csv">CSV</label>
             <label>
               <input type="radio" name="format" value="html">HTML</label>
-
           </div>
         </div>
       </div>
@@ -146,22 +145,17 @@ session_start();
 
         if (exportSelect.value === "users") {
           sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
-        } 
-        else if (exportSelect.value === "inmates") {
+        } else if (exportSelect.value === "inmates") {
           sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
-          sortOptions.innerHTML += '<label for="sentence_start_date"><input type="radio" name="sorted" value="sentence_start_date" id="sentence_start_date"> Sentence start date</label>';
-        }
-        else if (exportSelect.value === "all_visits") {
+          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_start_date" id="sentence_start_date"> Sentence start date</label>';
+          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_duration" id="sentence_duration"> Sentence duration</label>';
+        } else if (exportSelect.value === "all_visits") {
           sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="date" id="date"> Date</label>';
           sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="visitor" id="visitor"> Visitor</label>';
           sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="inmate" id="inmate"> Inmate</label>';
         }
       }
-
-      // Initial call to toggleSortOptions to set the initial state based on the default selected export option
       toggleSortOptions();
-
-      // Add event listener to the export select element to toggle the sort options when the selected option changes
       exportSelect.addEventListener("change", toggleSortOptions);
     });
   </script>
