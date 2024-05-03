@@ -15,39 +15,70 @@ function export_as_JSON($export_data, $stats)
     fwrite($output, $combined_json);
     fclose($output);
 }
+
 function export_as_CSV($export_data, $stats)
 {
-    $filename = "export_".date("Y-m-d").".csv";
+    $filename = "export_" . date("Y-m-d") . ".csv";
     header("Content-type: text/csv");
     header("Content-Disposition: attachment; filename=$filename");
     $output = fopen("php://output", "w");
+
+    fputcsv($output, array_keys($export_data[0]));
+
     foreach ($export_data as $row) {
         fputcsv($output, $row);
     }
-    fputcsv($output, array('Total'));
-    fputcsv($output, $stats);
+
+    fputcsv($output, array());
+
+    foreach ($stats as $category => $value) {
+        if (is_array($value)) {
+            foreach ($value as $subCategory => $subValue) {
+                fputcsv($output, ["$category - $subCategory", $subValue]);
+            }
+        } else {
+            fputcsv($output, [$category, $value]);
+        }
+    }
+
     fclose($output);
 }
 
-function export_as_HTML(array $export_data , array $stats)
+function export_as_HTML(array $export_data, array $stats)
 {
-    $filename = "export_".date("Y-m-d").".html";
+    $filename = "export_" . date("Y-m-d") . ".html";
     header("Content-type: text/html");
     header("Content-Disposition: attachment; filename=$filename");
     $output = fopen("php://output", "w");
     fwrite($output, "<html><body><table>");
+
+    fwrite($output, "<tr>");
+    foreach (array_keys($export_data[0]) as $key) {
+        fwrite($output, "<th>$key</th>");
+    }
+    fwrite($output, "</tr>");
+
     foreach ($export_data as $row) {
         fwrite($output, "<tr>");
-        foreach ($row as $key => $value) {
+        foreach ($row as $value) {
             fwrite($output, "<td>$value</td>");
         }
         fwrite($output, "</tr>");
     }
-    fwrite($output, "<tr><td>Total</td><td>" . $stats['total'] . "</td></tr>");
+
+    foreach ($stats as $category => $value) {
+        if (is_array($value)) {
+            foreach ($value as $subCategory => $subValue) {
+                fwrite($output, "<tr><td>$category - $subCategory</td><td>$subValue</td></tr>");
+            }
+        } else {
+            fwrite($output, "<tr><td>$category</td><td>$value</td></tr>");
+        }
+    }
+
     fwrite($output, "</table></body></html>");
     fclose($output);
 }
-
 function sortByName($a, $b) {
     $first_name_comparison = strcmp($a['first_name'], $b['first_name']);
     if ($first_name_comparison !== 0) {
@@ -81,8 +112,8 @@ function sortByVisitor($a, $b) {
 }
 
 function sortByInmate($a, $b) {
-    $inmate_a = intval($a['inmate']);
-    $inmate_b = intval($b['inmate']);
+    $inmate_a = intval($a['inmate_id']);
+    $inmate_b = intval($b['inmate_id']);
     return $inmate_a - $inmate_b;
 }
 
@@ -138,14 +169,83 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             break;
 
         case 'all_visits':
-            $result = $conn->query("SELECT * FROM appointments");
+            $result = $conn->query("SELECT a.person_id, 
+            a.first_name, 
+            a.last_name,  
+            a.relationship,
+            a.visit_nature,
+            a.source_of_income,
+            a.date,
+            a.visit_start,
+            a.visit_end,
+            a.is_active,
+            b.visitor_id,
+            b.inmate_id,
+            b.witnesses,
+            b.items_provided_to_inmate,
+            b.items_offered_by_inmate,
+            b.health_status,
+            b.summary 
+            FROM visits a
+            INNER JOIN visits_info b ON a.visit_id = b.visit_refID");
+
             while ($row = $result->fetch_assoc()) {
                 $export_data[] = $row;
             }
 
-            $result = $conn->query("SELECT COUNT(*)  as total FROM appointments");
+            $visitDurations = [];
+            foreach ($export_data as $visit) {
+                $start = strtotime($visit['visit_start']);
+                $end = strtotime($visit['visit_end']);
+                $duration = $end - $start; // in seconds
+                $visitDurations[] = $duration;
+            }
+
+            // calculate average sentence duration
+            $totalDuration = array_sum($visitDurations);
+            $averageDuration = count($visitDurations) > 0 ? $totalDuration / count($visitDurations) : 0;
+
+            $result = $conn->query("SELECT COUNT(*)  as total FROM visits");
             $row = $result->fetch_assoc();
             $stats['total'] = $row['total'];
+
+            // number of visits for each inmate
+            $result = $conn->query("SELECT inmate_id, COUNT(*) AS visit_count_per_inmate FROM visits_info GROUP BY inmate_id");
+            while ($row = $result->fetch_assoc()) {
+                $stats['visit_count_per_inmate'][$row['inmate_id']] = $row['visit_count_per_inmate'];
+            }
+            // Average sentence duration
+            $stats['avg_sentence_duration'] = $averageDuration;
+
+            // number of each visit_nature
+            $result = $conn->query("SELECT visit_nature, COUNT(*) AS visit_nature_count FROM visits GROUP BY visit_nature");
+            while ($row = $result->fetch_assoc()) {
+                $stats['visit_nature_count'][$row['visit_nature']] = $row['visit_nature_count'];
+            }
+
+            // number of each relationship
+            $result = $conn->query("SELECT relationship, COUNT(*) AS relationship_count FROM visits GROUP BY relationship");
+            while ($row = $result->fetch_assoc()) {
+                $stats['relationship_count'][$row['relationship']] = $row['relationship_count'];
+            }
+
+            // number of each source_of_income
+            $result = $conn->query("SELECT source_of_income, COUNT(*) AS source_of_income_count FROM visits GROUP BY source_of_income");
+            while ($row = $result->fetch_assoc()) {
+                $stats['source_of_income_count'][$row['source_of_income']] = $row['source_of_income_count'];
+            }
+
+            // number of each witnesses
+            $result = $conn->query("SELECT witnesses, COUNT(*) AS witnesses_count FROM visits_info GROUP BY witnesses");
+            while ($row = $result->fetch_assoc()) {
+                $stats['witnesses_count'][$row['witnesses']] = $row['witnesses_count'];
+            }
+
+            // number of each health_status
+            $result = $conn->query("SELECT health_status, COUNT(*) AS health_status_count FROM visits_info GROUP BY health_status");
+            while ($row = $result->fetch_assoc()) {
+                $stats['health_status_count'][$row['health_status']] = $row['health_status_count'];
+            }
 
             if (isset($_POST['sorted'])) {
                 if ($_POST['sorted'] == 'date') {
