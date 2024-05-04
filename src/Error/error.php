@@ -96,7 +96,7 @@ session_start();
 
   <main class="error">
     <div class="error__container">
-      <img class="error__container-image" src="../assets/error/sadface-error.webp" alt="Sad face" />
+      <img class="error__container-image" src="../../assets/error/sadface-error.webp" alt="Sad face" />
       <h1 class="error__container-title">
         Oops! The page could not be found.
       </h1>

@@ -93,7 +93,7 @@ session_start();
     </div>
   </header>
   <main class="edit-user">
-    <form class="edit-user__form" action="userEdit_script.php" method="POST" id="user-form-info">
+    <form class="edit-user__form" action="userEdit_script.php" method="POST" id="user-form-info" enctype="multipart/form-data">
       <div class="edit-user__form__labels">
         <div class="edit-user__form__labels__title">
           Edit user's account data
@@ -133,19 +133,19 @@ session_start();
         </div>
 
         <div class="edit-user__form__labels__container">
-        <div class="form-text" for="photo">Photo:</div>
-        <label class="form-text" for="photo">Upload a photo</label>
-            <input type="file" id="photo" name="photo" accept="image/*">
-        </div>
+          <div class="form-text">Photo:</div>
+          <label class="form-text" for="new_photo">Upload a photo</label>
+          <input type="file" id="new_photo" name="new_photo" accept="image/*">
+        </div>  
 
         <div class="edit-user__form__labels__container">
           <label class="form-text" for="password">Password:</label>
-          <input class="form-input" id="password" type="email" name="password" placeholder="Empty for no password change"/>
+          <input class="form-input" id="password" type="password" name="password" placeholder="Empty for no password change"/>
         </div>
 
         <div class="edit-user__form__labels__container">
           <label class="form-text" for="password_confirm">Password confirm:</label>
-          <input class="form-input" id="password_confirm" type="email" name="password_confirm" placeholder="Empty for no password change"/>
+          <input class="form-input" id="password_confirm" type="password" name="password_confirm" placeholder="Empty for no password change"/>
         </div>
 
         <div class="edit-user__form__labels__container">
@@ -153,7 +153,14 @@ session_start();
           <input class="form-input" id="function" type="text" name="function" value="<?php echo $response['function']; ?>" disabled style="color: white"; />
           </select>
         </div>
-        
+        <?php
+        if (isset($_GET['success'])) {  // to do, error cases
+          if ($_GET['success'] == 1) {
+            echo "<p class='success'>User updated successfully!</p>";
+            echo "<meta http-equiv='refresh' content='1;url=./userspanel.php'>";
+          }
+        } 
+        ?>
 
       </div>
         <div class="edit-user__form__buttons">
