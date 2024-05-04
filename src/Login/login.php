@@ -103,9 +103,9 @@ session_start();
           <?php
           if (isset($_GET['email'])) {
             $email = $_GET['email'];
-            echo "<input id='email' required type='email' name='email' value='$email' />";
+            echo "<input id='email' required type='email' name='email' autocomplete='on' value='$email' />";
           } else {
-            echo "<input id='email' required type='email' name='email' placeholder='Email' />";
+            echo "<input id='email' required type='email' name='email' autocomplete='on' placeholder='Email' />";
           }
           ?>
           <p class="validation-error email-error"></p>

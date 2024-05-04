@@ -118,12 +118,12 @@ session_start();
           echo "<input type='hidden' name='visit_id' value='" . $response['visit_id'] . "'>";
           ?>
         <div class="details__form-visit__labels__container">
-          <label class="form-text" for="objectData">The items offered by the inmate</label>
-          <input class="form-input" id="items_provided" type="text" name="itemsFrom"/>
+          <label class="form-text" for="items_offered">The items offered by the inmate</label>
+          <input class="form-input" id="items_offered" type="text" name="itemsFrom"/>
         </div>
 
         <div class="details__form-visit__labels__container">
-          <label class="form-text" for="inmateMood">The items provided to the inmate</label>
+          <label class="form-text" for="items_provided">The items provided to the inmate</label>
           <input class="form-input" id="items_provided" type="text" name="itemsTo"/>
         </div>
 
@@ -139,9 +139,8 @@ session_start();
             <option value="good" name="inmate_health">Good</option>
           </select>
           <div class="details__form-visit__labels__container" style="align-items:center">
-            <label class="form-text">Witnesses: </label>
+            <div class="form-text">Witnesses: </div>
             <div class="input-group">
-
               <label for="police">
                 <input type="radio" name="witnesses" value="relative" id="police"> Police Guard</label>
               <label for="police">

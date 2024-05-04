@@ -100,16 +100,16 @@ session_start();
         </h1>
         <div class="details__form-visit__labels__container">
           <label for="first_name" class="form-text">First name of the inmate</label>
-          <input type="text" id="first_name" name="first_name" class="form-input" placeholder="First name" required="required" />
+          <input type="text" id="first_name" name="first_name" class="form-input" autocomplete='on' placeholder="First name" required="required" />
         </div>
 
         <div class="details__form-visit__labels__container">
           <label for="last_name" class="form-text">Last name of the inmate</label>
-          <input type="text" id="last_name" name="last_name" class="form-input" placeholder="Last name" required="required" />
+          <input type="text" id="last_name" name="last_name" class="form-input" autocomplete='on' placeholder="Last name" required="required" />
         </div>
 
         <div class="details__form-visit__labels__container" style="align-items:center">
-          <label class="form-text">Relationship with the inmate:</label>
+          <div class="form-text">Relationship with the inmate:</div>
           <div class="input-group">
             <label for="first_degree_relative">
               <input type="radio" name="relationship" value="first_degree_relative" id="first_degree_relative"> First-degree relative</label>
@@ -125,7 +125,7 @@ session_start();
         </div>
 
         <div class="details__form-visit__labels__container" style="align-items:center">
-          <label class="form-text">The nature of the visit:</label>
+          <div class="form-text">The nature of the visit:</div>
           <div class="input-group">
             <label>
               <input type="radio" name="visit_nature" value="parental"> Parental</label>
@@ -146,7 +146,7 @@ session_start();
         </div>
 
         <div class="details__form-visit__labels__container" style="align-items:center">
-          <label class="form-text">Photo:*</label>
+          <label class="form-text" for="image">Photo:*</label>
           <input id="image" type="file" name="profile_photo" required="required" placeholder="Photo">
         </div>
 

@@ -143,7 +143,7 @@ session_start();
                         echo '</div>';
                         echo '<div class="user-panel__list__show__buttons">';
                         echo '<button class="user-panel__list__show__buttons__edit">';
-                        $user_href = "userEdit.php?visit_id=" . $user['user_id'];
+                        $user_href = "userEdit.php?user_id=" . $user['user_id'];
                         echo '<a href=' . $user_href . '>';
                         echo '<img src="../../assets/visitormain/edit-icon.svg" alt="edit button"/>';
                         echo '</a>';
@@ -152,6 +152,7 @@ session_start();
                         echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
                         echo '</button>';
                         echo '</div>';
+                        echo '</li>';
                     }
                     ?>
                 </ol>

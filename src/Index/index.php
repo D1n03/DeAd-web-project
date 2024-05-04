@@ -104,10 +104,15 @@ session_start();
     </p>
     <?php
     if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) {
-      echo '<a class="first__main-link" href="../VisitorMain/visitormain.php">Schedule a visit</a>';
-    } else {
+      // Check if the user is an admin, TO DO, USE TOKEN FOR THE CHECK
+      if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+          echo '<a class="first__main-link" href="../AdminMain/adminmain.php">Schedule a visit</a>';
+      } else {
+          echo '<a class="first__main-link" href="../VisitorMain/visitormain.php">Schedule a visit</a>';
+      }
+  } else {
       echo '<a class="first__main-link" href="../Login/login.php">Schedule a visit</a>';
-    }
+  }
     ?>
   </div>
   </section>

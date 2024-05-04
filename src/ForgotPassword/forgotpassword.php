@@ -101,7 +101,7 @@ session_start();
       </p>
       <form class="container__form" id="recover-form" action="forgotpass_script.php" method="POST">
         <div class="container__form-field">
-          <input id="email" required type="text" name="email" placeholder="Email" />
+          <input id="email" required type="text" name="email" autocomplete='on' placeholder="Email" />
           <p class="validation-error email-error"></p>
         </div>
         <?php

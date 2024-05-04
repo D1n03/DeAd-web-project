@@ -120,19 +120,19 @@ if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_S
 
         <p class="container__text">First Name:</p>
         <div class="container__form-field">
-          <input id="first_name" required type="text" name="first_name" value="<?php echo $first_name; ?>" />
+          <input id="first_name" required type="text" name="first_name" autocomplete='on' value="<?php echo $first_name; ?>" />
             <p class="validation-error first-name-error"></p>
         </div>
 
         <p class="container__text">Last Name:</p>
         <div class="container__form-field">
-            <input id="last_name" required type="text" name="last_name" value="<?php echo $last_name; ?>" />
+            <input id="last_name" required type="text" name="last_name" autocomplete='on' value="<?php echo $last_name; ?>" />
             <p class="validation-error last-name-error"></p>
         </div>
 
         <p class="container__text">E-mail:</p>
         <div class="container__form-field">
-            <input id="email" required type="email" name="email" value="<?php echo $email; ?>" />
+            <input id="email" required type="email" name="email" autocomplete='on' value="<?php echo $email; ?>" />
             <p class="validation-error email-error"></p>
         </div>
 

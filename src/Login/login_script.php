@@ -68,6 +68,7 @@ if ($conn->connect_errno) {
         );
         // set the token in the session
         $_SESSION['token'] = $token;
+        $_SESSION['role'] = $role;
         // echo $token;
         if ($role == "user") {
             header("Location: ../VisitorMain/visitormain.php");

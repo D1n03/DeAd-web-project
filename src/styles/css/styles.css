@@ -813,8 +813,9 @@ body {
 }
 .editprofile .container label[for=photo] {
   cursor: pointer;
+  width: 100%;
   background-color: rgb(89, 89, 89);
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
   text-align: center;
 }
@@ -2442,6 +2443,150 @@ body {
   justify-self: center;
 }
 
+/* Edit User */
+
+.edit-user__form__buttons__submit, .edit-user__form__buttons__back {
+  background-color: rgb(75, 226, 95);
+  color: rgb(255, 255, 255);
+  box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
+}
+
+.edit-user__title {
+  font-size: var(--fs-large);
+  font-weight: 400;
+}
+
+.edit-user__form__labels {
+  grid-template-columns: repeat(2, 1fr);
+  box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
+  background-color: rgba(32, 30, 30, 0.8);
+}
+
+.edit-user__form_labels__title {
+  grid-area: 1/1/span 2/span 1;
+}
+
+.edit-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0rem;
+  width: min(60rem, 90%);
+  margin-inline: auto;
+  padding-top: 3rem;
+  min-height: 20vh;
+  color: rgb(255, 255, 255);
+}
+
+.edit-user__form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: var(--fs-small);
+  font-weight: 400;
+}
+
+.edit-user__form__labels {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 1.5rem;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 2rem;
+  border-radius: 0.75rem;
+}
+
+.edit-user__form__labels__container {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 0.5rem;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+}
+.edit-user__form__labels__container .form-input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 100vh;
+  outline: none;
+}
+
+.edit-user__form__labels__title {
+  padding-bottom: 1.5rem;
+  font-size: var(--fs-extra-large);
+  width: 100%;
+  text-align: center;
+  border-bottom: 0.25rem solid white;
+  border-radius: 0.15rem;
+}
+
+.edit-user__form__buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 5%;
+  width: 100%;
+  margin-bottom: 5%;
+}
+
+.edit-user__form__buttons__submit, .edit-user__form__buttons__back {
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  transition: all 150ms ease-in-out;
+}
+
+.edit-user__form__buttons__submit:is(:hover), .edit-user__form__buttons__back:is(:hover) {
+  background-color: rgb(61, 160, 74);
+  cursor: pointer;
+}
+
+.edit-user__formt__buttons__submit {
+  align-self: flex-end;
+}
+
+.edit-user__form__buttons__back {
+  align-self: flex-start;
+}
+
+.edit-user__form__labels__container :is(input, textarea) {
+  border: 0.2rem solid transparent;
+}
+.edit-user__form__labels__container.success :is(input, textarea) {
+  border-color: transparent;
+}
+
+.edit-user .edit-user__form .edit-user__form__labels .error {
+  text-align: center;
+  color: rgb(255, 0, 0);
+  font-size: 1.25rem;
+}
+
+.edit-user__form__labels__container input[type=file] {
+  cursor: pointer;
+  display: none;
+  transition: all 350ms ease-in-out;
+}
+
+.edit-user__form__labels__container label[for=photo] {
+  cursor: pointer;
+  width: 100%;
+  background-color: rgb(89, 89, 89);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  text-align: center;
+}
 
 
 /* Help content */
@@ -2644,6 +2789,22 @@ body {
     flex-direction: row;
     align-items: flex-end;
     gap: 0.5rem;
+  }
+  .edit-user__form__labels__title {
+    grid-area: 1/1/span 1/span 2;
+  }
+  .edit-user__form__labels {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 1.5rem;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 2rem;
+    border-radius: 0.75rem;
   }
   .details__form-visit__labels__title {
     grid-area: 1/1/span 1/span 2;

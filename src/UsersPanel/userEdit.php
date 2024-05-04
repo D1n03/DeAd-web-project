@@ -8,10 +8,10 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Join DeAd website now! Sign up for free on our Signup page to unlock exciting features. It's fast and simple. Set up your profile, connect with others, and start your journey. Experience the power of DeAd and let us assist you in fulfilling your needs.." />
+  <meta name="description" content="Change data about a user's account." />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Sign Up</title>
+  <title>Edit User</title>
 </head>
 
 <body>
@@ -92,109 +92,83 @@ session_start();
       </nav>
     </div>
   </header>
-
-  <main class="login">
-    <div class="container">
-      <h1 class="container__title">Sign Up</h1>
-      <form action="signup_script.php" method="POST" id="signup-form" class="container__form">
-        <div class="container__form-field">
-          <?php
-          if (isset($_GET['first_name'])) {
-            $first_name = $_GET['first_name'];
-            echo "<input type='text' name='first_name' value='$first_name' autocomplete='on' required id='first_name'>";
-          } else {
-            echo "<input
-                    id='first_name'
-                    required
-                    type='text'
-                    name='first_name'
-                    autocomplete='on'
-                    placeholder='First name'
-                  />";
-          }
-          ?>
-          <p class="validation-error first_name-error"></p>
-        </div>
-        <div class="container__form-field">
-          <?php
-          if (isset($_GET['last_name'])) {
-            $last_name = $_GET['last_name'];
-            echo "<input type='text' name='last_name' autocomplete='on' value='$last_name' required id='last_name'>";
-          } else {
-            echo "<input
-                    id='last_name'
-                    required
-                    type='text'
-                    name='last_name'
-                    autocomplete='on'
-                    placeholder='Last name'
-                  />";
-          }
-          ?>
-          <p class="validation-error last_name-error"></p>
-        </div>
-        <div class="container__form-field">
-          <?php
-          if (isset($_GET['email'])) {
-            $email = $_GET['email'];
-            echo "<input type='email' name='email' autocomplete='on' value='$email' required id='email'>";
-          } else {
-            echo "<input
-                    id='email'
-                    required
-                    type='email'
-                    name='email'
-                    autocomplete='on'
-                    placeholder='Email'
-                  />";
-          }
-          ?>
-          <p class="validation-error email-error"></p>
-        </div>
-        <div class="container__form-field">
-          <input id="password" required type="password" name="password" placeholder="Password" />
-          <p class="validation-error password-error"></p>
-        </div>
-        <div class="container__form-field">
-          <input id="password_confirm" required type="password" name="password_confirm" placeholder="Confirm Password" />
-          <p class="validation-error password-error"></p>
+  <main class="edit-user">
+    <form class="edit-user__form" action="userEdit_script.php" method="POST" id="user-form-info">
+      <div class="edit-user__form__labels">
+        <div class="edit-user__form__labels__title">
+          Edit user's account data
         </div>
         <?php
+          $base_url = "localhost";
+          $url = $base_url . "/DeAd-web-Project/src/UsersPanel/get_user_id.php" . "?user_id=" . $_GET['user_id'];
+          $curl = curl_init($url);
 
-        if (isset($_GET['error'])) {
-          if ($_GET['error'] == 1) {
-            echo '<p class="error">Email already exists</p>';
-          } else if ($_GET['error'] == 2) {
-            echo '<p class="error">Passwords do not match</p>';
-          } else if ($_GET['error'] == 3) {
-            echo '<p class="error">Error. Failed to create account</p>';
+          if(isset($_SESSION['token']))
+          {
+              curl_setopt($curl,CURLOPT_HTTPHEADER,array('Authorization: Bearer '.$_SESSION['token']));
           }
-        } else if (isset($_GET['strength'])) {
-          if ($_GET['strength'] == 0) {
-            echo '<p class="error"> Password must contain at least 8 characters, a number, uppercase and lowercase letters</p>';
-          } else {
-            echo '<p class="error" style="color: green;">Password is strong!</p>';
-          }
-        } else if (isset($_GET['success'])) {
-          if ($_GET['success'] == 1) {
-            echo "<p class='success'>Account created successfully!</p>";
-            echo "<meta http-equiv='refresh' content='1;url=../Login/login.php'>";
-          }
-        }
-        ?>
-        <div class="container__form-buttons">
-          <button type="submit" class="container__form-submit-signup">
-            Sign up
+
+          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($curl, CURLOPT_HTTPGET, true);
+          $curl_response = curl_exec($curl);
+          curl_close($curl);
+          $response = json_decode($curl_response, true);
+
+          //send the appointment id to the next page
+          echo "<input type='hidden' name='user_id' value='" . $response['user_id'] . "'>";
+          ?>
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="first_name">First name:</label>
+          <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required value= <?php echo $response['first_name'] ?> />
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="last_name">Last name:</label>
+          <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required value= <?php echo $response['last_name'] ?> />
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="email">Email:</label>
+          <input class="form-input" id="email" type="email" autocomplete='on' name="email" required value= <?php echo $response['email'] ?> />
+        </div>
+
+        <div class="edit-user__form__labels__container">
+        <div class="form-text" for="photo">Photo:</div>
+        <label class="form-text" for="photo">Upload a photo</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="password">Password:</label>
+          <input class="form-input" id="password" type="email" name="password" placeholder="Empty for no password change"/>
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="password_confirm">Password confirm:</label>
+          <input class="form-input" id="password_confirm" type="email" name="password_confirm" placeholder="Empty for no password change"/>
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="function">Function: </label>
+          <input class="form-input" id="function" type="text" name="function" value="<?php echo $response['function']; ?>" disabled style="color: white"; />
+          </select>
+        </div>
+        
+
+      </div>
+        <div class="edit-user__form__buttons">
+          <a href="userspanel.php" class="edit-user__form__buttons__back">Back</a>
+          <button type="submit" class="edit-user__form__buttons__submit">
+            Submit
           </button>
         </div>
-      </form>
-    </div>
+    </form>
   </main>
   <?php
-    if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
-    ?>
+  if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
+  ?>
     <script src="../scripts/submenu.js"></script>
-    <?php endif; ?>
+  <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
 </body>
 
