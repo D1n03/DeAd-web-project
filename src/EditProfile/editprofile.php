@@ -148,6 +148,10 @@ if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_S
             echo "<p class='success'>Profile updated successfully!</p>";
             echo "<meta http-equiv='refresh' content='1;url=../Profile/profile.php'>";
           }
+        } else if (isset($_GET['error'])) {
+          if ($_GET['error'] == 1) {
+            echo '<p class="error">Invalid file type for the photo!</p>';
+          }
         } 
         ?>
     

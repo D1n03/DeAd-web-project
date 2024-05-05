@@ -12,6 +12,8 @@ function check_password($password)
     } else return 1;
 }
 
+$valid_extensions_photo = array('jpeg', 'jpg', 'png');
+
 session_start();
 //if the user is not logged in, redirect to the login page
 if (!isset($_SESSION['is_logged_in'])) {
@@ -32,8 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $passwordStrength = check_password($password);
 
     if ($password !== null && $password_confirm !== null) {
-        if ($password != $password_confirm) {
-            header("Location: userEdit.php?user_id=$user_id&error=2");
+        if ($password !== $password_confirm) {
+            header("Location: userEdit.php?user_id=$user_id&error=1");
             exit();
         } else if ($passwordStrength < 1) {
             header("Location: userEdit.php?user_id=$user_id&strength=$passwordStrength");
@@ -43,6 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if(isset($_FILES['new_photo']['tmp_name']) && !empty($_FILES['new_photo']['tmp_name'])) {
         $photo = file_get_contents($_FILES['new_photo']['tmp_name']); 
+        $ext = strtolower(pathinfo($_FILES['new_photo']['name'], PATHINFO_EXTENSION)); // Get extension from original file name
+        if (!in_array($ext, $valid_extensions_photo)) {
+            header("Location: userEdit.php?user_id=$user_id&error=2"); // invalid extension for $user_edit
+            exit();
+        }
     } else {
         $photo = null;
     }
@@ -76,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt3->execute();
                 $stmt3->close();
             }
-            header("Location: ./userspanel.php");
+            header("Location: userEdit.php?user_id=$user_id&success=1");
             exit();
 
         } catch (Exception $e) {

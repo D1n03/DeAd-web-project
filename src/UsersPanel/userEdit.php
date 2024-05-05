@@ -153,15 +153,26 @@ session_start();
           <input class="form-input" id="function" type="text" name="function" value="<?php echo $response['function']; ?>" disabled style="color: white"; />
           </select>
         </div>
+        <div class="edit-user__form__labels__container-message">
         <?php
-        if (isset($_GET['success'])) {  // to do, error cases
-          if ($_GET['success'] == 1) {
-            echo "<p class='success'>User updated successfully!</p>";
-            echo "<meta http-equiv='refresh' content='1;url=./userspanel.php'>";
-          }
-        } 
+          if (isset($_GET['success'])) {
+            if ($_GET['success'] == 1) {
+              echo "<p class='success'>User updated successfully!</p>";
+              echo "<meta http-equiv='refresh' content='2;url=./userspanel.php'>";
+            }
+          } else if (isset($_GET['strength'])) {
+            if ($_GET['strength'] == 0) {
+              echo '<p class="error"> Password must contain at least 8 characters, a number, uppercase and lowercase letters</p>';
+            } 
+          } else if (isset($_GET['error'])) {
+            if ($_GET['error'] == 1) {
+                echo '<p class="error">New passwords do not match.</p>';
+            } elseif ($_GET['error'] == 2) {
+                echo '<p class="error">Invalid file type for the photo!</p>';
+            }
+        }
         ?>
-
+        </div>
       </div>
         <div class="edit-user__form__buttons">
           <a href="userspanel.php" class="edit-user__form__buttons__back">Back</a>
