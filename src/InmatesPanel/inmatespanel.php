@@ -10,7 +10,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../src/styles/css/styles.css" />
     <link rel="icon" href="../../assets/header/police-icon.svg" />
-    <title>Inamtes Panel</title>
+    <title>Inmates Panel</title>
 </head>
 
 <body>
@@ -115,7 +115,7 @@ session_start();
                     if (empty($response)) {
                         // button to create an visits, copy paste lmao
                         echo '<div class="inmate-panel-not-found">';
-                        echo '<h3>The data base for the inmates is empty</h3>';
+                        echo '<h3>The database for the inmates is empty</h3>';
                         echo '</div>';
                         exit();
                     }

@@ -146,12 +146,12 @@ session_start();
         </div>
 
         <div class="details__form-visit__labels__container" style="align-items:center">
-          <label class="form-text" for="image">Photo:*</label>
+          <label class="form-text" for="image">Photo:</label>
           <input id="image" type="file" name="profile_photo" required="required" placeholder="Photo">
         </div>
 
         <div class="details__form-visit__labels__container">
-          <label for="date" class="v">Date:*</label>
+          <label for="date" class="v">Date:</label>
           <input type="date" name="date" id="date" class="form-input" required="required">
         </div>
 

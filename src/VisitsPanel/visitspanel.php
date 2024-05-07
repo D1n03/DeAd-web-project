@@ -10,7 +10,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../src/styles/css/styles.css" />
     <link rel="icon" href="../../assets/header/police-icon.svg" />
-    <title>Users Panel</title>
+    <title>Visits Panel</title>
 </head>
 
 <body>
@@ -91,17 +91,17 @@ session_start();
       </nav>
     </div>
   </header>
-    <main class="user-panel-main">
-        <div class="user-panel-main-container">
-            <div class="user-table">
+    <main class="visit-panel-main">
+        <div class="visit-panel-main-container">
+            <div class="visit-panel">
                 <div class="main-page-title">
-                    Users
+                  Visits
                 </div>
-                <ol class="user-panel__list">
+                <ol class="visit-panel__list">
                     <?php
                     // we use curl to make a request to the api
                     $base_url = "localhost";
-                    $url = $base_url . "/DeAd-web-Project/src/UsersPanel/get_users.php";
+                    $url = $base_url . "/DeAd-web-Project/src/VisitsPanel/get_visits.php";
                     $curl = curl_init();
                     curl_setopt($curl, CURLOPT_URL, $url);
                     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -115,40 +115,40 @@ session_start();
                     if (empty($response)) {
                         // button to create an visits, copy paste lmao
                         echo '<div class="user-panel-not-found">';
-                        echo '<h3>The database for the users is empty</h3>';
+                        echo '<h3> The database for the visits is empty</h3>';
                         echo '</div>';
                         exit();
                     }
-                    foreach ($response as $user) {
+                    foreach ($response as $visit) {
                         echo '<li>';
                         echo '<div class="table-element">';
-                        echo '<img src="../../assets/visitormain/profile-icon.png" alt="visitor photo" class="user-panel__list__show__photo" />';
-                        echo '<div class="user-panel__list__show__name">';
-                        echo '<p class="user-panel__list__show__label">';
-                        echo 'Name:';
-                        echo '<span class="user-panel__list__show__info"> ' . $user['person_name'] . '</span>';
+                        echo '<img src="../../assets/visitormain/profile-icon.png" alt="visitor photo" class="visit-panel__list__show__photo" />';
+                        echo '<div class="visit-panel__list__show__name">';
+                        echo '<p class="visit-panel__list__show__label">';
+                        echo 'Inmate:';
+                        echo '<span class="visit-panel__list__show__info"> ' . $visit['inmate_name'] . '</span>';
                         echo '</p>';
                         echo '</div>';
-                        echo '<div class="user-panel__list__show__element-value">';
-                        echo '<p class="user-panel__list__show__label">';
-                        echo 'Email:';
-                        echo '<span class="user-panel__list__show__info"> ' . $user['email'] . '</span>';
+                        echo '<div class="visit-panel__list__show__element-value">';
+                        echo '<p class="visit-panel__list__show__label">';
+                        echo 'Date:';
+                        echo '<span class="visit-panel__list__show__info"> ' . $visit['date'] . '</span>';
                         echo '</p>';
                         echo '</div>';
-                        echo '<div class="user-panel__list__show__element-value">';
-                        echo '<p class="user-panel__list__show__label">';
-                        echo 'Function:';
-                        echo '<span class="user-panel__list__show__info"> ' . $user['function'] . '</span>';
+                        echo '<div class="visit-panel__list__show__element-value">';
+                        echo '<p class="visit-panel__list__show__label">';
+                        echo 'Time:';
+                        echo '<span class="visit-panel__list__show__info"> ' . $visit['time_interval'] . '</span>';
                         echo '</p>';
                         echo '</div>';
-                        echo '<div class="user-panel__list__show__buttons">';
-                        echo '<button class="user-panel__list__show__buttons__edit">';
-                        $user_href = "userEdit.php?user_id=" . $user['user_id'];
-                        echo '<a href=' . $user_href . '>';
+                        echo '<div class="visit-panel__list__show__buttons">';
+                        echo '<button class="visit-panel__list__show__buttons__edit">';
+                        $visit_info_href = "visitEdit.php?visit_id=" . $visit['visit_id'];
+                        echo '<a href=' . $visit_info_href . '>';
                         echo '<img src="../../assets/visitormain/edit-icon.svg" alt="edit button"/>';
                         echo '</a>';
                         echo '</button>';
-                        echo '<button class="user-panel__list__show__buttons__delete" user_id_data="' . $user['user_id'] . '">';
+                        echo '<button class="visit-panel__list__show__buttons__delete" visit_id_data="' . $visit['visit_id'] . '">';
                         echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
                         echo '</button>';
                         echo '</div>';
@@ -166,27 +166,27 @@ session_start();
     <?php endif; ?>
     <script src="../scripts/navbar.js"></script>
     <script>
-        const deleteButtons = document.querySelectorAll('.user-panel__list__show__buttons__delete');
+        const deleteButtons = document.querySelectorAll('.visit-panel__list__show__buttons__delete');
 
         deleteButtons.forEach(button => {
             button.addEventListener('click', (event) => {
                 event.preventDefault();
 
-                const get_user_id = button.getAttribute('user_id_data');
+                const get_visit_id = button.getAttribute('visit_id_data');
                 const currentUrl = window.location.href;
 
-                if (confirm('Are you sure you want to delete this user?')) {
+                if (confirm('Are you sure you want to delete this visit?')) {
                     const xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'deleteuser.php', true);
+                    xhr.open('POST', 'deletevisit.php', true);
                     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     xhr.onload = function() {
                         if (xhr.status === 200) {
                             window.location.href = currentUrl;
                         } else {
-                            alert('Error deleting user. Please try again.');
+                            alert('Error deleting visit. Please try again.');
                         }
                     };
-                    xhr.send('user_id=' + encodeURIComponent(get_user_id));
+                    xhr.send('visit_id=' + encodeURIComponent(get_visit_id));
                 } else {
                     // nothing happens
                 }
