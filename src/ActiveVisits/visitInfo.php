@@ -114,7 +114,7 @@ session_start();
           curl_close($curl);
           $response = json_decode($curl_response, true);
 
-          //send the appointment id to the next page
+          //send the visit id to the next page
           echo "<input type='hidden' name='visit_id' value='" . $response['visit_id'] . "'>";
           ?>
         <div class="details__form-visit__labels__container">
