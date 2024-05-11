@@ -181,10 +181,7 @@ $numToDuplicate = 0;
                         echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
                         echo '</button>';
                         echo '</div>';
-<<<<<<< HEAD
                         echo '<input type="hidden" name="visit_id" value="' . $visit['visit_id'] . '">';
-=======
->>>>>>> master
                         echo '</li>';
                     }
 
