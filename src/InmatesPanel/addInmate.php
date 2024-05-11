@@ -1,7 +1,6 @@
 <?php
 session_start();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,10 +8,10 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Apologies, it seems the page you were seeking couldn't be located. We regret any inconvenience caused. Feel free to browse the remaining sections of the DeAd website for additional engaging content and resources." />
+  <meta name="description" content="Change data about a user's account." />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Sign Up</title>
+  <title>Edit User</title>
 </head>
 
 <body>
@@ -93,34 +92,67 @@ session_start();
       </nav>
     </div>
   </header>
+  <main class="add-inmate">
+    <form class="add-inmate__form" action="addInmate_script.php" method="POST" id="add-inmate-form-info" enctype="multipart/form-data">
+      <div class="add-inmate__form__labels">
+        <div class="add-inmate__form__labels__title">
+          Add inmate
+        </div>
+        <div class="add-inmate__form__labels__container">
+          <label class="form-text" for="first_name">First name:</label>
+          <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required  />
+        </div>
 
-  <main class="error">
-    <div class="error__container">
-      <img class="error__container-image" src="../../assets/error/sadface-error.webp" alt="Sad face" />
-      <h1 class="error__container-title">
-        Oops! The page could not be found.
-      </h1>
-      <?php
-      // Check if the 'reason' parameter is set in the URL
-      if (isset($_GET['reason'])) {
-        $reason = $_GET['reason'];
+        <div class="add-inmate__form__labels__container">
+          <label class="form-text" for="last_name">Last name:</label>
+          <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required  />
+        </div>
 
-        // Check the reason and display the appropriate error message
-        if ($reason == 1) {
-          echo "<p class='error__container-info'>The token doesn't exist.</p>";
-        } else if ($reason == 2) {
-          echo "<p class='error__container-info'>The token for the reset password form has expired.</p>";
-        } else {
-          echo "<p class='error__container-info'>The page you wanted to access does not exist, has been deleted, its name has been changed, or it is temporarily unavailable.</p>";
+        <div class="add-inmate__form__labels__container">
+            <label for="sentence_start_date" class="label-title">Sentence start date:</label>
+            <input type="date" id="sentence_start_date" name="sentence_start_date" class="form-input" required>
+        </div>
+
+        <div class="add-inmate__form__labels__container">
+            <label for="sentence_duration" class="label-title">Sentence duration (in days):</label>
+            <input type="number" id="sentence_duration" name="sentence_duration" class="form-input" placeholder="Enter the sentence duration" min="1" step="1" required>
+        </div>
+
+        <div class="add-inmate__form__labels__container">
+            <label class="component__label-title" for="sentence_category">Sentence category: </label>
+            <div class="add-inmate-group">
+                <select class="form-input" id="sentence_category" name="sentence_category" required>
+                <option name="sentence_category" value="Violent Crime">Violent Crime</option>
+                <option name="sentence_category" value="Armed robbery and assault">Armed robbery and assault</option>
+                <option name="sentence_category" value="Manslaughter">Manslaughter</option>
+                <option name="sentence_category" value="Burglary and theft">Burglary and theft</option>
+                <option name="sentence_category" value="Money laundering">Money laundering</option>
+                <option name="sentence_category" value="Fraud and embezzlement">Fraud and embezzlement</option>
+                <option name="sentence_category" value="Carjacking">Carjacking</option>
+                <option name="sentence_category" value="Terrorism">Terrorism</option>
+                <option name="sentence_category" value="Illegal possesion of firearms">Illegal possesion of firearms</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="add-inmate__form__labels__container-message">
+        <?php
+          if (isset($_GET['success'])) {
+            if ($_GET['success'] == 1) {
+              echo "<p class='success'>Inmate added successfully!</p>";
+              echo "<meta http-equiv='refresh' content='2;url=./inmatespanel.php'>";
+            }
         }
-      } else {
-        echo "<p class='error__container-info'>The page you wanted to access does not exist, has been deleted, its name has been changed, or it is temporarily unavailable.</p>";
-      }
-      ?>
-      <button class="error__container-button" onclick="location.href = './index.php';" type="button">
-        Go to the Home Page
-      </button>
-    </div>
+        ?>
+        </div>
+      </div>
+        <div class="add-inmate__form__buttons">
+          <a href="inmatespanel.php" class="add-inmate__form__buttons__back">Back</a>
+          <button type="submit" class="add-inmate__form__buttons__submit">
+            Submit
+          </button>
+        </div>
+    </form>
   </main>
   <?php
   if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :

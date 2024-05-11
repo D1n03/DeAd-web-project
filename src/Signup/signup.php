@@ -101,13 +101,14 @@ session_start();
           <?php
           if (isset($_GET['first_name'])) {
             $first_name = $_GET['first_name'];
-            echo "<input type='text' name='first_name' value='$first_name' required id='first_name'>";
+            echo "<input type='text' name='first_name' value='$first_name' autocomplete='on' required id='first_name'>";
           } else {
             echo "<input
                     id='first_name'
                     required
                     type='text'
                     name='first_name'
+                    autocomplete='on'
                     placeholder='First name'
                   />";
           }
@@ -118,13 +119,14 @@ session_start();
           <?php
           if (isset($_GET['last_name'])) {
             $last_name = $_GET['last_name'];
-            echo "<input type='text' name='last_name' value='$last_name' required id='last_name'>";
+            echo "<input type='text' name='last_name' autocomplete='on' value='$last_name' required id='last_name'>";
           } else {
             echo "<input
                     id='last_name'
                     required
                     type='text'
                     name='last_name'
+                    autocomplete='on'
                     placeholder='Last name'
                   />";
           }
@@ -135,13 +137,14 @@ session_start();
           <?php
           if (isset($_GET['email'])) {
             $email = $_GET['email'];
-            echo "<input type='email' name='email' value='$email' required id='email'>";
+            echo "<input type='email' name='email' autocomplete='on' value='$email' required id='email'>";
           } else {
             echo "<input
                     id='email'
                     required
                     type='email'
                     name='email'
+                    autocomplete='on'
                     placeholder='Email'
                   />";
           }

@@ -8,10 +8,10 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="In case you forgot the password, you can provide your account's email in order to reset it." />
+  <meta name="description" content="Change data about a user's account." />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Forgot Password</title>
+  <title>Edit User</title>
 </head>
 
 <body>
@@ -92,39 +92,95 @@ session_start();
       </nav>
     </div>
   </header>
-
-  <main class="recovery">
-    <div class="container">
-      <h1 class="container__title">Account Recovery</h1>
-      <p class="container__text">
-        Enter your email address associated with your account and we'll send you a link to reset your password.
-      </p>
-      <form class="container__form" id="recover-form" action="forgotpass_script.php" method="POST">
-        <div class="container__form-field">
-          <input id="email" required type="text" name="email" autocomplete='on' placeholder="Email" />
-          <p class="validation-error email-error"></p>
+  <main class="edit-user">
+    <form class="edit-user__form" action="userEdit_script.php" method="POST" id="user-form-info" enctype="multipart/form-data">
+      <div class="edit-user__form__labels">
+        <div class="edit-user__form__labels__title">
+          Edit user's account data
         </div>
         <?php
-        if (isset($_GET['error'])) {
-          if ($_GET['error'] == 1) {
-            echo '<p class="error">Email not found</p>';
-          } else if ($_GET['error'] == 2) {
-            echo "<p class='error'>Error: The email couldn't be sent</p>";
+          $base_url = "localhost";
+          $url = $base_url . "/DeAd-web-Project/src/UsersPanel/get_user_id.php" . "?user_id=" . $_GET['user_id'];
+          $curl = curl_init($url);
+
+          if(isset($_SESSION['token']))
+          {
+              curl_setopt($curl,CURLOPT_HTTPHEADER,array('Authorization: Bearer '.$_SESSION['token']));
           }
-        } else if (isset($_GET['success'])) {
-          if ($_GET['success'] == 1) {
-            echo "<p class='success'>Email sent!</p>";
-            echo "<meta http-equiv='refresh' content='2;url=../Index/index.php'>";
-          }
+
+          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($curl, CURLOPT_HTTPGET, true);
+          $curl_response = curl_exec($curl);
+          curl_close($curl);
+          $response = json_decode($curl_response, true);
+
+          //send the appointment id to the next page
+          echo "<input type='hidden' name='user_id' value='" . $response['user_id'] . "'>";
+          ?>
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="first_name">First name:</label>
+          <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required value= <?php echo $response['first_name'] ?> />
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="last_name">Last name:</label>
+          <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required value= <?php echo $response['last_name'] ?> />
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="email">Email:</label>
+          <input class="form-input" id="email" type="email" autocomplete='on' name="email" required value= <?php echo $response['email'] ?> />
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <div class="form-text">Photo:</div>
+          <label class="form-text" for="new_photo">Upload a photo</label>
+          <input type="file" id="new_photo" name="new_photo" accept="image/*">
+        </div>  
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="password">Password:</label>
+          <input class="form-input" id="password" type="password" name="password" placeholder="Empty for no password change"/>
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="password_confirm">Password confirm:</label>
+          <input class="form-input" id="password_confirm" type="password" name="password_confirm" placeholder="Empty for no password change"/>
+        </div>
+
+        <div class="edit-user__form__labels__container">
+          <label class="form-text" for="function">Function: </label>
+          <input class="form-input" id="function" type="text" name="function" value="<?php echo $response['function']; ?>" disabled style="color: white"; />
+          </select>
+        </div>
+        <div class="edit-user__form__labels__container-message">
+        <?php
+          if (isset($_GET['success'])) {
+            if ($_GET['success'] == 1) {
+              echo "<p class='success'>User updated successfully!</p>";
+              echo "<meta http-equiv='refresh' content='2;url=./userspanel.php'>";
+            }
+          } else if (isset($_GET['strength'])) {
+            if ($_GET['strength'] == 0) {
+              echo '<p class="error"> Password must contain at least 8 characters, a number, uppercase and lowercase letters</p>';
+            } 
+          } else if (isset($_GET['error'])) {
+            if ($_GET['error'] == 1) {
+                echo '<p class="error">New passwords do not match.</p>';
+            } elseif ($_GET['error'] == 2) {
+                echo '<p class="error">Invalid file type for the photo!</p>';
+            }
         }
         ?>
-        <div class="container__form-buttons">
-          <button type="submit" class="container__form-submit-signup">
-            Send
+        </div>
+      </div>
+        <div class="edit-user__form__buttons">
+          <a href="userspanel.php" class="edit-user__form__buttons__back">Back</a>
+          <button type="submit" class="edit-user__form__buttons__submit">
+            Submit
           </button>
         </div>
-      </form>
-    </div>
+    </form>
   </main>
   <?php
   if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :

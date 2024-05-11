@@ -106,7 +106,7 @@ session_start();
           <?php
           if (isset($_GET['name'])) {
             $name = $_GET['name'];
-            echo "<input type='text' name='name' value='$name' required id='name'>";
+            echo "<input type='text' name='name' value='$name' required id='name' autocomplete='on'>";
           } else {
             echo "<input
                     id='name'
@@ -114,6 +114,7 @@ session_start();
                     type='text'
                     name='name'
                     placeholder='Name'
+                    autocomplete='on'
                   />";
           }
           ?>
@@ -123,7 +124,7 @@ session_start();
           <?php
           if (isset($_GET['email'])) {
             $email = $_GET['email'];
-            echo "<input type='email' name='email' value='$email' required id='email'>";
+            echo "<input type='email' name='email' value='$email' required id='email' autocomplete='on'>";
           } else {
             echo "<input
                     id='email'
@@ -131,6 +132,7 @@ session_start();
                     type='email'
                     name='email'
                     placeholder='Email'
+                    autocomplete='on'
                   />";
           }
           ?>

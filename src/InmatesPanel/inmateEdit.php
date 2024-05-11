@@ -8,10 +8,10 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Please provide information regarding the visit." />
+  <meta name="description" content="Change data about a user's account." />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Visit Info</title>
+  <title>Edit User</title>
 </head>
 
 <body>
@@ -92,15 +92,15 @@ session_start();
       </nav>
     </div>
   </header>
-  <main class="details">
-    <form class="details__form-visit" action="visitInfo_script.php" method="POST" id="visit-form-info">
-      <div class="details__form-visit__labels">
-        <h1 class="details__form-visit__labels__title">
-          Details regarding the visit
-        </h1>
+  <main class="add-inmate">
+    <form class="add-inmate__form" action="inmateEdit_script.php" method="POST" id="add-inmate-form-info" enctype="multipart/form-data">
+      <div class="add-inmate__form__labels">
+        <div class="add-inmate__form__labels__title">
+            Edit inmate's data
+        </div>
         <?php
           $base_url = "localhost";
-          $url = $base_url . "/DeAd-web-Project/src/ActiveVisits/get_visit_id.php" . "?visit_id=" . $_GET['visit_id'];
+          $url = $base_url . "/DeAd-web-Project/src/InmatesPanel/get_inmate_id.php" . "?inmate_id=" . $_GET['inmate_id'];
           $curl = curl_init($url);
 
           if(isset($_SESSION['token']))
@@ -114,50 +114,63 @@ session_start();
           curl_close($curl);
           $response = json_decode($curl_response, true);
 
-          //send the visit id to the next page
-          echo "<input type='hidden' name='visit_id' value='" . $response['visit_id'] . "'>";
+          //send the appointment id to the next page
+          echo "<input type='hidden' name='inmate_id' value='" . $response['inmate_id'] . "'>";
           ?>
-        <div class="details__form-visit__labels__container">
-          <label class="form-text" for="items_offered">The items offered by the inmate</label>
-          <input class="form-input" id="items_offered" type="text" name="itemsFrom"/>
+        <div class="add-inmate__form__labels__container">
+          <label class="form-text" for="first_name">First name:</label>
+          <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required value= <?php echo $response['first_name'] ?> />
         </div>
 
-        <div class="details__form-visit__labels__container">
-          <label class="form-text" for="items_provided">The items provided to the inmate</label>
-          <input class="form-input" id="items_provided" type="text" name="itemsTo"/>
+        <div class="add-inmate__form__labels__container">
+          <label class="form-text" for="last_name">Last name:</label>
+          <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required value= <?php echo $response['last_name'] ?> />
         </div>
 
-        <div class="details__form-visit__labels__container">
-          <label class="form-text" for="summary">The summary of the discussions</label>
-          <textarea class="form-textarea" required id="summary" maxlength="255" name="summary"></textarea>
+        <div class="add-inmate__form__labels__container">
+            <label for="sentence_start_date" class="label-title">Sentence start date:</label>
+            <input type="date" id="sentence_start_date" name="sentence_start_date" class="form-input" required value= <?php echo $response['sentence_start_date'] ?> >
         </div>
-        <div class="details__form-visit__labels__container">
-          <label class="form-text" for="inmate_health">Inmate's health: </label>
-          <select class="form-input" id="inmate_health" name="inmate_health" required="required">
-            <option value="ok" name="inmate_health">Ok</option>
-            <option value="bad" name="inmate_health">Bad</option>
-            <option value="good" name="inmate_health">Good</option>
-          </select>
-          <div class="details__form-visit__labels__container" style="align-items:center">
-            <div class="form-text">Witnesses: </div>
-            <div class="input-group">
-              <label for="police">
-                <input type="radio" name="witnesses" value="relative" id="police"> Police Guard</label>
-              <label for="police">
-                <input type="radio" name="witnesses" value="legal_gurdian" id="legal_gurdian"> Legal
-                Guardian</label>
-              <label for="doctor">
-                <input type="radio" name="witnesses" value="doctor" id="doctor"> Doctor</label>
+
+        <div class="add-inmate__form__labels__container">
+            <label for="sentence_duration" class="label-title">Sentence duration (in days):</label>
+            <input type="number" id="sentence_duration" name="sentence_duration" class="form-input" placeholder="Enter the sentence duration" min="1" step="1" value= <?php echo $response['sentence_duration'] ?> required>
+        </div>
+
+        <div class="add-inmate__form__labels__container">
+        <label class="component__label-title" for="sentence_category">Sentence category: </label>
+            <div class="add-inmate-group">
+                <select class="form-input" id="sentence_category" name="sentence_category" required>
+                    <option value="Violent Crime" <?php echo ($response['sentence_category'] == 'Violent Crime') ? 'selected' : ''; ?>>Violent Crime</option>
+                    <option value="Armed robbery and assault" <?php echo ($response['sentence_category'] == 'Armed robbery and assault') ? 'selected' : ''; ?>>Armed robbery and assault</option>
+                    <option value="Manslaughter" <?php echo ($response['sentence_category'] == 'Manslaughter') ? 'selected' : ''; ?>>Manslaughter</option>
+                    <option value="Burglary and theft" <?php echo ($response['sentence_category'] == 'Burglary and theft') ? 'selected' : ''; ?>>Burglary and theft</option>
+                    <option value="Money laundering" <?php echo ($response['sentence_category'] == 'Money laundering') ? 'selected' : ''; ?>>Money laundering</option>
+                    <option value="Fraud and embezzlement" <?php echo ($response['sentence_category'] == 'Fraud and embezzlement') ? 'selected' : ''; ?>>Fraud and embezzlement</option>
+                    <option value="Carjacking" <?php echo ($response['sentence_category'] == 'Carjacking') ? 'selected' : ''; ?>>Carjacking</option>
+                    <option value="Terrorism" <?php echo ($response['sentence_category'] == 'Terrorism') ? 'selected' : ''; ?>>Terrorism</option>
+                    <option value="Illegal possesion of firearms" <?php echo ($response['sentence_category'] == 'Illegal possesion of firearms') ? 'selected' : ''; ?>>Illegal possesion of firearms</option>
+                </select>
             </div>
-          </div>
+        </div>
+
+        <div class="add-inmate__form__labels__container-message">
+        <?php
+          if (isset($_GET['success'])) {
+            if ($_GET['success'] == 1) {
+              echo "<p class='success'>Inmate edited successfully!</p>";
+              echo "<meta http-equiv='refresh' content='2;url=./inmatespanel.php'>";
+            }
+        }
+        ?>
         </div>
       </div>
-      <div class="details__form-visit__buttons">
-        <a href="activevisits.php" class="details__form-visit__buttons__back">Back</a>
-        <button type="submit" class="details__form-visit__buttons__submit">
-          Submit
-        </button>
-      </div>
+        <div class="add-inmate__form__buttons">
+          <a href="inmatespanel.php" class="add-inmate__form__buttons__back">Back</a>
+          <button type="submit" class="add-inmate__form__buttons__submit">
+            Submit
+          </button>
+        </div>
     </form>
   </main>
   <?php

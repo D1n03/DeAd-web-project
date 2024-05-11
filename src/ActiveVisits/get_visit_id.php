@@ -19,6 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     echo json_encode($row);
+    http_response_code(200);
     exit();
+} else {
+    http_response_code(405); // Bad Request
 }
 ?>

@@ -6,6 +6,8 @@ if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
     exit;
 }
 
+$valid_extensions_photo = array('jpeg', 'jpg', 'png');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['email'])) {
     
     $first_name = $_POST["first_name"];
@@ -15,6 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['email'])) {
 
     if(isset($_FILES['photo']['tmp_name']) && !empty($_FILES['photo']['tmp_name'])) {
         $photo = file_get_contents($_FILES['photo']['tmp_name']); 
+        $ext = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
+        if (!in_array($ext, $valid_extensions_photo)) {
+            header("Location: editprofile.php?error=1");
+            exit();
+        }
     } else {
         $photo = null;
     }

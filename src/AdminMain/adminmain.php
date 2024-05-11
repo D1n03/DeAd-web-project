@@ -105,13 +105,13 @@ session_start();
           ?>
         </div>
         <div class="main-page-context"> Below, you have options to add, delete or change data related to inmates, users and visits, or the possibility to export data. </div>
-          <a class="admin-main__button admin-main__inmates__button">
+          <a href="../InmatesPanel/inmatespanel.php" class="admin-main__button admin-main__inmates__button">
             Inmates Panel
           </a>
-          <a class="admin-main__button admin-main__users__button">
+          <a href="../UsersPanel/userspanel.php" class="admin-main__button admin-main__users__button">
             Users Panel
           </a>
-          <a class="admin-main__button admin-main__visits__button">
+          <a href="../VisitsPanel/visitspanel.php" class="admin-main__button admin-main__visits__button">
             Visits Panel
           </a>
           <a href="../Export/exportmain.php" class="admin-main__button admin-main__export__button">

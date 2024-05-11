@@ -1,19 +1,10 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (!isset($_GET['id'])) {
-        http_response_code(400); // Bad Request
-        exit();
-    }
 
     $config = require '../../config.php';
     require '../Utils/Connection.php';
     $conn = Connection::getInstance()->getConnection();
-
-    $user_id = $_GET['id'];
-    $user_id = strval($user_id);
-    $stmt = $conn->prepare("SELECT visit_id, first_name, last_name, date, visit_start, visit_end, photo FROM visits WHERE person_id = ? and is_active = 1");
-
-    $stmt->bind_param("s", $user_id);
+    $stmt = $conn->prepare("SELECT visit_id, first_name, last_name, date, visit_start, visit_end FROM visits");
     $stmt->execute();
     $result = $stmt->get_result();
 

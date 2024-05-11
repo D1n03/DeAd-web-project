@@ -10,3 +10,4 @@ $_SESSION['last_name'] = null;
 $_SESSION['function'] = null;
 $_SESSION['id'] = null;
 $_SESSION['photo'] = null;
+$_SESSION['role'] = null;
