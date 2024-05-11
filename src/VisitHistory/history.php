@@ -1,5 +1,33 @@
 <?php
 session_start();
+require_once '../Utils/VisitHistory.php';
+
+$numOfEntriesPerPage = 3;
+
+// get the page number from the URL, default to 1 if not set
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// calculate the offset based on the page number (we start fetching entries starting from this point)
+$offset = ($page - 1) * $numOfEntriesPerPage;
+
+$visitHistory = VisitHistory::getVisitHistory(0, $offset, $numOfEntriesPerPage);
+
+$totalEntries = VisitHistory::getTotalEntriesCount();
+
+// total number of pages based on entries
+$totalPages = ceil($totalEntries / $numOfEntriesPerPage);
+
+// if the last page has fewer than 3 items, duplicate the last item to fill the row
+if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
+
+  $numToDuplicate = $numOfEntriesPerPage - count($visitHistory);
+  $lastItem = end($visitHistory);
+
+  for ($i = 0; $i < $numToDuplicate; $i++) {
+      $visitHistory[] = $lastItem;
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,117 +125,56 @@ session_start();
       <div class="info-container">
         <div class="history__title">Your Visit History</div>
         <ul class="history__list">
-          <li>
-            <div class="history-element">
-              <img src="../../assets/visitormain/inmate-icon.webp" alt="inmate photo" class="history__list__show__photo" />
-              <div class="visit-info">
-                <div class="history__list__show__name">
-                  <p class="history__list__show__label">
-                    Prisoner:
-                    <span class="history__list__show__info">Name Surname</span>
-                  </p>
-                </div>
-                <div class="drop-arrow">
-                  <span class="vBar"></span>
-                  <span class="vBar"></span>
-                </div>
-                <div class="visitor-main__list__show__dBirth">
-                  <p class="history__list__show__label">
-                    Date:
-                    <span class="history__list__show__info">dd/mm/yyyy</span>
-                  </p>
-                </div>
-                <div class="visitor-main__list__show__dBirth">
-                  <p class="history__list__show__label">
-                    Duration:
-                    <span class="history__list__show__info">1:30:00</span>
-                  </p>
-                </div>
-              </div>
-              <div class="history__list__show__buttons">
-                <button class="history__list__show__buttons__info">
-                  <img src="../../assets/visitormain/info-icon.svg" alt="info button" />
-                </button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="history-element">
-              <img src="../../assets/visitormain/inmate-icon.webp" alt="inmate photo" class="history__list__show__photo" />
-              <div class="visit-info">
-                <div class="history__list__show__name">
-                  <p class="history__list__show__label">
-                    Prisoner:
-                    <span class="history__list__show__info">Name Surname</span>
-                  </p>
-                </div>
-                <div class="drop-arrow">
-                  <span class="vBar"></span>
-                  <span class="vBar"></span>
-                </div>
-                <div class="visitor-main__list__show__dBirth">
-                  <p class="history__list__show__label">
-                    Date:
-                    <span class="history__list__show__info">dd/mm/yyyy</span>
-                  </p>
-                </div>
-                <div class="visitor-main__list__show__dBirth">
-                  <p class="history__list__show__label">
-                    Duration:
-                    <span class="history__list__show__info">1:15:30</span>
-                  </p>
-                </div>
-              </div>
-              <div class="history__list__show__buttons">
-                <button class="history__list__show__buttons__info">
-                  <img src="../../assets/visitormain/info-icon.svg" alt="info button" />
-                </button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="history-element">
-              <img src="../../assets/visitormain/inmate-icon.webp" alt="inmate photo" class="history__list__show__photo" />
-              <div class="visit-info">
-                <div class="history__list__show__name">
-                  <p class="history__list__show__label">
-                    Prisoner:
-                    <span class="history__list__show__info">Name Surname</span>
-                  </p>
-                </div>
-                <div class="drop-arrow">
-                  <span class="vBar"></span>
-                  <span class="vBar"></span>
-                </div>
-                <div class="visitor-main__list__show__dBirth">
-                  <p class="history__list__show__label">
-                    Date:
-                    <span class="history__list__show__info">dd/mm/yyyy</span>
-                  </p>
-                </div>
-                <div class="visitor-main__list__show__dBirth">
-                  <p class="history__list__show__label">
-                    Duration:
-                    <span class="history__list__show__info">1:55:10</span>
-                  </p>
-                </div>
-              </div>
+          <?php
 
-              <div class="history__list__show__buttons">
-                <button class="history__list__show__buttons__info">
-                  <img src="../../assets/visitormain/info-icon.svg" alt="info button" />
-                </button>
-              </div>
-            </div>
-          </li>
+            foreach ($visitHistory as $index => $visit) { // $index keeps track of the current index in the loop
+              echo '<li>';
+              if ($page == $totalPages && $index >= count($visitHistory) - $numToDuplicate) {
+                echo '<div class="history-element-duplicate">';
+              } else {
+                echo '<div class="history-element">';
+              } 
+              echo '<img src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="prisoner photo" class="history__list__show__photo" />';
+              echo '<div class="visit-info">';
+              echo '<div class="history__list__show__name">';
+              echo '<p class="history__list__show__label">Prisoner: <span class="history__list__show__info">' . $visit['first_name'] . ' ' . $visit['last_name'] . '</span></p>';
+              echo '</div>';
+              echo '<div class="drop-arrow">';
+              echo '<span class="vBar"></span>';
+              echo '<span class="vBar"></span>';
+              echo '</div>';
+              echo '<div class="visitor-main__list__show__dBirth">';
+              echo '<p class="history__list__show__label">Date: <span class="history__list__show__info">' . $visit['date'] . '</span></p>';
+              echo '</div>';
+              echo '<div class="visitor-main__list__show__dBirth">';
+              echo '<p class="history__list__show__label">';
+              echo 'Duration:';
+              echo '<span class="history__list__show__info"> ' . $visit['time_interval'] . '</span>';
+              echo '</p>';
+              echo '</div>';
+              echo '</div>';
+              echo '<div class="history__list__show__buttons">';
+              echo '<a href="visit_details.php?id=' . $visit['visit_id'] . '" class="history__list__show__buttons__info">';
+              echo '<img src="../../assets/visitormain/info-icon.svg" alt="info button" />';
+              echo '</a>';
+              echo '</div>';
+              echo '</div>';
+              echo '</li>';
+          }
+          ?>
         </ul>
         <nav class="pagination-visitor-container">
-          <button class="pagination-visitor-button-prev" id="prev-button" title="Previous page" aria-label="Previous page">
-            <span class="button-text">Prev</span>
-          </button>
-          <button class="pagination-visitor-button-next" id="next-button" title="Next page" aria-label="Next page">
-            <span class="button-text">Next</span>
-          </button>
+          <?php if ($page > 1) : ?>
+            <a href="history.php?page=<?php echo $page - 1; ?>" class="pagination-visitor-button-prev">Prev</a>
+          <?php else : ?>
+            <button class="pagination-visitor-button-disabled disabled">Prev</button>
+          <?php endif; ?>
+
+          <?php if ($page < $totalPages) : ?>
+            <a href="history.php?page=<?php echo $page + 1; ?>" class="pagination-visitor-button-next">Next</a>
+          <?php else : ?>
+            <button class="pagination-visitor-button-disabled disabled">Next</button>
+          <?php endif; ?>
         </nav>
       </div>
     </div>

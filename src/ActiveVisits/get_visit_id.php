@@ -11,7 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $visit_id = $_GET['visit_id'];
 
     $visit_id = strval($visit_id);
-    $stmt = $conn->prepare("SELECT * FROM visits WHERE visit_id = ?");
+    // $stmt = $conn->prepare("SELECT * FROM visits WHERE visit_id = ?");
+    $stmt = $conn->prepare("SELECT visit_id, person_id, first_name, last_name, relationship, visit_nature, source_of_income, date, visit_start, visit_end FROM visits WHERE visit_id = ?");
 
     $stmt->bind_param("s", $visit_id);
     $stmt->execute();
@@ -20,3 +21,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     echo json_encode($row);
     exit();
 }
+?>
