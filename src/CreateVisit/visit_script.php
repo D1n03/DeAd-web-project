@@ -39,11 +39,9 @@ if ($conn->connect_errno) {
     $inmate_id = $row['inmate_id'];
 
     if (!empty($_FILES['profile_photo']['name'])) {
-        $profile_photo = $_FILES['profile_photo']['tmp_name'];
-        $photo_contents = file_get_contents($profile_photo);
-        $photo_contents = addslashes($photo_contents);
+        $photo_contents = file_get_contents($_FILES['profile_photo']['tmp_name']);
     } else {
-        $profile_photo = null;
+        $photo_contents = null;
     }
     $valid_extensions_photo = array('jpeg', 'jpg', 'png');
 
@@ -103,7 +101,7 @@ if ($conn->connect_errno) {
             $last_name_inmate,
             $relationship,
             $visit_nature,
-            $profile_photo,
+            $photo_contents,
             $source_of_income,
             $date,
             $visit_start,

@@ -1,5 +1,7 @@
 <?php
 session_start();
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$numToDuplicate = 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -122,12 +124,36 @@ session_start();
                         echo '</div>';
                         exit();
                     }
-                    foreach ($response as $visit) {
+                    // pagination logic
+                    $numOfEntriesPerPage = 3;
+                    $totalEntries = count($response);
+                    $totalPages = ceil($totalEntries / $numOfEntriesPerPage);
+                    $offset = ($page - 1) * $numOfEntriesPerPage;
+
+                    // Display active visits for the current page
+                    $visitsToDisplay = array_slice($response, $offset, $numOfEntriesPerPage);
+
+                    if ($page == $totalPages && count($visitsToDisplay) < 3) {
+                      // the number of element duplicates needed
+                      $numToDuplicate = 3 - count($visitsToDisplay);
+                      
+                      // duplicate last visit to fill the remaining slots
+                      $lastVisit = end($visitsToDisplay);
+                      for ($i = 0; $i < $numToDuplicate; $i++) {
+                          $visitsToDisplay[] = $lastVisit;
+                      }
+                    }
+
+                    foreach ($visitsToDisplay as $index => $visit) {
                         echo '<li>';
-                        echo '<div class="table-element">';
-                        echo '<img src="../../assets/visitormain/profile-icon.png" alt="visitor photo" class="visit-active__list__show__photo" />';
-                        echo '<div class="visit-active__list__show__name">';
-                        echo '<p class="visit-active__list__show__label">';
+                        if ($page == $totalPages && $index >= count($visitsToDisplay) - $numToDuplicate) {
+                          echo '<div class="table-element-duplicate">';
+                        } else {
+                          echo '<div class="table-element">';
+                        } 
+                        echo '<img src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="visitor photo" class="visitor-main__list__show__photo" />';
+                        echo '<div class="visitor-main__list__show__name">';
+                        echo '<p class="visitor-main__list__show__label">';
                         echo 'Inmate:';
                         echo '<span class="visit-active__list__show__info"> ' . $visit['inmate_name'] . '</span>';
                         echo '</p>';
@@ -155,10 +181,25 @@ session_start();
                         echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
                         echo '</button>';
                         echo '</div>';
+                        echo '<input type="hidden" name="visit_id" value="' . $visit['visit_id'] . '">';
                         echo '</li>';
                     }
+
                     ?>
                 </ol>
+                <nav class="pagination-container">
+                    <?php if ($page > 1) : ?>
+                        <a href="activevisits.php?page=<?php echo $page - 1; ?>" class="pagination-button-prev">Prev</a>
+                    <?php else : ?>
+                        <button class="pagination-button-disabled disabled">Prev</button>
+                    <?php endif; ?>
+
+                    <?php if ($page < $totalPages) : ?>
+                        <a href="activevisits.php?page=<?php echo $page + 1; ?>" class="pagination-button-next">Next</a>
+                    <?php else : ?>
+                        <button class="pagination-button-disabled disabled">Next</button>
+                    <?php endif; ?>
+                </nav>
             </div>
         </div>
     </main>
