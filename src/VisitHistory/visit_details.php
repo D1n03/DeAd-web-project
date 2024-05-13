@@ -1,12 +1,6 @@
 <?php
 session_start();
-
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -103,7 +97,7 @@ session_start();
   <main class="visit-details">
   <div class="visit-details__form-visit">
     <div class="visit-details-visit__labels">
-      <h1 class="visit-details-visit__labels__title">Visit Details</h1>
+      <div class="visit-details-visit__labels__title">Visit Details</div>
   
         <?php
         if (isset($_GET['id'])) {
@@ -125,10 +119,10 @@ session_start();
   
                 
   
-                echo '<img class="visit-icon" src="data:image/jpeg;base64,' . base64_encode($visit['photo']) . '" alt="Prisoner Photo">';
+                echo '<img class="visit-icon" src="data:image/jpeg;base64,' . base64_encode($visit['photo']) . '" alt="Inmate Photo">';
                 echo '<div class="visit-details-visit__labels__container">';
                   echo '<div class="visit-details-visit__labels__container">';
-                  echo '<p class="container__text">Prisoner: ' . $visit['first_name'] . ' ' . $visit['last_name'] . '</p>';
+                  echo '<p class="container__text">Inmate: ' . $visit['first_name'] . ' ' . $visit['last_name'] . '</p>';
                   echo '</div>';
     
                   echo '<div class="visit-details-visit__labels__container">';
@@ -181,7 +175,7 @@ session_start();
         }
         ?>
   
-        <a class="link" href="history.php">Back to History</a>
+        <a class="link" href="history.php">Back</a>
       </h1>
     </div>
   </div>

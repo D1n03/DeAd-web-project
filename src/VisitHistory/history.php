@@ -1,18 +1,19 @@
 <?php
 session_start();
-require_once '../Utils/VisitHistory.php';
+require_once 'VisitHistory.php';
 
 $numOfEntriesPerPage = 3;
 
 // get the page number from the URL, default to 1 if not set
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
+$current_user = $_SESSION['id'];
 
 // calculate the offset based on the page number (we start fetching entries starting from this point)
 $offset = ($page - 1) * $numOfEntriesPerPage;
 
-$visitHistory = VisitHistory::getVisitHistory(0, $offset, $numOfEntriesPerPage);
+$visitHistory = VisitHistory::getVisitHistory(0, $offset, $numOfEntriesPerPage, $current_user);
 
-$totalEntries = VisitHistory::getTotalEntriesCount();
+$totalEntries = VisitHistory::getTotalEntriesCount($current_user);
 
 // total number of pages based on entries
 $totalPages = ceil($totalEntries / $numOfEntriesPerPage);
@@ -36,7 +37,7 @@ if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="On this page you are able to see the history visits of your account, together with the posibility to export relevant data" />
+  <meta name="description" content="On this page you are able to see the history visits of your account" />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
   <title>History</title>
@@ -126,7 +127,23 @@ if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
         <div class="history__title">Your Visit History</div>
         <ul class="history__list">
           <?php
-
+            if (count($visitHistory) == 0) { // I know, this kinda looks unprofessional
+              echo '<li>';
+              echo '<div class="history-element-duplicate">';
+              echo '</li>';
+              echo '<li>';
+              echo '<div class="history-element-duplicate">';
+              echo '</li>';
+              echo '<li>';
+              echo '<div class="history-element-duplicate">';
+              echo '</li>';
+              echo '<li>';
+              echo '<div class="history-element-duplicate">';
+              echo '</li>';
+              echo '<li>';
+              echo '<div class="history-element-duplicate">';
+              echo '</li>';
+            }
             foreach ($visitHistory as $index => $visit) { // $index keeps track of the current index in the loop
               echo '<li>';
               if ($page == $totalPages && $index >= count($visitHistory) - $numToDuplicate) {
@@ -134,10 +151,10 @@ if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
               } else {
                 echo '<div class="history-element">';
               } 
-              echo '<img src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="prisoner photo" class="history__list__show__photo" />';
+              echo '<img src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="inmate photo" class="history__list__show__photo" />';
               echo '<div class="visit-info">';
               echo '<div class="history__list__show__name">';
-              echo '<p class="history__list__show__label">Prisoner: <span class="history__list__show__info">' . $visit['first_name'] . ' ' . $visit['last_name'] . '</span></p>';
+              echo '<p class="history__list__show__label">Inmate: <span class="history__list__show__info">' . $visit['first_name'] . ' ' . $visit['last_name'] . '</span></p>';
               echo '</div>';
               echo '<div class="drop-arrow">';
               echo '<span class="vBar"></span>';

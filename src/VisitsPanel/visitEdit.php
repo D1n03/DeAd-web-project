@@ -130,6 +130,9 @@ session_start();
           </select>
         </div>
 
+        <input type="hidden" name="inmate_first_name" value="<?php echo $response['inmate_first_name']; ?>">
+        <input type="hidden" name="inmate_last_name" value="<?php echo $response['inmate_last_name']; ?>">
+
         <div class="edit-visit__form__labels__container">
           <label class="form-text" for="inmate_first_name">Inmate's first name: </label>
           <input class="form-input" id="inmate_first_name" type="text" name="inmate_first_name" value="<?php echo $response['inmate_first_name']; ?>" disabled style="color: white"; />
@@ -200,12 +203,21 @@ session_start();
 
         
 
-        <div class="edit-user__form__labels__container-message">
+        <div class="edit-visit__form__labels__container-message">
         <?php
           if (isset($_GET['success'])) {
             if ($_GET['success'] == 1) {
               echo "<p class='success'>Visit updated successfully!</p>";
               echo "<meta http-equiv='refresh' content='2;url=./visitspanel.php'>";
+            }
+          }
+          elseif (isset($_GET['error'])) {
+            if ($_GET['error'] == 1) {
+              echo "<p class='error'>Visit time is exceeding the maximum duration!</p>";
+            } elseif ($_GET['error'] == 2) {
+              echo "<p class='error'>Invalid start and end times!</p>";
+            } elseif ($_GET['error'] == 3) {
+              echo "<p class='error'>The inmate already has a visit at that time!</p>";
             }
           }
         ?>
