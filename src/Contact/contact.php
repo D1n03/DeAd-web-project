@@ -101,7 +101,7 @@ session_start();
         Have some feedback for our services? Let us know by completing the
         online form below:
       </p>
-      <form action="contact_script.php" method="POST" id="contact-form" class="container__form">
+      <form action="contact.php" method="POST" id="contact-form" class="container__form">
         <div class="container__form-field">
           <?php
           if (isset($_GET['name'])) {
@@ -161,5 +161,34 @@ session_start();
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function submitContactForm(formData) {
+            fetch('contact_script.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
 
+        // Function to handle form submission
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            submitContactForm(formData);
+        }
+
+        // Bind form submission handler
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', handleFormSubmit);
+        }
+    });
+</script>
 </html>
