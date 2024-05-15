@@ -46,19 +46,19 @@ class PasswordChangeAPI {
             $hashed_password = $row['password'];
 
             if (!password_verify($current_password, $hashed_password)) {
-                http_response_code(401); // Bad Request
+                http_response_code(400); // Bad Request
                 exit(json_encode(array("error" => "Current password is incorrect.")));
             }
 
             if ($new_password !== $confirm_new_password) {
-                http_response_code(401); // Bad Request
+                http_response_code(400); // Bad Request
                 exit(json_encode(array("error" => "New passwords do not match.")));
             }
 
             // Check password strength
             $passwordStrength = $this->checkPasswordStrength($new_password);
             if ($passwordStrength !== 1) {
-                http_response_code(401); // Bad Request
+                http_response_code(400); // Bad Request
                 exit(json_encode(array("error" => "Password is not strong enough.")));
             }
 

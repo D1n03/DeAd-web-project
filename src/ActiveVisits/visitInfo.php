@@ -93,7 +93,7 @@ session_start();
     </div>
   </header>
   <main class="details">
-    <form class="details__form-visit" action="visitInfo_script.php" method="POST" id="visit-form-info">
+    <form class="details__form-visit" action="visitInfo.php" method="POST" id="visit-form-info">
       <div class="details__form-visit__labels">
         <h1 class="details__form-visit__labels__title">
           Details regarding the visit
@@ -166,6 +166,35 @@ session_start();
     <script src="../scripts/submenu.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const visitForm = document.getElementById('visit-form-info');
+
+    visitForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(visitForm);
+
+        fetch('visitinfo_script.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+            } else {
+                window.location.href = 'activevisits.php';
+            }
+        })
+    });
+});
+  </script>
 </body>
 
 </html>
