@@ -221,8 +221,7 @@ $numToDuplicate = 0;
 
                 if (confirm('Are you sure you want to delete this visit?')) {
                     const xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'deletevisit.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.open('DELETE', 'deletevisit.php?visit_id=' + encodeURIComponent(get_visit_id), true);
                     xhr.onload = function() {
                         if (xhr.status === 200) {
                             window.location.href = currentUrl;
@@ -230,7 +229,7 @@ $numToDuplicate = 0;
                             alert('Error deleting visit. Please try again.');
                         }
                     };
-                    xhr.send('visit_id=' + encodeURIComponent(get_visit_id));
+                    xhr.send();
                 } else {
                     // nothing happens
                 }
