@@ -171,33 +171,32 @@ session_start();
     <?php endif; ?>
     <script src="../scripts/navbar.js"></script>
     <script>
-        const deleteButtons = document.querySelectorAll('.inmate-panel__list__show__buttons__delete');
+      const deleteButtons = document.querySelectorAll('.inmate-panel__list__show__buttons__delete');
 
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                event.preventDefault();
+      deleteButtons.forEach(button => {
+          button.addEventListener('click', (event) => {
+              event.preventDefault();
 
-                const get_inmate_id = button.getAttribute('inmate_id_data');
-                const currentUrl = window.location.href;
+              const inmateId = button.getAttribute('inmate_id_data');
+              const currentUrl = window.location.href;
 
-                if (confirm('Are you sure you want to delete this inmate?')) {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'deleteinmate.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    xhr.onload = function() {
-                        if (xhr.status === 200) {
-                            window.location.href = currentUrl;
-                        } else {
-                            alert('Error deleting inmate. Please try again.');
-                        }
-                    };
-                    xhr.send('inmate_id=' + encodeURIComponent(get_inmate_id));
-                } else {
-                    // nothing happens
-                }
-            });
-        });
-    </script>
+              if (confirm('Are you sure you want to delete this inmate?')) {
+                  const xhr = new XMLHttpRequest();
+                  xhr.open('DELETE', 'deleteinmate.php?inmate_id=' + encodeURIComponent(inmateId), true);
+                  xhr.onload = function() {
+                      if (xhr.status === 200) {
+                          window.location.href = currentUrl;
+                      } else {
+                          alert('Error deleting inmate. Please try again.');
+                      }
+                  };
+                  xhr.send();
+              } else {
+                  // nothing happens
+              }
+          });
+      });
+  </script>
 </body>
 
 </html>

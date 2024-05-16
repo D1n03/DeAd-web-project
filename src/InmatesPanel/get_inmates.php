@@ -1,33 +1,47 @@
 <?php
-// the all the users that are not admin from DB
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-    $config = require '../../config.php';
-    require '../Utils/Connection.php';
-    $conn = Connection::getInstance()->getConnection();
+require '../../config.php';
+require '../Utils/Connection.php';
 
-    $stmt = $conn->prepare("SELECT inmate_id, first_name, last_name, sentence_start_date, sentence_category FROM inmates");
-    $stmt->execute();
-    $result = $stmt->get_result();
+class InmateAPI {
+    private $conn;
 
-    error_reporting(E_ERROR | E_PARSE);
-
-    $response = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-        $line = array(
-            "inmate_name" => $row['first_name'] . " " . $row['last_name'],
-            "sentence_start_date" => $row['sentence_start_date'],
-            "sentence_category" => $row['sentence_category'],
-            "inmate_id" => $row['inmate_id']
-        );
-        $response[] = $line;
+    public function __construct() {
+        $this->conn = Connection::getInstance()->getConnection();
     }
 
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    exit();
-} else {
+    public function handleRequest() {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->getAllInmates();
+        } else {
+            http_response_code(405); // Method Not Allowed
+            exit();
+        }
+    }
 
-    http_response_code(405);
-    exit();
+    private function getAllInmates() {
+        $stmt = $this->conn->prepare("SELECT inmate_id, first_name, last_name, sentence_start_date, sentence_category FROM inmates");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $response = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $line = array(
+                "inmate_name" => $row['first_name'] . " " . $row['last_name'],
+                "sentence_start_date" => $row['sentence_start_date'],
+                "sentence_category" => $row['sentence_category'],
+                "inmate_id" => $row['inmate_id']
+            );
+            $response[] = $line;
+        }
+
+        http_response_code(200);
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit();
+    }
 }
+
+$inmateAPI = new InmateAPI();
+$inmateAPI->handleRequest();
+?>

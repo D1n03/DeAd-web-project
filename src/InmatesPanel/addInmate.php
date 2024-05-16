@@ -93,7 +93,7 @@ session_start();
     </div>
   </header>
   <main class="add-inmate">
-    <form class="add-inmate__form" action="addInmate_script.php" method="POST" id="add-inmate-form-info" enctype="multipart/form-data">
+    <form class="add-inmate__form" id="add-inmate-form-info" enctype="multipart/form-data">
       <div class="add-inmate__form__labels">
         <div class="add-inmate__form__labels__title">
           Add inmate
@@ -136,14 +136,8 @@ session_start();
         </div>
 
         <div class="add-inmate__form__labels__container-message">
-        <?php
-          if (isset($_GET['success'])) {
-            if ($_GET['success'] == 1) {
-              echo "<p class='success'>Inmate added successfully!</p>";
-              echo "<meta http-equiv='refresh' content='2;url=./inmatespanel.php'>";
-            }
-        }
-        ?>
+          <div class="error-message"></div>
+          <div class="success-message"></div>
         </div>
       </div>
         <div class="add-inmate__form__buttons">
@@ -160,6 +154,50 @@ session_start();
     <script src="../scripts/submenu.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function submitAddInmateForm(formData) {
+            fetch('addInmate_script.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const successMessage = document.querySelector('.success-message');
+                const errorMessage = document.querySelector('.error-message');
+
+                // Clear any existing error or success messages
+                successMessage.innerHTML = '';
+                errorMessage.innerHTML = '';
+
+                if (data.error) {
+                    errorMessage.innerHTML = '<p class="error">Error adding inmate: ' + data.error + '</p>'; // Display error message
+                } else if (data.message) {
+                    if (data.message === 'Inmate added successfully') {
+                        successMessage.innerHTML = '<p class="success">Inmate added successfully!</p>'; // Display success message
+                        setTimeout(function() {
+                            window.location.href = 'inmatespanel.php'; // Redirect after success
+                        }, 1000); // Redirect after 1 second
+                    } else {
+                        console.error('Unknown message:', data.message);
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            submitAddInmateForm(formData);
+        }
+
+        const addInmateForm = document.getElementById('add-inmate-form-info');
+        if (addInmateForm) {
+            addInmateForm.addEventListener('submit', handleFormSubmit);
+        }
+    });
+  </script>
 </body>
 
 </html>

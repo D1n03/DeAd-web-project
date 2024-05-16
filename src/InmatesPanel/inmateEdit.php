@@ -93,7 +93,7 @@ session_start();
     </div>
   </header>
   <main class="add-inmate">
-    <form class="add-inmate__form" action="inmateEdit_script.php" method="POST" id="add-inmate-form-info" enctype="multipart/form-data">
+    <form class="add-inmate__form" id="add-inmate-form-info" enctype="multipart/form-data">
       <div class="add-inmate__form__labels">
         <div class="add-inmate__form__labels__title">
             Edit inmate's data
@@ -118,13 +118,13 @@ session_start();
           echo "<input type='hidden' name='inmate_id' value='" . $response['inmate_id'] . "'>";
           ?>
         <div class="add-inmate__form__labels__container">
-          <label class="form-text" for="first_name">First name:</label>
-          <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required value= <?php echo $response['first_name'] ?> />
+            <label class="form-text" for="first_name">First name:</label>
+            <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required value="<?php echo $response['first_name']; ?>" />
         </div>
 
         <div class="add-inmate__form__labels__container">
-          <label class="form-text" for="last_name">Last name:</label>
-          <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required value= <?php echo $response['last_name'] ?> />
+            <label class="form-text" for="last_name">Last name:</label>
+            <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required value="<?php echo $response['last_name']; ?>" />
         </div>
 
         <div class="add-inmate__form__labels__container">
@@ -155,14 +155,8 @@ session_start();
         </div>
 
         <div class="add-inmate__form__labels__container-message">
-        <?php
-          if (isset($_GET['success'])) {
-            if ($_GET['success'] == 1) {
-              echo "<p class='success'>Inmate edited successfully!</p>";
-              echo "<meta http-equiv='refresh' content='2;url=./inmatespanel.php'>";
-            }
-        }
-        ?>
+          <div class="error-message"></div>
+          <div class="success-message"></div>
         </div>
       </div>
         <div class="add-inmate__form__buttons">
@@ -179,6 +173,50 @@ session_start();
     <script src="../scripts/submenu.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    function submitEditInmateForm(formData) {
+        fetch('inmateEdit_script.php', {
+            method: 'PUT', // Use PUT method
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded' // Set Content-Type header
+            },
+            body: new URLSearchParams(formData).toString() // Serialize form data
+        })
+        .then(response => response.json())
+        .then(data => {
+            const successMessage = document.querySelector('.success-message');
+            const errorMessage = document.querySelector('.error-message');
+
+            successMessage.innerHTML = '';
+            errorMessage.innerHTML = '';
+
+            if (data.error) {
+                errorMessage.innerHTML = '<p class="error">Error editing inmate: ' + data.error + '</p>'; // Display error message
+            } else if (data.message && data.message === 'Inmate updated successfully') {
+                successMessage.innerHTML = '<p class="success">Inmate edited successfully!</p>'; // Display success message
+                setTimeout(function() {
+                    window.location.href = 'inmatespanel.php'; // Redirect after success
+                }, 1000); // Redirect after 1 second
+            } else {
+                console.error('Unknown message:', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function handleFormSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        submitEditInmateForm(formData);
+    }
+
+    const editInmateForm = document.getElementById('add-inmate-form-info');
+    if (editInmateForm) {
+        editInmateForm.addEventListener('submit', handleFormSubmit);
+    }
+});
+</script>
 </body>
 
 </html>

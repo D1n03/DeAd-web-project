@@ -1,19 +1,59 @@
 <?php
-if (isset($_POST['inmate_id'])) {
-    $inmate_id = $_POST['inmate_id'];
 
-    require '../Utils/Connection.php';
-    $conn = Connection::getInstance()->getConnection();
+require '../Utils/Connection.php';
 
-    $sql = "DELETE FROM inmates WHERE inmate_id = '$inmate_id'";
-    $result = mysqli_query($conn, $sql);
+class DeleteInmateAPI {
+    private $conn;
 
-    if ($result) {
-        http_response_code(200); // OK
-    } else {
-        http_response_code(500); // Internal Server Error
+    public function __construct() {
+        $this->conn = Connection::getInstance()->getConnection();
     }
-    mysqli_close($conn);
-} else {
-    http_response_code(400); // Bad Request
+
+    public function handleRequest() {
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            $this->deleteInmate();
+        } else {
+            http_response_code(405); // Method Not Allowed
+            exit();
+        }
+    }
+
+    private function deleteInmate() {
+        // Validate input
+        $inmateId = isset($_GET['inmate_id']) ? $_GET['inmate_id'] : null;
+        if (!$inmateId) {
+            http_response_code(400); // Bad Request
+            exit();
+        }
+
+        // Check if inmate exists in the database
+        $stmt = $this->conn->prepare("SELECT inmate_id FROM inmates WHERE inmate_id = ?");
+        $stmt->bind_param("s", $inmateId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) {
+            http_response_code(404); // Not Found
+            exit();
+        }
+
+        // Delete inmate record
+        $stmt = $this->conn->prepare("DELETE FROM inmates WHERE inmate_id = ?");
+        $stmt->bind_param("s", $inmateId);
+        $stmt->execute();
+
+        // Check if deletion was successful
+        if ($stmt->affected_rows > 0) {
+            http_response_code(200); // OK
+            exit();
+        } else {
+            http_response_code(500); // Internal Server Error
+            exit();
+        }
+    }
 }
+
+$deleteInmateAPI = new DeleteInmateAPI();
+$deleteInmateAPI->handleRequest();
+
+?>
