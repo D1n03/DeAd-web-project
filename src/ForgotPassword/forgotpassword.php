@@ -99,25 +99,15 @@ session_start();
       <p class="container__text">
         Enter your email address associated with your account and we'll send you a link to reset your password.
       </p>
-      <form class="container__form" id="recover-form" action="forgotpass_script.php" method="POST">
+      <form class="container__form" id="recover-form">
         <div class="container__form-field">
           <input id="email" required type="text" name="email" autocomplete='on' placeholder="Email" />
           <p class="validation-error email-error"></p>
         </div>
-        <?php
-        if (isset($_GET['error'])) {
-          if ($_GET['error'] == 1) {
-            echo '<p class="error">Email not found</p>';
-          } else if ($_GET['error'] == 2) {
-            echo "<p class='error'>Error: The email couldn't be sent</p>";
-          }
-        } else if (isset($_GET['success'])) {
-          if ($_GET['success'] == 1) {
-            echo "<p class='success'>Email sent!</p>";
-            echo "<meta http-equiv='refresh' content='2;url=../Index/index.php'>";
-          }
-        }
-        ?>
+        <div class="messages">
+            <p class="error-message" id="error-message"></p>
+            <p class="success-message" id="success-message"></p>
+        </div>
         <div class="container__form-buttons">
           <button type="submit" class="container__form-submit-signup">
             Send
@@ -132,6 +122,51 @@ session_start();
     <script src="../scripts/submenu.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+      function submitRecoveryForm(formData) {
+          fetch('forgotpass_script.php', {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => response.json().then(data => ({ status: response.status, body: data })))
+          .then(response => {
+              const errorMessage = document.querySelector('.error-message');
+              const successMessage = document.querySelector('.success-message');
+
+              errorMessage.innerHTML = '';
+              successMessage.innerHTML = '';
+
+              if (response.status === 200) {
+                  successMessage.innerHTML = '<p class="success">' + response.body.message + '</p>';
+                  setTimeout(() => {
+                      window.location.href = '../Index/index.php';
+                  }, 2000);
+              } else {
+                  errorMessage.innerHTML = '<p class="error">' + response.body.message + '</p>';
+              }
+          })
+          .catch(error => {
+              const errorMessage = document.querySelector('.error-message');
+              const successMessage = document.querySelector('.success-message');
+              
+              errorMessage.innerHTML = '<p class="error">An error occurred: ' + error.message + '</p>';
+              successMessage.innerHTML = '';
+          });
+      }
+
+      function handleFormSubmit(event) {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          submitRecoveryForm(formData);
+      }
+
+      const recoverForm = document.getElementById('recover-form');
+      if (recoverForm) {
+          recoverForm.addEventListener('submit', handleFormSubmit);
+      }
+  });
+  </script>
 </body>
 
 </html>

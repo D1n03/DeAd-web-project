@@ -1,63 +1,92 @@
 <?php
-
-$email = $_POST["email"];
-
 require '../Utils/Connection.php';
-$conn = Connection::getInstance()->getConnection();
+require __DIR__ . "../../mailer.php";
 
-if ($conn->connect_errno) {
-    die('Could not connect to db: ' . $conn->connect_error);
-} else {
-    // check if the email provided exists in the DB
-    try {
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    } catch (Exception $e) {
-        echo $e->getMessage();
+class PasswordResetController {
+    private $conn;
+    private $mailer;
+
+    public function __construct() {
+        $this->conn = Connection::getInstance()->getConnection();
+        if ($this->conn->connect_errno) {
+            $this->sendResponse(500, 'Could not connect to the database.');
+        }
+        $this->mailer = require __DIR__ . "../../mailer.php";
     }
 
-    // error type 1 - the email doesn't exist the DB
-    if ($result->num_rows == 0) {
-        header("Location: forgotpassword.php?error=1");
-    } else {
+    public function handleRequest() {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $this->processResetRequest();
+        } else {
+            $this->sendResponse(405, 'Method Not Allowed.');
+        }
+    }
+
+    private function processResetRequest() {
+        $email = $_POST['email'] ?? '';
+
+        // Check if email is provided and validate it
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->sendResponse(400, 'Invalid email format.');
+        }
+
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+        } catch (Exception $e) {
+            $this->sendResponse(500, 'Database error: ' . $e->getMessage());
+        }
+
+        if ($result->num_rows == 0) {
+            $this->sendResponse(404, 'Email not found.');
+        } else {
+            $this->generateResetToken($email);
+        }
+    }
+
+    private function generateResetToken($email) {
         $token = bin2hex(random_bytes(16));
         $token_hash = hash("sha256", $token);
-
-        // valid only for 30 minutes, IMO ugly date format, yikes
         $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 
-        // update the token and the expire in the DB
-        $sql = "UPDATE users
-                SET reset_token_hash = ?,
-                reset_token_expires_at = ?
-                WHERE email = ?";
+        $sql = "UPDATE users SET reset_token_hash = ?, reset_token_expires_at = ? WHERE email = ?";
         try {
-            $stmt = $conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("sss", $token_hash, $expiry, $email);
             $stmt->execute();
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->sendResponse(500, 'Database error: ' . $e->getMessage());
         }
 
-        // set up stuff
-        $mail = require __DIR__ . "../../mailer.php";
-        $mail->setFrom("noreply@example.com");
-        $mail->addAddress($email);
-        $mail->Subject = "[DeAd] Password Reset";
-        $mail->Body = <<<END
+        $this->sendResetEmail($email, $token);
+    }
 
+    private function sendResetEmail($email, $token) {
+        $this->mailer->setFrom("noreply@example.com");
+        $this->mailer->addAddress($email);
+        $this->mailer->Subject = "[DeAd] Password Reset";
+        $this->mailer->Body = <<<END
         Click <a href="http://localhost/DeAd-web-project/src/ResetPassword/resetpassword.php?token=$token">here</a>
         to reset your DeAd's account password.
-
         END;
-        /// TO DO: change the href in the future
+
         try {
-            header("Location: forgotpassword.php?success=1");
-            $mail->send();
+            $this->mailer->send();
+            $this->sendResponse(200, 'Email sent!');
         } catch (Exception $e) {
-            header("Location: forgotpassword.php?error=2");
+            $this->sendResponse(500, 'Error: The email couldn\'t be sent.');
         }
     }
+
+    private function sendResponse($statusCode, $message) {
+        http_response_code($statusCode);
+        echo json_encode(["message" => $message]);
+        exit();
+    }
 }
+
+$controller = new PasswordResetController();
+$controller->handleRequest();
+?>
