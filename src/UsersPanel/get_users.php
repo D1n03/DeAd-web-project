@@ -1,33 +1,47 @@
 <?php
-// the all the users that are not admin from DB
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-    $config = require '../../config.php';
-    require '../Utils/Connection.php';
-    $conn = Connection::getInstance()->getConnection();
+require '../Utils/Connection.php';
 
-    $stmt = $conn->prepare("SELECT user_id, first_name, last_name, email, `function` FROM users WHERE `function` = 'user'");
-    $stmt->execute();
-    $result = $stmt->get_result();
+class NonAdminUsersAPI {
+    private $conn;
 
-    error_reporting(E_ERROR | E_PARSE);
-
-    $response = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-        $line = array(
-            "person_name" => $row['first_name'] . " " . $row['last_name'],
-            "email" => $row['email'],
-            "function" => $row['function'],
-            "user_id" => $row['user_id']
-        );
-        $response[] = $line;
+    public function __construct() {
+        $this->conn = Connection::getInstance()->getConnection();
     }
 
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    exit();
-} else {
+    public function handleRequest() {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->getNonAdminUsers();
+        } else {
+            http_response_code(405); // Method Not Allowed
+            exit();
+        }
+    }
 
-    http_response_code(405);
-    exit();
+    private function getNonAdminUsers() {
+        $stmt = $this->conn->prepare("SELECT user_id, first_name, last_name, email, `function` FROM users WHERE `function` = 'user'");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $response = array();
+        while ($row = $result->fetch_assoc()) {
+            $line = array(
+                "person_name" => $row['first_name'] . " " . $row['last_name'],
+                "email" => $row['email'],
+                "function" => $row['function'],
+                "user_id" => $row['user_id']
+            );
+            $response[] = $line;
+        }
+
+        http_response_code(200);
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit();
+    }
 }
+
+$nonAdminUsersAPI = new NonAdminUsersAPI();
+$nonAdminUsersAPI->handleRequest();
+
+?>

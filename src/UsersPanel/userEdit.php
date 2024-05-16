@@ -118,13 +118,13 @@ session_start();
           echo "<input type='hidden' name='user_id' value='" . $response['user_id'] . "'>";
           ?>
         <div class="edit-user__form__labels__container">
-          <label class="form-text" for="first_name">First name:</label>
-          <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required value= <?php echo $response['first_name'] ?> />
+            <label class="form-text" for="first_name">First name:</label>
+            <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required value="<?php echo htmlspecialchars($response['first_name']); ?>" />
         </div>
 
         <div class="edit-user__form__labels__container">
-          <label class="form-text" for="last_name">Last name:</label>
-          <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required value= <?php echo $response['last_name'] ?> />
+            <label class="form-text" for="last_name">Last name:</label>
+            <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required value="<?php echo htmlspecialchars($response['last_name']); ?>" />
         </div>
 
         <div class="edit-user__form__labels__container">

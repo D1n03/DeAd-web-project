@@ -166,33 +166,30 @@ session_start();
     <?php endif; ?>
     <script src="../scripts/navbar.js"></script>
     <script>
-        const deleteButtons = document.querySelectorAll('.user-panel__list__show__buttons__delete');
+    const deleteButtons = document.querySelectorAll('.user-panel__list__show__buttons__delete');
 
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                event.preventDefault();
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
 
-                const get_user_id = button.getAttribute('user_id_data');
-                const currentUrl = window.location.href;
+            const userId = button.getAttribute('user_id_data');
+            const currentUrl = window.location.href;
 
-                if (confirm('Are you sure you want to delete this user?')) {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'deleteuser.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    xhr.onload = function() {
-                        if (xhr.status === 200) {
-                            window.location.href = currentUrl;
-                        } else {
-                            alert('Error deleting user. Please try again.');
-                        }
-                    };
-                    xhr.send('user_id=' + encodeURIComponent(get_user_id));
-                } else {
-                    // nothing happens
-                }
-            });
+            if (confirm('Are you sure you want to delete this user?')) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('DELETE', `deleteuser.php?user_id=${encodeURIComponent(userId)}`, true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        window.location.href = currentUrl;
+                    } else {
+                        alert('Error deleting user. Please try again.');
+                    }
+                };
+                xhr.send();
+            }
         });
-    </script>
+    });
+</script>
 </body>
 
 </html>
