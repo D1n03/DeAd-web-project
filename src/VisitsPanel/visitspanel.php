@@ -177,7 +177,7 @@ session_start();
 
                 if (confirm('Are you sure you want to delete this visit?')) {
                     const xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'deletevisit.php', true);
+                    xhr.open('DELETE', 'deletevisit.php', true);
                     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     xhr.onload = function() {
                         if (xhr.status === 200) {

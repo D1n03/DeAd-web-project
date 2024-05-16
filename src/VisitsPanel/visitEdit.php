@@ -204,23 +204,8 @@ session_start();
         
 
         <div class="edit-visit__form__labels__container-message">
-        <?php
-          if (isset($_GET['success'])) {
-            if ($_GET['success'] == 1) {
-              echo "<p class='success'>Visit updated successfully!</p>";
-              echo "<meta http-equiv='refresh' content='2;url=./visitspanel.php'>";
-            }
-          }
-          elseif (isset($_GET['error'])) {
-            if ($_GET['error'] == 1) {
-              echo "<p class='error'>Visit time is exceeding the maximum duration!</p>";
-            } elseif ($_GET['error'] == 2) {
-              echo "<p class='error'>Invalid start and end times!</p>";
-            } elseif ($_GET['error'] == 3) {
-              echo "<p class='error'>The inmate already has a visit at that time!</p>";
-            }
-          }
-        ?>
+          <div class="error-message"></div>
+          <div class="success-message"></div>
         </div>
       </div>
         <div class="edit-user__form__buttons">
@@ -237,6 +222,43 @@ session_start();
     <script src="../scripts/submenu.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const visitForm = document.getElementById('visit-form-info');
+
+        visitForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(visitForm);
+
+            fetch('visitEdit_script.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const successMessage = document.querySelector('.success-message');
+                    const errorMessage = document.querySelector('.error-message');
+
+                    successMessage.innerHTML = '';
+                    errorMessage.innerHTML = '';
+
+                    if (data.error) {
+                        errorMessage.innerHTML = '<p class="error">Error editing visit: ' + data.error + '</p>';
+                    } else if (data.message && data.message === 'Visit updated successfully') {
+                        successMessage.innerHTML = '<p class="success">Visit edited successfully!</p>';
+                        setTimeout(function() {
+                            window.location.href = 'visitspanel.php';
+                        }, 1000); // Redirect after 1 second
+                    } else {
+                        console.error('Unknown message:', data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+  </script>
+  
 </body>
 
 </html>

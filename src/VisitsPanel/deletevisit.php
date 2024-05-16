@@ -1,23 +1,60 @@
 <?php
-if (isset($_POST['visit_id'])) {
-    $visit_id = $_POST['visit_id'];
 
-    require '../Utils/Connection.php';
-    $conn = Connection::getInstance()->getConnection();
+require '../Utils/Connection.php';
 
-    // so the order of deletion is the most important thing here
-    $sql2 = "DELETE FROM visits WHERE visit_id = '$visit_id'";
-    $result2 = mysqli_query($conn, $sql2);
+class DeleteVisitAPI {
+    private $conn;
 
-    $sql = "DELETE FROM visit_info WHERE visit_refID = '$visit_id'";
-    $result = mysqli_query($conn, $sql);
-
-    if ($result && $result2) {
-        http_response_code(200); // OK
-    } else {
-        http_response_code(500); // Internal Server Error
+    public function __construct() {
+        $this->conn = Connection::getInstance()->getConnection();
     }
-    mysqli_close($conn);
-} else {
-    http_response_code(400); // Bad Request
+
+    public function handleRequest() {
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            $this->deleteVisit();
+        } else {
+            http_response_code(405); // Method Not Allowed
+            exit();
+        }
+    }
+
+    private function deleteVisit() {
+        header('Content-Type: application/json');
+
+        // Validate visit_id parameter
+        parse_str(file_get_contents("php://input"), $data);
+        if (!isset($data['visit_id'])) {
+            http_response_code(400); // Bad Request
+            echo json_encode(array("error" => "Visit ID is required"));
+            exit();
+        }
+
+        $visit_id = $data['visit_id'];
+
+        // Prepare and execute SQL queries for deletion
+        $sql2 = "DELETE FROM visits WHERE visit_id = ?";
+        $stmt2 = $this->conn->prepare($sql2);
+        $stmt2->bind_param("s", $visit_id);
+        $result2 = $stmt2->execute();
+
+        $sql = "DELETE FROM visit_info WHERE visit_refID = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $visit_id);
+        $result = $stmt->execute();
+
+        if ($result && $result2) {
+            http_response_code(200); 
+            echo json_encode(array("message" => "Visit deleted successfully"));
+            exit();
+        } else {
+            http_response_code(500); 
+            echo json_encode(array("error" => "Error deleting visit"));
+            exit();
+        }
+    }
 }
+
+$deleteVisitAPI = new DeleteVisitAPI();
+$deleteVisitAPI->handleRequest();
+
+?>
