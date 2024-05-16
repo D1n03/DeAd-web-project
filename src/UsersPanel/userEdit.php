@@ -93,7 +93,7 @@ session_start();
     </div>
   </header>
   <main class="edit-user">
-    <form class="edit-user__form" action="userEdit_script.php" method="POST" id="user-form-info" enctype="multipart/form-data">
+    <form class="edit-user__form" id="user-form-info" enctype="multipart/form-data">
       <div class="edit-user__form__labels">
         <div class="edit-user__form__labels__title">
           Edit user's account data
@@ -154,24 +154,8 @@ session_start();
           </select>
         </div>
         <div class="edit-user__form__labels__container-message">
-        <?php
-          if (isset($_GET['success'])) {
-            if ($_GET['success'] == 1) {
-              echo "<p class='success'>User updated successfully!</p>";
-              echo "<meta http-equiv='refresh' content='2;url=./userspanel.php'>";
-            }
-          } else if (isset($_GET['strength'])) {
-            if ($_GET['strength'] == 0) {
-              echo '<p class="error"> Password must contain at least 8 characters, a number, uppercase and lowercase letters</p>';
-            } 
-          } else if (isset($_GET['error'])) {
-            if ($_GET['error'] == 1) {
-                echo '<p class="error">New passwords do not match.</p>';
-            } elseif ($_GET['error'] == 2) {
-                echo '<p class="error">Invalid file type for the photo!</p>';
-            }
-        }
-        ?>
+          <div class="error-message"></div>
+          <div class="success-message"></div>
         </div>
       </div>
         <div class="edit-user__form__buttons">
@@ -188,6 +172,42 @@ session_start();
     <script src="../scripts/submenu.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('user-form-info');
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        fetch('userEdit_script.php', {
+            method: 'POST',
+            body: formData,
+          })
+          .then(response => response.json())
+          .then(data => {
+            const successMessage = document.querySelector('.success-message');
+            const errorMessage = document.querySelector('.error-message');
+
+            successMessage.innerHTML = '';
+            errorMessage.innerHTML = '';
+
+            if (data.error) {
+              errorMessage.innerHTML = '<p class="error">Error updating user: ' + data.error + '</p>';
+            } else if (data.message && data.message === 'User updated successfully') {
+              successMessage.innerHTML = '<p class="success">User updated successfully!</p>'; 
+              setTimeout(function() {
+                window.location.href = './userspanel.php';
+              }, 2000);
+            } else {
+              console.error('Unknown message:', data.message);
+            }
+          })
+          .catch(error => console.error('Error:', error));
+      });
+    });
+  </script>
 </body>
 
 </html>
