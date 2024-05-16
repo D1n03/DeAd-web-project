@@ -77,7 +77,7 @@ if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_S
                 <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
               <?php endif; ?>
             <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
             <?php endif; ?>
           </a>
         </li>

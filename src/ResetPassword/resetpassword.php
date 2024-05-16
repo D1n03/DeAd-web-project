@@ -85,7 +85,7 @@ if (strtotime($user["reset_token_expires_at"]) <= time()) {
                 <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
               <?php endif; ?>
             <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
             <?php endif; ?>
           </a>
         </li>
