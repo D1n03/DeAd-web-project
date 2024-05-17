@@ -93,7 +93,7 @@ session_start();
     </div>
   </header>
   <main class="details">
-    <form class="details__form-visit" action="visit_script.php" method="POST" enctype="multipart/form-data" id="visit-form">
+    <form class="details__form-visit" enctype="multipart/form-data" id="visit-form">
       <div class="details__form-visit__labels">
         <h1 class="details__form-visit__labels__title">
           Create a visit
@@ -147,7 +147,7 @@ session_start();
 
         <div class="details__form-visit__labels__container" style="align-items:center">
           <label class="form-text" for="image">Photo:</label>
-          <input id="image" type="file" name="profile_photo" required="required" placeholder="Photo">
+          <input id="image" type="file" name="profile_photo" required="required" placeholder="Photo" accept="image/*">
         </div>
 
         <div class="details__form-visit__labels__container">
@@ -164,21 +164,10 @@ session_start();
           <input type="time" id="time-end" name="visit_time_end" min="08:00" max="16:00" class="form-input" style="height:2rem;width:75%;padding:0;text-align:center" required>
 
         </div>
-        <?php
-        if (isset($_GET['error'])) {
-          if ($_GET['error'] == 1) {
-            echo "<p class='error'>Invalid inmate name!</p>";
-          } elseif ($_GET['error'] == 2) {
-            echo "<p class='error'>Invalid file type!</p>";
-          } elseif ($_GET['error'] == 3) {
-            echo "<p class='error'>Visit time is exceeding the maximum duration!</p>";
-          } elseif ($_GET['error'] == 4) {
-            echo "<p class='error'>Invalid start and end times!</p>";
-          } elseif ($_GET['error'] == 5) {
-            echo "<p class='error'>The inmate already has a visit at that time!</p>";
-          }
-        }
-        ?>
+        <div class="messages">
+            <p class="error-message" id="error-message"></p>
+            <p class="success-message" id="success-message"></p>
+        </div>
       </div>
       </div>
       <div class="details__form-visit__buttons">
@@ -194,7 +183,48 @@ session_start();
   ?>
     <script src="../scripts/submenu.js"></script>
   <?php endif; ?>
-  <script src="../scripts/navbar.js"></script>
+  <script>
+    document.getElementById('visit-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+      const errorMessageElement = document.getElementById('error-message');
+      const successMessageElement = document.getElementById('success-message');
+
+      fetch('visit_script.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          if (data.error === 'Invalid inmate name!') {
+            errorMessageElement.innerHTML = '<p class="error">Invalid inmate name!</p>';
+          } else if (data.error === 'Invalid file type!') {
+            errorMessageElement.innerHTML = '<p class="error">Invalid file type!</p>';
+          } else if (data.error === 'Visit time is exceeding the maximum duration!') {
+            errorMessageElement.innerHTML = '<p class="error">Visit time is exceeding the maximum duration!</p>';
+          } else if (data.error === 'Invalid start and end times!') {
+            errorMessageElement.innerHTML = '<p class="error">Invalid start and end times!</p>';
+          } else if (data.error === 'The inmate already has a visit at that time!') {
+            errorMessageElement.innerHTML = '<p class="error">The inmate already has a visit at that time!</p>';
+          } else if (data.error === 'Missing required fields') {
+            errorMessageElement.innerHTML = '<p class="error">Missing required fields</p>';
+          } else {
+            errorMessageElement.innerHTML = '<p class="error">An unknown error occurred.</p>';
+          }
+          successMessageElement.textContent = ''; 
+        } else if (data.message) {
+          successMessageElement.innerHTML = '<p class="success">' + data.message + '</p>';
+          errorMessageElement.textContent = ''; 
+          setTimeout(function() {
+            window.location.href = '../VisitorMain/visitormain.php';
+          }, 1000); 
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
 </body>
 
 </html>

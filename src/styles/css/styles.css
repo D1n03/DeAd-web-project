@@ -2045,6 +2045,19 @@ body {
   margin-bottom: 5%;
 }
 
+.details .error {
+  text-align: center;
+  color: rgb(255, 0, 0);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+.details .success {
+  text-align: center;
+  color: rgb(75, 226, 95);
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
 .details__form-visit__buttons__submit, .details__form-visit__buttons__back {
   text-align: center;
   padding: 0.5rem 1.5rem;
