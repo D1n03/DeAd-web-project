@@ -1,78 +1,79 @@
 <?php
-
-// check if the password is strong
-function check_password($password)
-{
-    $uppercase = preg_match('@[A-Z]@', $password);
-    $lowercase = preg_match('@[a-z]@', $password);
-    $number = preg_match('@[0-9]@', $password);
-
-    if (!$uppercase || !$number || strlen($password) < 8 || !$lowercase) {
-        return 0;
-    } else return 1;
-}
-
-$token = $_POST["token"];
-$token_hash = hash("sha256", $token);
-
 require '../Utils/Connection.php';
-$conn = Connection::getInstance()->getConnection();
 
-if ($conn->connect_errno) {
-    die('Could not connect to db: ' . $conn->connect_error);
-} else {
-    $sql = "SELECT * FROM users
-        WHERE reset_token_hash = ?";
+class PasswordResetController {
+    private $conn;
 
-    try {
-        $stmt = $conn->prepare($sql);
+    public function __construct() {
+        $this->conn = Connection::getInstance()->getConnection();
+        if ($this->conn->connect_errno) {
+            $this->sendResponse(500, 'Database connection error.');
+        }
+    }
+
+    public function handleRequest() {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $this->processPasswordReset();
+        } else {
+            $this->sendResponse(405, 'Method Not Allowed.');
+        }
+    }
+
+    private function processPasswordReset() {
+        $token = $_POST["token"] ?? '';
+        $password = $_POST['password'] ?? '';
+        $password_confirm = $_POST['password_confirm'] ?? '';
+
+        $token_hash = hash("sha256", $token);
+
+        $sql = "SELECT * FROM users WHERE reset_token_hash = ?";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $token_hash);
         $stmt->execute();
-
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
 
-    // redirect to error page reason 1 => the token is not valid
-    if ($user === null) {
-        header("Location: ../Error/error.php?reason=1");
-        exit();
-    }
-    // redirect to error page reason 2 => the token has expired
-    if (strtotime($user["reset_token_expires_at"]) <= time()) {
-        header("Location: ../Error/error.php?reason=2");
-        exit();
-    }
-    // get the passwords
-    $password = $_POST['password'];
-    $password_confirm = $_POST['password_confirm'];
+        if ($user === null) {
+            $this->sendResponse(400, 'Invalid token.');
+        }
 
-    $passwordStrength = check_password($password);
+        if (strtotime($user["reset_token_expires_at"]) <= time()) {
+            $this->sendResponse(400, 'Token has expired.');
+        }
 
-    if ($password != $password_confirm) {
-        header("Location: resetpassword.php?token=$token&error=1");
-        exit();
-    } else if ($passwordStrength < 1) {
-        header("Location: resetpassword.php?token=$token&strength=$passwordStrength");
-        exit();
-    }
+        if ($password !== $password_confirm) {
+            $this->sendResponse(400, 'Passwords do not match.');
+        }
 
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        if (!$this->checkPasswordStrength($password)) {
+            $this->sendResponse(400, 'Password must contain at least 8 characters, a number, uppercase and lowercase letters.');
+        }
 
-    $sql = "UPDATE users
-            SET password = ?,
-                reset_token_hash = NULL,
-                reset_token_expires_at = NULL
-            WHERE user_id = ?";
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-    try {
-        $stmt = $conn->prepare($sql);
+        $sql = "UPDATE users SET password = ?, reset_token_hash = NULL, reset_token_expires_at = NULL WHERE user_id = ?";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ss", $passwordHash, $user["user_id"]);
         $stmt->execute();
-    } catch (Exception $e) {
-        echo $e->getMessage();
+
+        $this->sendResponse(200, 'Password reset successfully.');
     }
-    header('Location: ../Index/index.php');
+
+    private function checkPasswordStrength($password) {
+        $uppercase = preg_match('@[A-Z]@', $password);
+        $lowercase = preg_match('@[a-z]@', $password);
+        $number = preg_match('@[0-9]@', $password);
+
+        return $uppercase && $lowercase && $number && strlen($password) >= 8;
+    }
+
+    private function sendResponse($statusCode, $message) {
+        http_response_code($statusCode);
+        echo json_encode(["message" => $message]);
+        exit();
+    }
 }
+
+$controller = new PasswordResetController();
+$controller->handleRequest();
+?>

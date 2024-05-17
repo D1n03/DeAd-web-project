@@ -12,7 +12,7 @@ session_start();
   <meta name="description" content="Apologies, it seems the page you were seeking couldn't be located. We regret any inconvenience caused. Feel free to browse the remaining sections of the DeAd website for additional engaging content and resources." />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Sign Up</title>
+  <title>Error page</title>
 </head>
 
 <body>
