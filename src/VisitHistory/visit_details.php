@@ -163,7 +163,7 @@ session_start();
                   echo '<div class="visit-details-visit__labels__container">';
                   // echo '<p class="container__text">Summary of discussions: ' . $visit['summary'] . '</p>';
                   echo '<p class="container__text">Summary of discussions:</p>';
-                  echo '<textarea class="form-textarea" readonly>' . $visit['summary'] . '</textarea>';
+                  echo '<textarea class="form-textarea" id="visit-summary" name="visit-summary" readonly>' . htmlspecialchars($visit['summary'], ENT_QUOTES, 'UTF-8') . '</textarea>';
                   echo '</div>';
                 echo '</div>';   
                 
