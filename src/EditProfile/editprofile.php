@@ -10,6 +10,7 @@ if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
 }
 
 // Retrieve logged-in user's details
+// TO DO, rework this so it an API? idk
 if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_SESSION['email'])) {
     $first_name = $_SESSION['first_name'];
     $last_name = $_SESSION['last_name'];
@@ -116,7 +117,7 @@ if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_S
   <main class="editprofile">
     <div class="container">
       <h1 class="container__title">Edit Profile</h1>
-      <form class="container__form" id="edit-profile-form" action="editprofile_script.php" method="POST" enctype="multipart/form-data">
+      <form class="container__form" id="edit-profile-form" enctype="multipart/form-data">
 
         <p class="container__text">First Name:</p>
         <div class="container__form-field">
@@ -142,19 +143,10 @@ if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_S
             <input type="file" id="photo" name="photo" accept="image/*">
             <p class="validation-error photo-error"></p>
         </div>
-        <?php
-        if (isset($_GET['success'])) {
-          if ($_GET['success'] == 1) {
-            echo "<p class='success'>Profile updated successfully!</p>";
-            echo "<meta http-equiv='refresh' content='1;url=../Profile/profile.php'>";
-          }
-        } else if (isset($_GET['error'])) {
-          if ($_GET['error'] == 1) {
-            echo '<p class="error">Invalid file type for the photo!</p>';
-          }
-        } 
-        ?>
-    
+        <div class="messages">
+            <p class="error-message" id="error-message"></p>
+            <p class="success-message" id="success-message"></p>
+        </div>
         <div class="container__form-buttons">
           <button type="submit" class="container__form-submit">Submit Changes</button>
         </div>
@@ -167,6 +159,51 @@ if (isset($_SESSION['first_name']) && isset($_SESSION['last_name']) && isset($_S
     <script src="../scripts/submenu.js"></script>
     <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    function submitProfileForm(formData) {
+        fetch('editprofile_script.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(response => {
+            const errorMessage = document.querySelector('.error-message');
+            const successMessage = document.querySelector('.success-message');
+
+            errorMessage.innerHTML = '';
+            successMessage.innerHTML = '';
+
+            if (response.status === 200) {
+                successMessage.innerHTML = '<p class="success">' + response.body.message + '</p>';
+                setTimeout(() => {
+                    window.location.href = '../Profile/profile.php';
+                }, 1000);
+            } else {
+                errorMessage.innerHTML = '<p class="error">' + response.body.message + '</p>';
+            }
+        })
+        .catch(error => {
+            const errorMessage = document.querySelector('.error-message');
+            const successMessage = document.querySelector('.success-message');
+
+            errorMessage.innerHTML = '<p class="error">An error occurred: ' + error.message + '</p>';
+            successMessage.innerHTML = '';
+        });
+    }
+
+    function handleFormSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        submitProfileForm(formData);
+    }
+
+    const profileForm = document.getElementById('edit-profile-form');
+    if (profileForm) {
+        profileForm.addEventListener('submit', handleFormSubmit);
+    }
+  });
+</script>
 </body>
 
 </html>
