@@ -94,108 +94,96 @@ session_start();
   </header>
 
   <main class="login">
-    <div class="container">
-      <h1 class="container__title">Sign Up</h1>
-      <form action="signup_script.php" method="POST" id="signup-form" class="container__form">
-        <div class="container__form-field">
-          <?php
-          if (isset($_GET['first_name'])) {
-            $first_name = $_GET['first_name'];
-            echo "<input type='text' name='first_name' value='$first_name' autocomplete='on' required id='first_name'>";
-          } else {
-            echo "<input
-                    id='first_name'
-                    required
-                    type='text'
-                    name='first_name'
-                    autocomplete='on'
-                    placeholder='First name'
-                  />";
-          }
-          ?>
-          <p class="validation-error first_name-error"></p>
-        </div>
-        <div class="container__form-field">
-          <?php
-          if (isset($_GET['last_name'])) {
-            $last_name = $_GET['last_name'];
-            echo "<input type='text' name='last_name' autocomplete='on' value='$last_name' required id='last_name'>";
-          } else {
-            echo "<input
-                    id='last_name'
-                    required
-                    type='text'
-                    name='last_name'
-                    autocomplete='on'
-                    placeholder='Last name'
-                  />";
-          }
-          ?>
-          <p class="validation-error last_name-error"></p>
-        </div>
-        <div class="container__form-field">
-          <?php
-          if (isset($_GET['email'])) {
-            $email = $_GET['email'];
-            echo "<input type='email' name='email' autocomplete='on' value='$email' required id='email'>";
-          } else {
-            echo "<input
-                    id='email'
-                    required
-                    type='email'
-                    name='email'
-                    autocomplete='on'
-                    placeholder='Email'
-                  />";
-          }
-          ?>
-          <p class="validation-error email-error"></p>
-        </div>
-        <div class="container__form-field">
-          <input id="password" required type="password" name="password" placeholder="Password" />
-          <p class="validation-error password-error"></p>
-        </div>
-        <div class="container__form-field">
-          <input id="password_confirm" required type="password" name="password_confirm" placeholder="Confirm Password" />
-          <p class="validation-error password-error"></p>
-        </div>
-        <?php
-
-        if (isset($_GET['error'])) {
-          if ($_GET['error'] == 1) {
-            echo '<p class="error">Email already exists</p>';
-          } else if ($_GET['error'] == 2) {
-            echo '<p class="error">Passwords do not match</p>';
-          } else if ($_GET['error'] == 3) {
-            echo '<p class="error">Error. Failed to create account</p>';
-          }
-        } else if (isset($_GET['strength'])) {
-          if ($_GET['strength'] == 0) {
-            echo '<p class="error"> Password must contain at least 8 characters, a number, uppercase and lowercase letters</p>';
-          } else {
-            echo '<p class="error" style="color: green;">Password is strong!</p>';
-          }
-        } else if (isset($_GET['success'])) {
-          if ($_GET['success'] == 1) {
-            echo "<p class='success'>Account created successfully!</p>";
-            echo "<meta http-equiv='refresh' content='1;url=../Login/login.php'>";
-          }
-        }
-        ?>
-        <div class="container__form-buttons">
-          <button type="submit" class="container__form-submit-signup">
-            Sign up
-          </button>
-        </div>
-      </form>
-    </div>
-  </main>
+  <div class="container">
+    <h1 class="container__title">Sign Up</h1>
+    <form id="signup-form" class="container__form">
+      <div class="container__form-field">
+        <input id="first_name" required type="text" name="first_name" autocomplete="on" placeholder="First name" value="<?php echo isset($_GET['first_name']) ? $_GET['first_name'] : ''; ?>" />
+        <p class="validation-error first_name-error"></p>
+      </div>
+      <div class="container__form-field">
+        <input id="last_name" required type="text" name="last_name" autocomplete="on" placeholder="Last name" value="<?php echo isset($_GET['last_name']) ? $_GET['last_name'] : ''; ?>" />
+        <p class="validation-error last_name-error"></p>
+      </div>
+      <div class="container__form-field">
+        <input id="email" required type="email" name="email" autocomplete="on" placeholder="Email" value="<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>" />
+        <p class="validation-error email-error"></p>
+      </div>
+      <div class="container__form-field">
+        <input id="password" required type="password" name="password" placeholder="Password" />
+        <p class="validation-error password-error"></p>
+      </div>
+      <div class="container__form-field">
+        <input id="password_confirm" required type="password" name="password_confirm" placeholder="Confirm Password" />
+        <p class="validation-error password_confirm-error"></p>
+      </div>
+      <p class="error-message" id="error-message"></p>
+      <p class="success-message" id="success-message"></p>
+      <div class="container__form-buttons">
+        <button type="submit" class="container__form-submit-signup">Sign up</button>
+      </div>
+    </form>
+  </div>
+</main>
   <?php
     if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
     ?>
     <script src="../scripts/submenu.js"></script>
     <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script> 
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('signup-form');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        const data = new URLSearchParams();
+        for (const pair of formData) {
+          data.append(pair[0], pair[1]);
+        }
+
+        try {
+          const response = await fetch('signup_script.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data.toString()
+          });
+
+          const result = await response.json();
+          handleResponse(response.status, result);
+        } catch (error) {
+          console.error('Error:', error);
+          const errorMessage = document.querySelector('.error-message');
+          const successMessage = document.querySelector('.success-message');
+
+          errorMessage.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+          successMessage.innerHTML = '';
+        }
+      });
+
+      function handleResponse(status, data) {
+        const errorMessageElement = document.querySelector('.error-message');
+        const successMessageElement = document.querySelector('.success-message');
+
+        errorMessageElement.innerHTML = '';
+        successMessageElement.innerHTML = '';
+
+        if (status === 201) {
+          successMessageElement.innerHTML = '<p class="success">' + data.message + '</p>';
+          setTimeout(() => {
+            window.location.href = '../Login/login.php';
+          }, 1000);
+        } else {
+          errorMessageElement.innerHTML = '<p class="error">' + data.message + '</p>';
+        }
+      }
+    });
+  </script>
 </body>
 
 </html>

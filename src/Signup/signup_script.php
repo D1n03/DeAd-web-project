@@ -1,83 +1,85 @@
 <?php
-
-// check if the password is strong
-function check_password($password)
-{
-    $uppercase = preg_match('@[A-Z]@', $password);
-    $lowercase = preg_match('@[a-z]@', $password);
-    $number = preg_match('@[0-9]@', $password);
-
-    if (!$uppercase || !$number || strlen($password) < 8 || !$lowercase) {
-        return 0;
-    } else return 1;
-}
-
-// get the password and email from the form
-$first_name = $_POST['first_name'];
-$last_name = $_POST['last_name'];
-$email = $_POST['email'];
-$password = $_POST['password'];
-$password_confirm = $_POST['password_confirm'];
-
-// check if the email contains special domain
-$domains_for_admin = array('mapn.com', 'mai.com', 'gov.com');
-if (in_array(substr($email, strpos($email, '@') + 1), $domains_for_admin)) {
-    $function = 'admin';
-} else {
-    $function = 'user';
-}
-
-$passwordStrength = check_password($password);
-
-if ($password != $password_confirm) {
-    header("Location: signup.php?error=2&first_name=$first_name&last_name=$last_name&email=$email");
-    exit();
-} else if ($passwordStrength < 1) {
-    header("Location: signup.php?strength=$passwordStrength&first_name=$first_name&last_name=$last_name&email=$email");
-    exit();
-}
-
 require '../Utils/Connection.php';
-$conn = Connection::getInstance()->getConnection();
 
-if ($conn->connect_errno) {
-    die('Could not connect to db: ' . $conn->connect_error);
-} else {
-    try {
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+class UserRegistrationController {
+    private $conn;
+
+    public function __construct() {
+        $this->conn = Connection::getInstance()->getConnection();
+        if ($this->conn->connect_errno) {
+            $this->sendResponse(500, 'Could not connect to the database.');
+        }
+    }
+
+    public function handleRequest() {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $this->registerUser();
+        } else {
+            $this->sendResponse(405, 'Method Not Allowed.');
+        }
+    }
+
+    private function registerUser() {
+        $first_name = $_POST['first_name'] ?? '';
+        $last_name = $_POST['last_name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $password_confirm = $_POST['password_confirm'] ?? '';
+
+        if (empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($password_confirm)) {
+            $this->sendResponse(400, 'All fields are required.');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->sendResponse(400, 'Invalid email format.');
+        }
+
+        if ($password !== $password_confirm) {
+            $this->sendResponse(400, 'Passwords do not match.');
+        }
+
+        if (!$this->checkPasswordStrength($password)) {
+            $this->sendResponse(400, 'Password must contain at least 8 characters, a number, and both uppercase and lowercase letters.');
+        }
+
+        $domains_for_admin = array('mapn.com', 'mai.com', 'gov.com');
+        $domain = substr($email, strpos($email, '@') + 1);
+        $function = in_array($domain, $domains_for_admin) ? 'admin' : 'user';
+
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-    } catch (Exception $e) {
-        echo $e->getMessage();
+
+        if ($result->num_rows > 0) {
+            $this->sendResponse(409, 'An account with this email already exists.');
+        }
+
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->conn->prepare("INSERT INTO users (email, password, first_name, last_name, function) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $email, $passwordHash, $first_name, $last_name, $function);
+
+        if ($stmt->execute()) {
+            $this->sendResponse(201, 'Account created successfully!', true);
+        } else {
+            $this->sendResponse(500, 'Error: Failed to create account.');
+        }
     }
 
-    if (mysqli_num_rows($result) > 0) {
-        // set the error and redirect to the register page with the credentials
-        header("Location: signup.php?error=1&first_name=$first_name&last_name=$last_name&email=$email");
+    private function checkPasswordStrength($password) {
+        $uppercase = preg_match('@[A-Z]@', $password);
+        $lowercase = preg_match('@[a-z]@', $password);
+        $number = preg_match('@[0-9]@', $password);
+        return $uppercase && $lowercase && $number && strlen($password) >= 8;
+    }
+
+    private function sendResponse($statusCode, $message, $success = false) {
+        http_response_code($statusCode);
+        echo json_encode(["message" => $message, "success" => $success]);
         exit();
     }
-
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-    try {
-        $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, function) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $email, $passwordHash, $first_name, $last_name, $function);
-        $result = $stmt->execute();
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
-    if ($result) {
-        //set the session variables
-        session_start();
-        $_SESSION['is_logged_in'] = true;
-        $_SESSION['email'] = $row['email'];
-        $_SESSION['first_name'] = $row['first_name'];
-        $_SESSION['last_name'] = $row['last_name'];
-        $_SESSION['function'] = $row['function'];
-        //$_SESSION['id'] = $user_id;
-        header('Location: signup.php?success=1');
-    } else {
-        //redirect to the register page
-        header('Location: signup.php?error=3');
-    }
 }
+
+$controller = new UserRegistrationController();
+$controller->handleRequest();
+?>
