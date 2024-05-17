@@ -95,7 +95,7 @@ session_start();
   </header>
 
   <main class="export__main">
-    <form class="export__main__form " action="export_all_data_script.php" method="POST" enctype="multipart/form-data" id="export-form">
+    <form class="export__main__form " enctype="multipart/form-data" id="export-form">
       <div class="export__main__form__labels">
         <div class="export__form__labels__title">
           Export data
@@ -145,30 +145,68 @@ session_start();
   <script src="../scripts/navbar.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      var exportSelect = document.getElementById("export");
-      var sortOptions = document.getElementById("sortOptions");
-      var alphabeticallyRadio = document.getElementById("alphabetically");
-      var dateCreatedRadio = document.getElementById("date_created");
+        const exportSelect = document.getElementById("export");
+        const sortOptions = document.getElementById("sortOptions");
 
-      function toggleSortOptions() {
-        sortOptions.innerHTML = "";
+        function toggleSortOptions() {
+            sortOptions.innerHTML = "";
 
-        if (exportSelect.value === "users") {
-          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
-        } else if (exportSelect.value === "inmates") {
-          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name" id="name"> Name</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_start_date" id="sentence_start_date"> Sentence start date</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_duration" id="sentence_duration"> Sentence duration</label>';
-        } else if (exportSelect.value === "all_visits") {
-          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="date" id="date"> Date</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="visitor" id="visitor"> Visitor</label>';
-          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="inmate" id="inmate"> Inmate</label>';
+            if (exportSelect.value === "users") {
+                sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name"> Name</label>';
+            } else if (exportSelect.value === "inmates") {
+                sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name"> Name</label>';
+                sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_start_date"> Sentence start date</label>';
+                sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_duration"> Sentence duration</label>';
+            } else if (exportSelect.value === "all_visits") {
+                sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="date"> Date</label>';
+                sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="visitor"> Visitor</label>';
+                sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="inmate"> Inmate</label>';
+            }
         }
-      }
-      toggleSortOptions();
-      exportSelect.addEventListener("change", toggleSortOptions);
+
+        toggleSortOptions();
+        exportSelect.addEventListener("change", toggleSortOptions);
+
+        document.getElementById("export-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const exportValue = document.getElementById("export").value;
+            const formatValue = document.querySelector('input[name="format"]:checked').value;
+            const sortedValue = document.querySelector('input[name="sorted"]:checked') ? document.querySelector('input[name="sorted"]:checked').value : '';
+
+            const params = new URLSearchParams({
+                export: exportValue,
+                format: formatValue,
+                sorted: sortedValue
+            });
+
+            const url = 'export_all_data_script.php?' + params.toString();
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `export_${exportValue}_${new Date().toISOString().slice(0, 10)}.${formatValue}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            })
+            .catch(error => console.error('There was a problem with the fetch operation:', error));
+        });
     });
-  </script>
+</script>
 </body>
 
 </html>
