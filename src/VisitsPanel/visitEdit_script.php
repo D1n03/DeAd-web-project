@@ -46,7 +46,6 @@ class UpdateVisitAPI extends BaseAPI {
             echo json_encode($error);
             exit();
         }
-    
         // Check duration of visit
         $start_time = new DateTime($visit_time_start);
         $end_time = new DateTime($visit_time_end);
