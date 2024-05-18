@@ -103,9 +103,8 @@ session_start();
           $url = $base_url . "/DeAd-web-Project/src/UsersPanel/get_user_id.php" . "?user_id=" . $_GET['user_id'];
           $curl = curl_init($url);
 
-          if(isset($_SESSION['token']))
-          {
-              curl_setopt($curl,CURLOPT_HTTPHEADER,array('Authorization: Bearer '.$_SESSION['token']));
+          if (isset($_COOKIE['auth_token'])) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: auth_token=' . $_COOKIE['auth_token']));
           }
 
           curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -199,7 +198,7 @@ session_start();
               successMessage.innerHTML = '<p class="success">User updated successfully!</p>'; 
               setTimeout(function() {
                 window.location.href = './userspanel.php';
-              }, 2000);
+              }, 1000);
             } else {
               console.error('Unknown message:', data.message);
             }

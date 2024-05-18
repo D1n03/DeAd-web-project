@@ -103,10 +103,12 @@ session_start();
                     $base_url = "localhost";
                     $url = $base_url . "/DeAd-web-Project/src/UsersPanel/get_users.php";
                     $curl = curl_init();
+                    // Set cURL options
                     curl_setopt($curl, CURLOPT_URL, $url);
                     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    // set the parameter id
-                    curl_setopt($curl, CURLOPT_HTTPGET, true);
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+                        'Cookie: auth_token=' . $_COOKIE['auth_token'], // Pass the JWT token as a cookie
+                    ]);
                     $curl_response = curl_exec($curl);
                     curl_close($curl);
                     $response = json_decode($curl_response, true);

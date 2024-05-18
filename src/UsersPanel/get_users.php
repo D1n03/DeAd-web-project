@@ -1,16 +1,12 @@
 <?php
 
-require '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class NonAdminUsersAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class NonAdminUsersAPI extends BaseAPI {
 
     public function handleRequest() {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->jwtValidation->validateAdminToken(); 
             $this->getNonAdminUsers();
         } else {
             http_response_code(405); // Method Not Allowed
