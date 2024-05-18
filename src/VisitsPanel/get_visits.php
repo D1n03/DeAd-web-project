@@ -1,16 +1,12 @@
 <?php
 
-require '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class VisitsAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class VisitsAPI extends BaseAPI {
 
     public function handleRequest() {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->jwtValidation->validateAdminToken(); 
             $this->getVisits();
         } else {
             http_response_code(405); 

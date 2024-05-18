@@ -22,7 +22,6 @@ class DeleteUserAPI extends BaseAPI {
             http_response_code(400); // Bad Request
             exit();
         }
-        // to do token
         // Check if user exists in the database
         $stmt = $this->conn->prepare("SELECT user_id FROM users WHERE user_id = ?");
         $stmt->bind_param("i", $userId);

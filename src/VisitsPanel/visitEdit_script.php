@@ -1,18 +1,15 @@
 <?php
-require '../Utils/Connection.php';
 
-class UpdateVisitAPI {
-    private $conn;
+require '../Utils/BaseAPI.php';
 
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class UpdateVisitAPI extends BaseAPI {
 
     public function handleRequest() {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case 'POST':
+                $this->jwtValidation->validateAdminToken(); 
                 $this->updateVisit();
                 break;
             default:
@@ -22,14 +19,6 @@ class UpdateVisitAPI {
     }
 
     private function updateVisit() {
-        session_start();
-        
-        // Check if user is logged in
-        if (!isset($_SESSION['is_logged_in'])) {
-            http_response_code(401); // Unauthorized
-            exit(json_encode(array("error" => "Unauthorized")));
-        }
-    
         // Get POST data
         $visit_id = $_POST['visit_id'] ?? null;
         $date = $_POST['date'] ?? null;
@@ -43,6 +32,19 @@ class UpdateVisitAPI {
         if (!$visit_id || !$date || !$visit_time_start || !$visit_time_end || !$visit_nature || !$first_name_inmate || !$last_name_inmate) {
             http_response_code(400); // Bad Request
             exit(json_encode(array("error" => "Missing required fields")));
+        }
+
+        // Check if visit exists in the database
+        $stmt = $this->conn->prepare("SELECT visit_id FROM visits WHERE visit_id = ?");
+        $stmt->bind_param("s", $visit_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($result->num_rows == 0) {
+            $error = array("error" => "Visit not found");
+            http_response_code(404); // Not Found
+            echo json_encode($error);
+            exit();
         }
     
         // Check duration of visit

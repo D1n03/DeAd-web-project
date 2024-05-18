@@ -103,9 +103,8 @@ session_start();
           $url = $base_url . "/DeAd-web-Project/src/VisitsPanel/get_visit_id.php" . "?visit_id=" . $_GET['visit_id'];
           $curl = curl_init($url);
 
-          if(isset($_SESSION['token']))
-          {
-              curl_setopt($curl,CURLOPT_HTTPHEADER,array('Authorization: Bearer '.$_SESSION['token']));
+          if (isset($_COOKIE['auth_token'])) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: auth_token=' . $_COOKIE['auth_token']));
           }
 
           curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

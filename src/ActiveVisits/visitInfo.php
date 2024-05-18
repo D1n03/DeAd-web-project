@@ -141,7 +141,7 @@ session_start();
             <div class="form-text">Witnesses: </div>
             <div class="input-group">
               <label for="police">
-                <input type="radio" name="witnesses" value="relative" id="police"> Police Guard</label>
+                <input type="radio" name="witnesses" value="police_guard" id="police"> Police Guard</label>
               <label for="police">
                 <input type="radio" name="witnesses" value="legal_gurdian" id="legal_gurdian"> Legal
                 Guardian</label>
