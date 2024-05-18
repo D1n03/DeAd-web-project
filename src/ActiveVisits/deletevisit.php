@@ -1,15 +1,12 @@
 <?php
-require '../Utils/Connection.php';
 
-class DeleteVisitAPI {
-    private $conn;
+require '../Utils/BaseAPI.php';
 
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class DeleteVisitAPI extends BaseAPI {
 
     public function handleRequest() {
         if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            $this->jwtValidation->validateUserToken(); 
             $this->deleteVisit();
         } else {
             http_response_code(405); // Method Not Allowed

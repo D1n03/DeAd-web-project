@@ -37,6 +37,13 @@ class PasswordChangeAPI extends BaseAPI {
             $stmt->execute();
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
+
+            // Check if a row was returned
+            if (!$row) {
+                http_response_code(404); // Not Found
+                exit(json_encode(array("error" => "User not found.")));
+            }
+            
             $hashed_password = $row['password'];
 
             if (!password_verify($current_password, $hashed_password)) {
