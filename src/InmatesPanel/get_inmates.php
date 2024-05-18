@@ -1,17 +1,12 @@
 <?php
 
-require '../../config.php';
-require '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class InmateAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class InmateAPI extends BaseAPI {
 
     public function handleRequest() {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->jwtValidation->validateAdminToken();
             $this->getAllInmates();
         } else {
             http_response_code(405); // Method Not Allowed

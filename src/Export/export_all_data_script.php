@@ -1,23 +1,26 @@
 <?php
-require '../Utils/Connection.php';
-$config = require '../../config.php';
+require '../Utils/BaseAPI.php';
 
-class ExportController {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class ExportController extends BaseAPI {
 
     public function handleRequest() {
-        session_start();
+        $method = $_SERVER['REQUEST_METHOD'];
+        
+        switch ($method) {
+            case 'GET':
+                $this->jwtValidation->validateAdminToken(); 
+                $this->ExportData();
+                break;
+            default:
+                http_response_code(405);
+                exit(json_encode(array("error" => "Only GET requests are allowed.")));
+        }
+    }
+
+    private function ExportData() {
         
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             $this->sendResponse(405, 'Method Not Allowed');
-        }
-        // TO DO, JWT CHECK HERE
-        if (!isset($_SESSION['id'])) {
-            $this->sendResponse(401, 'Unauthorized');
         }
 
         $exportType = $_GET['export'] ?? '';

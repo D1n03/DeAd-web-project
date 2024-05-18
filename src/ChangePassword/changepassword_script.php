@@ -1,19 +1,15 @@
 <?php
 
-require '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class PasswordChangeAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class PasswordChangeAPI extends BaseAPI {
 
     public function handleRequest() {
         $method = $_SERVER['REQUEST_METHOD'];
         
         switch ($method) {
             case 'POST':
+                $this->jwtValidation->validateAnyToken(); 
                 $this->changePassword();
                 break;
             default:
@@ -23,8 +19,6 @@ class PasswordChangeAPI {
     }
 
     private function changePassword() {
-        session_start();
-
         // Check if email is provided and validate it
         if (!isset($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             http_response_code(400); // Bad Request
@@ -43,6 +37,13 @@ class PasswordChangeAPI {
             $stmt->execute();
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
+
+            // Check if a row was returned
+            if (!$row) {
+                http_response_code(404); // Not Found
+                exit(json_encode(array("error" => "User not found.")));
+            }
+            
             $hashed_password = $row['password'];
 
             if (!password_verify($current_password, $hashed_password)) {

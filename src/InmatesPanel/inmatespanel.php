@@ -99,21 +99,32 @@ session_start();
                 </div>
                 <ol class="inmate-panel__list">
                     <?php
-                    // we use curl to make a request to the api
-                    $base_url = "localhost";
-                    $url = $base_url . "/DeAd-web-Project/src/InmatesPanel/get_inmates.php";
+                    // Set the base URL for the API endpoint
+                    $base_url = "http://localhost/DeAd-web-Project/src/InmatesPanel/get_inmates.php";
+
+                    // Initialize cURL session
                     $curl = curl_init();
-                    curl_setopt($curl, CURLOPT_URL, $url);
+
+                    // Set cURL options
+                    curl_setopt($curl, CURLOPT_URL, $base_url);
                     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    // set the parameter id
-                    curl_setopt($curl, CURLOPT_HTTPGET, true);
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+                        'Cookie: auth_token=' . $_COOKIE['auth_token'], // Pass the JWT token as a cookie
+                    ]);
+
+                    // Execute the cURL request
                     $curl_response = curl_exec($curl);
+
+                    // Check for errors
+                    if ($curl_response === false) {
+                        $error_message = curl_error($curl);
+                        echo "cURL Error: $error_message";
+                        exit;
+                    }
                     curl_close($curl);
                     $response = json_decode($curl_response, true);
-                    // we parse the response
-                    // if there are no appointments, display a message
                     if (empty($response)) {
-                        // button to create an visits, copy paste lmao
+                        // No data retrieved from the API, display a message
                         echo '<div class="inmate-panel-not-found">';
                         echo '<h3>The database for the inmates is empty</h3>';
                         echo '</div>';

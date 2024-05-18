@@ -17,6 +17,7 @@ $totalEntries = VisitHistory::getTotalEntriesCount($current_user);
 
 // total number of pages based on entries
 $totalPages = ceil($totalEntries / $numOfEntriesPerPage);
+$numToDuplicate = 0;
 
 // if the last page has fewer than 3 items, duplicate the last item to fill the row
 if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {

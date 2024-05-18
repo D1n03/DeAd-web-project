@@ -1,20 +1,15 @@
 <?php
-session_start();
 
-require '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class VisitUpdateAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class VisitUpdateAPI extends BaseAPI {
 
     public function handleRequest() {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case 'POST':
+                $this->jwtValidation->validateUserToken(); 
                 $this->updateVisit();
                 break;
             default:
@@ -25,11 +20,8 @@ class VisitUpdateAPI {
     }
 
     private function updateVisit() {
-
-        // TO DO, JWT TOKEN
-
         // Process POST data for updating visit information
-        $user_id = $_SESSION['id'];
+        $user_id = $this->jwtValidation->getUserId();
         $items_offered_by_inmate = $_POST['itemsFrom'] ?? '';
         $items_provided_to_inmate = $_POST['itemsTo'] ?? '';
         $summary = $_POST['summary'] ?? '';
@@ -38,6 +30,18 @@ class VisitUpdateAPI {
         $visit_id = $_POST['visit_id'] ?? '';
 
         try {
+            // Check if the visit exists
+            $stmt_check = $this->conn->prepare("SELECT visitor_id FROM visits_info WHERE visit_refID = ?");
+            $stmt_check->bind_param("i", $visit_id);
+            $stmt_check->execute();
+            $result_check = $stmt_check->get_result();
+            
+            // If the visit does not exist, return an error
+            if ($result_check->num_rows == 0) {
+                http_response_code(404); // Not Found
+                echo json_encode(array("error" => "Visit does not exist."));
+                exit;
+            }
             // Update visit information
             $stmt = $this->conn->prepare("UPDATE visits_info SET
                 witnesses = ?,

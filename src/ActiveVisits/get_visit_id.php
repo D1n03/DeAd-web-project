@@ -1,16 +1,12 @@
 <?php
-require '../../config.php';
-require '../Utils/Connection.php';
 
-class GetVisitDetailsAPI {
-    private $conn;
+require '../Utils/BaseAPI.php';
 
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class GetVisitDetailsAPI extends BaseAPI {
 
     public function handleRequest() {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->jwtValidation->validateUserToken(); 
             $this->getVisitDetails();
         } else {
             http_response_code(405); // Method Not Allowed
@@ -19,7 +15,6 @@ class GetVisitDetailsAPI {
     }
 
     private function getVisitDetails() {
-        // TODO: Implement token validation for more security
 
         header('Content-Type: application/json');
 

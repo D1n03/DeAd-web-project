@@ -1,19 +1,15 @@
 <?php
-session_start();
 
-class ProfileController {
-    private $conn;
+require '../Utils/BaseAPI.php';
 
-    public function __construct() {
-        require '../Utils/Connection.php';
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class ProfileController extends BaseAPI {
 
     public function handleRequest() {
-
+        session_start();
         $method = $_SERVER['REQUEST_METHOD'];
         switch ($method) {
             case 'POST':
+                $this->jwtValidation->validateAnyToken(); 
                 $this->updateProfile();
                 break;
             default:
@@ -21,7 +17,7 @@ class ProfileController {
         }
     }
 
-    private function updateProfile() {  // to do jwt stuff
+    private function updateProfile() {
         if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
             $this->sendResponse(401, 'Unauthorized');
         }

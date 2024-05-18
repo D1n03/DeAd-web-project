@@ -102,13 +102,17 @@ $numToDuplicate = 0;
                 <ol class="visit-active__list">
                     <?php
                     // we use curl to make a request to the api
-                    $base_url = "localhost";
-                    $url = $base_url . "/DeAd-web-Project/src/ActiveVisits/get_visits.php" . "?id=" . $_SESSION['id'];
+                    $base_url = "http://localhost/DeAd-web-Project/src/ActiveVisits/get_visits.php";
+
+                    // Initialize cURL session
                     $curl = curl_init();
-                    curl_setopt($curl, CURLOPT_URL, $url);
+
+                    // Set cURL options
+                    curl_setopt($curl, CURLOPT_URL, $base_url . "?id=" . $_SESSION['id']); // Include query parameter in URL
                     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    // set the parameter id
-                    curl_setopt($curl, CURLOPT_HTTPGET, true);
+                    curl_setopt($curl, CURLOPT_COOKIE, 'auth_token=' . $_COOKIE['auth_token']); // Set the auth_token cookie
+
+                    // Execute the cURL request
                     $curl_response = curl_exec($curl);
                     curl_close($curl);
                     $response = json_decode($curl_response, true);

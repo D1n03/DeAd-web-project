@@ -103,9 +103,8 @@ session_start();
           $url = $base_url . "/DeAd-web-Project/src/ActiveVisits/get_visit_id.php" . "?visit_id=" . $_GET['visit_id'];
           $curl = curl_init($url);
 
-          if(isset($_SESSION['token']))
-          {
-              curl_setopt($curl,CURLOPT_HTTPHEADER,array('Authorization: Bearer '.$_SESSION['token']));
+          if (isset($_COOKIE['auth_token'])) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: auth_token=' . $_COOKIE['auth_token']));
           }
 
           curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -142,7 +141,7 @@ session_start();
             <div class="form-text">Witnesses: </div>
             <div class="input-group">
               <label for="police">
-                <input type="radio" name="witnesses" value="relative" id="police"> Police Guard</label>
+                <input type="radio" name="witnesses" value="police_guard" id="police"> Police Guard</label>
               <label for="police">
                 <input type="radio" name="witnesses" value="legal_gurdian" id="legal_gurdian"> Legal
                 Guardian</label>

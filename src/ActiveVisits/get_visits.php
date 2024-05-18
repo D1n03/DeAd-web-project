@@ -1,16 +1,11 @@
 <?php
-require '../../config.php';
-require '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class VisitAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class VisitAPI extends BaseAPI{
 
     public function handleRequest() {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->jwtValidation->validateUserToken(); 
             $this->getVisits();
         } else {
             http_response_code(405); // Method Not Allowed

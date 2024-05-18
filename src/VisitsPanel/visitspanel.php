@@ -103,10 +103,12 @@ session_start();
                     $base_url = "localhost";
                     $url = $base_url . "/DeAd-web-Project/src/VisitsPanel/get_visits.php";
                     $curl = curl_init();
+                    // Set cURL options
                     curl_setopt($curl, CURLOPT_URL, $url);
                     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    // set the parameter id
-                    curl_setopt($curl, CURLOPT_HTTPGET, true);
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+                        'Cookie: auth_token=' . $_COOKIE['auth_token'], // Pass the JWT token as a cookie
+                    ]);
                     $curl_response = curl_exec($curl);
                     curl_close($curl);
                     $response = json_decode($curl_response, true);
@@ -177,8 +179,7 @@ session_start();
 
                 if (confirm('Are you sure you want to delete this visit?')) {
                     const xhr = new XMLHttpRequest();
-                    xhr.open('DELETE', 'deletevisit.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.open('DELETE', 'deletevisit.php?visit_id=' + encodeURIComponent(get_visit_id), true);
                     xhr.onload = function() {
                         if (xhr.status === 200) {
                             window.location.href = currentUrl;
@@ -186,7 +187,7 @@ session_start();
                             alert('Error deleting visit. Please try again.');
                         }
                     };
-                    xhr.send('visit_id=' + encodeURIComponent(get_visit_id));
+                    xhr.send();
                 } else {
                     // nothing happens
                 }

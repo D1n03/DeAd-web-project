@@ -1,17 +1,12 @@
 <?php
 
-require_once '../../config.php';
-require_once '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class GetUserAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
-
+class GetUserAPI extends BaseAPI {
+    
     public function handleRequest() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $this->jwtValidation->validateAdminToken(); 
             $this->getUser();
         } else {
             http_response_code(405); // Method Not Allowed

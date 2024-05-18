@@ -1,82 +1,118 @@
 <?php
-// Get the email and password from the form
+
 use Firebase\JWT\JWT;
-
-require_once  '../../vendor/autoload.php';
-
-
-$email = $_POST['email'];
-$password = $_POST['password'];
-
-$config = require '../../config.php';
+require_once '../../vendor/autoload.php';
 require '../Utils/Connection.php';
-$conn = Connection::getInstance()->getConnection();
 
-if ($conn->connect_errno) {
-    die('Could not connect to db: ' . $conn->connect_error);
-} else {
-    
-    try {
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    } catch (Exception $e) {
-        echo $e->getMessage();
+class AuthAPI {
+    private $conn;
+    private $config;
+
+    public function __construct() {
+        $this->conn = Connection::getInstance()->getConnection();
+        $this->config = require '../../config.php';
     }
 
-    // verify hash password
-    $row = mysqli_fetch_assoc($result); // get the row from the result
-    //check if the username has admin function
+    public function handleRequest() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->login();
+        } else {
+            $this->respondMethodNotAllowed();
+        }
+    }
 
-    if (password_verify($password, $row['password'])) {
-        //set the session variables
+    private function login() {
+        $input = json_decode(file_get_contents("php://input"), true);
+        $email = $input['email'] ?? '';
+        $password = $input['password'] ?? '';
+
+        if ($this->conn->connect_errno) {
+            $this->respondInternalError('Could not connect to database');
+            return;
+        }
+
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+
+            if ($row && password_verify($password, $row['password'])) {
+                $this->createSession($row);
+                $token = $this->createJWT($row);
+                $this->setTokenCookie($token);
+                $this->respondSuccess($row['function']);
+            } else {
+                $this->respondUnauthorized('Invalid email or password');
+            }
+        } catch (Exception $e) {
+            $this->respondInternalError($e->getMessage());
+        }
+    }
+
+    private function createSession($user) {
         session_start();
         $_SESSION['is_logged_in'] = true;
-        $_SESSION['email'] = $row['email'];
-        $_SESSION['first_name'] = $row['first_name'];
-        $_SESSION['last_name'] = $row['last_name'];
-        $_SESSION['function'] = $row['function'];
-        $_SESSION['id'] = $row['user_id'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['first_name'] = $user['first_name'];
+        $_SESSION['last_name'] = $user['last_name'];
+        $_SESSION['function'] = $user['function'];
+        $_SESSION['id'] = $user['user_id'];
+        $_SESSION['photo'] = $user['photo'];
+    }
 
-        // fetch and set the user's photo
-        $photo = $row['photo'];
-        $_SESSION['photo'] = $photo;
-
-        // create a new authentification token
-        $key = $config['secret_key'];
+    private function createJWT($user) {
         $issuedAt = new DateTimeImmutable();
-        $role = "user";
-        if ($row['function'] == 'admin') {
-            $role = "admin";
-        }
         $expire = $issuedAt->modify('+6 hours')->getTimestamp();
-        $serverName = $config['hostname'];
-        $data  = [
-            'iat' => $issuedAt->getTimestamp(),         // time when the token was generated
-            'iss' => $serverName,                       // issuer
-            'nbf' => $issuedAt->getTimestamp(),         // not before
-            'exp' => $expire,                           // expire
-            'role' => $role,                            // user role
-            'first_name' => $row['first_name'],         // first name
-            'last_name' => $row['last_name']            // last name
+        $data = [
+            'iat' => $issuedAt->getTimestamp(),
+            'iss' => $this->config['hostname'],
+            'nbf' => $issuedAt->getTimestamp(),
+            'exp' => $expire,
+            'role' => $user['function'] == 'admin' ? 'admin' : 'user',
+            'user_id' => $user['user_id']
         ];
-        $token  =  JWT::encode(
-            $data,
-            $key,
-            'HS256'
-        );
-        // set the token in the session
-        $_SESSION['token'] = $token;
-        $_SESSION['role'] = $role;
-        // echo $token;
-        if ($role == "user") {
-            header("Location: ../VisitorMain/visitormain.php");
-        } else if ($role == "admin") {
-            header("Location: ../AdminMain/adminmain.php");
-        }
-    } else {
-        // redirect to the login page with an error message
-        header("Location: login.php?error=1&email=$email");
+
+        return JWT::encode($data, $this->config['secret_key'], 'HS256');
+    }
+
+    private function setTokenCookie($token) {
+        setcookie('auth_token', $token, [
+            'expires' => time() + (6 * 60 * 60), // 6 hours
+            'path' => '/',
+            'domain' => '', // Set domain
+            'secure' => true, // TO DO? SET FALE FOR HTTP AT DEPLOY?
+            'httponly' => true, // Prevent JavaScript access to the cookie
+            'samesite' => 'Strict' // Adjust based on your CSRF protection strategy
+        ]);
+    }
+
+    private function respondSuccess($role) {
+        header('Content-Type: application/json');
+        echo json_encode(['role' => $role]);
+    }
+
+    private function respondUnauthorized($message) {
+        http_response_code(401);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => $message]);
+    }
+
+    private function respondInternalError($message) {
+        http_response_code(500);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => $message]);
+    }
+
+    private function respondMethodNotAllowed() {
+        http_response_code(405);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Method Not Allowed']);
     }
 }
+
+$authAPI = new AuthAPI();
+$authAPI->handleRequest();
+
+?>

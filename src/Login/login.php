@@ -98,16 +98,9 @@ session_start();
   <main class="login">
     <div class="container">
       <h1 class="container__title">Login to your DeAd account</h1>
-      <form class="container__form" id="login-form" action="login_script.php" method="POST">
+      <form class="container__form" id="login-form">
         <div class="container__form-field">
-          <?php
-          if (isset($_GET['email'])) {
-            $email = $_GET['email'];
-            echo "<input id='email' required type='email' name='email' autocomplete='on' value='$email' />";
-          } else {
-            echo "<input id='email' required type='email' name='email' autocomplete='on' placeholder='Email' />";
-          }
-          ?>
+          <input id='email' required type='email' name='email' autocomplete='on' placeholder='Email' />
           <p class="validation-error email-error"></p>
         </div>
         <div class="container__form-field">
@@ -117,14 +110,7 @@ session_start();
         <div class="forgot-pass" onclick="location.href = '../ForgotPassword/forgotpassword.php';">
           Forgot Password?
         </div>
-        <?php
-        if (isset($_GET['error'])) {
-          if ($_GET['error'] == 1) {
-            echo '<p class="error">Invalid email or password</p>';
-          }
-        }
-
-        ?>
+        <p class="error" id="error-message"></p>
         <div class="container__form-buttons">
           <button type="submit" class="container__form-submit">Log In</button>
           <button type="button" class="container__form-submit-signup" onclick="location.href = '../Signup/signup.php';">
@@ -140,6 +126,40 @@ session_start();
     <script src="../scripts/submenu.js"></script>
     <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form from submitting normally
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+      errorMessage.textContent = '';
+
+      fetch('login_script.php', { // Update the endpoint URL as needed
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.role) {
+          // Redirect based on role
+          if (data.role === 'admin') {
+            window.location.href = '../AdminMain/adminmain.php';
+          } else {
+            window.location.href = '../VisitorMain/visitormain.php';
+          }
+        } else if (data.error) {
+          errorMessage.textContent = data.error;
+        }
+      })
+      .catch(error => {
+        errorMessage.textContent = 'An error occurred. Please try again.';
+      });
+    });
+</script>
 </body>
 
 </html>

@@ -1,10 +1,8 @@
 <?php
 
-require_once '../../vendor/autoload.php';
-require_once '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class UserUpdateAPI {
-    private $conn;
+class UserUpdateAPI extends BaseAPI {
     private $validExtensionsPhoto = array('jpeg', 'jpg', 'png');
     private $errorMessages = [
         1 => "New passwords do not match.",
@@ -12,15 +10,12 @@ class UserUpdateAPI {
         "password_strength" => "Password must contain at least 8 characters, a number, uppercase and lowercase letters"
     ];
 
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
-
     public function handleRequest() {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case 'POST':
+                $this->jwtValidation->validateAdminToken(); 
                 $this->updateUser();
                 break;
             default:
@@ -30,13 +25,6 @@ class UserUpdateAPI {
     }
 
     private function updateUser() {
-        session_start();
-        // Check if user is logged in
-        // TODO, replace with JWT??
-        if (!isset($_SESSION['is_logged_in'])) {
-            http_response_code(401); // Unauthorized
-            exit(json_encode(array("error" => "Unauthorized")));
-        }
 
         // Get POST data
         $user_id = $_POST['user_id'] ?? null;
@@ -50,6 +38,16 @@ class UserUpdateAPI {
         if (!$user_id || !$first_name || !$last_name || !$email) {
             http_response_code(400); // Bad Request
             exit(json_encode(array("error" => "Missing required fields")));
+        }
+
+        // Check if user ID exists
+        $stmt_check = $this->conn->prepare("SELECT user_id FROM users WHERE user_id = ?");
+        $stmt_check->bind_param("i", $user_id);
+        $stmt_check->execute();
+        $result_check = $stmt_check->get_result();
+        if ($result_check->num_rows == 0) {
+            http_response_code(404); // Not Found
+            exit(json_encode(array("error" => "User ID does not exist")));
         }
 
         // Check password if provided
