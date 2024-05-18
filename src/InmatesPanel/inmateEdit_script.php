@@ -1,19 +1,15 @@
 <?php
-require_once '../../vendor/autoload.php';
-require '../Utils/Connection.php';
 
-class UpdateInmateAPI {
-    private $conn;
+require '../Utils/BaseAPI.php';
 
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class UpdateInmateAPI extends BaseAPI {
 
     public function handleRequest() {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case 'PUT':
+                $this->jwtValidation->validateAdminToken();
                 $this->updateInmate();
                 break;
             default:
@@ -23,14 +19,6 @@ class UpdateInmateAPI {
     }
 
     private function updateInmate() {
-        session_start();
-        // TO DO JWT
-        // Check if user is logged in
-        if (!isset($_SESSION['is_logged_in'])) {
-            http_response_code(401); // Unauthorized
-            exit(json_encode(array("error" => "Unauthorized")));
-        }
-    
         // Get PUT data
         $put_data = file_get_contents("php://input");
         parse_str($put_data, $put_vars);

@@ -1,20 +1,26 @@
 <?php
 
+require_once '../../vendor/autoload.php';
 require '../Utils/Connection.php';
+require '../Utils/JWTValidation.php';
 
 class DeleteVisitAPI {
     private $conn;
+    private $config;
+    private $jwtValidation;
 
     public function __construct() {
         $this->conn = Connection::getInstance()->getConnection();
+        $this->config = require '../../config.php';
+        $this->jwtValidation = new JWTValidation($this->config);
     }
 
     public function handleRequest() {
-        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            $this->jwtValidation->validateAdminToken(); 
             $this->deleteVisit();
         } else {
-            http_response_code(405); // Method Not Allowed
-            exit();
+            $this->respondMethodNotAllowed();
         }
     }
 
@@ -51,6 +57,20 @@ class DeleteVisitAPI {
             echo json_encode(array("error" => "Error deleting visit"));
             exit();
         }
+    }
+
+    private function respondUnauthorized($message) {
+        http_response_code(401);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => $message]);
+        exit();
+    }
+
+    private function respondMethodNotAllowed() {
+        http_response_code(405);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Method Not Allowed']);
+        exit();
     }
 }
 

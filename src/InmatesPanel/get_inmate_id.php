@@ -1,17 +1,11 @@
 <?php
 
-require '../../config.php';
-require '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class InmateAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
-
+class InmateAPI extends BaseAPI {
     public function handleRequest() {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->jwtValidation->validateAdminToken();
             $this->getInmateDetails();
         } else {
             http_response_code(405); // Method Not Allowed
@@ -20,8 +14,6 @@ class InmateAPI {
     }
 
     private function getInmateDetails() {
-        // Token validation can be implemented here
-        // Example: Check if a valid token is provided in the request headers
 
         if (!isset($_GET['inmate_id'])) {
             http_response_code(400); // Bad Request

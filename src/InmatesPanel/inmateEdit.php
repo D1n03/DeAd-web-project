@@ -99,22 +99,43 @@ session_start();
             Edit inmate's data
         </div>
         <?php
-          $base_url = "localhost";
-          $url = $base_url . "/DeAd-web-Project/src/InmatesPanel/get_inmate_id.php" . "?inmate_id=" . $_GET['inmate_id'];
+          $base_url = "http://localhost";
+          $url = $base_url . "/DeAd-web-Project/src/InmatesPanel/get_inmate_id.php?inmate_id=" . $_GET['inmate_id'];
           $curl = curl_init($url);
 
-          if(isset($_SESSION['token']))
-          {
-              curl_setopt($curl,CURLOPT_HTTPHEADER,array('Authorization: Bearer '.$_SESSION['token']));
+          if (isset($_COOKIE['auth_token'])) {
+              curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: auth_token=' . $_COOKIE['auth_token']));
           }
 
           curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
           curl_setopt($curl, CURLOPT_HTTPGET, true);
           $curl_response = curl_exec($curl);
+
+          // Check for cURL errors
+          if ($curl_response === false) {
+              $error_msg = curl_error($curl);
+              curl_close($curl);
+              echo "cURL Error: $error_msg";
+              exit();
+          }
+
           curl_close($curl);
           $response = json_decode($curl_response, true);
 
-          //send the appointment id to the next page
+          // Check if response is valid and contains the expected data
+          if ($response === null) {
+              echo "Error: Invalid JSON response";
+              var_dump($curl_response); // Debug the raw response
+              exit();
+          }
+
+          if (!isset($response['inmate_id'])) {
+              echo "Error: 'inmate_id' not found in response";
+              var_dump($response); // Debug the parsed response
+              exit();
+          }
+
+          // Send the inmate id to the next page
           echo "<input type='hidden' name='inmate_id' value='" . $response['inmate_id'] . "'>";
           ?>
         <div class="add-inmate__form__labels__container">

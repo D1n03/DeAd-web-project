@@ -1,19 +1,15 @@
 <?php
 
-require '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class AddInmateAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class AddInmateAPI extends BaseAPI {
 
     public function handleRequest() {
         $method = $_SERVER['REQUEST_METHOD'];
         
         switch ($method) {
             case 'POST':
+                $this->jwtValidation->validateAdminToken(); 
                 $this->addInmate();
                 break;
             default:
@@ -23,17 +19,7 @@ class AddInmateAPI {
     }
 
     private function addInmate() {
-        session_start();
-
-        // Check if user is logged in
-        // TO DO, REPLACE WITH JWT and get the id from it
-        if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
-            http_response_code(401); // Unauthorized
-            exit(json_encode(array("error" => "Unauthorized")));
-        }
-
-        // Get user ID from session
-        $user_id = $_SESSION['id'];
+        $user_id = $this->jwtValidation->getUserId();
 
         // Get POST data
         $first_name = $_POST['first_name'] ?? null;
