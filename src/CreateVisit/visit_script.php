@@ -1,19 +1,15 @@
 <?php
 
-require '../Utils/Connection.php';
+require '../Utils/BaseAPI.php';
 
-class AddVisitAPI {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = Connection::getInstance()->getConnection();
-    }
+class AddVisitAPI extends BaseAPI {
 
     public function handleRequest() {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case 'POST':
+                $this->jwtValidation->validateUserToken(); 
                 $this->addVisit();
                 break;
             default:
@@ -23,14 +19,8 @@ class AddVisitAPI {
     }
 
     private function addVisit() {
-        session_start();
-        // to do jwt
-        if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
-            http_response_code(401);
-            exit(json_encode(array("error" => "Unauthorized")));
-        }
-
-        $person_id = $_SESSION['id'];
+        
+        $person_id = $this->jwtValidation->getUserId();
         $first_name_inmate = $_POST['first_name'] ?? null;
         $last_name_inmate = $_POST['last_name'] ?? null;
         $relationship = $_POST['relationship'] ?? null;
