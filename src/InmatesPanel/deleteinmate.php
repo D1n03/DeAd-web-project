@@ -2,11 +2,13 @@
 
 require '../Utils/BaseAPI.php';
 
-class DeleteInmateAPI extends BaseAPI {
+class DeleteInmateAPI extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            $this->jwtValidation->validateAdminToken(); 
+            $this->jwtValidation->validateAdminToken();
             $this->deleteInmate();
         } else {
             http_response_code(405); // Method Not Allowed
@@ -14,10 +16,11 @@ class DeleteInmateAPI extends BaseAPI {
         }
     }
 
-    private function deleteInmate() {
+    private function deleteInmate()
+    {
         $inmateId = isset($_GET['inmate_id']) ? $_GET['inmate_id'] : null;
         if (!$inmateId) {
-            http_response_code(400); 
+            http_response_code(400);
             exit();
         }
 
@@ -27,7 +30,7 @@ class DeleteInmateAPI extends BaseAPI {
         $result = $stmt->get_result();
 
         if ($result->num_rows == 0) {
-            http_response_code(404); 
+            http_response_code(404);
             exit();
         }
 
@@ -36,7 +39,7 @@ class DeleteInmateAPI extends BaseAPI {
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            http_response_code(200); 
+            http_response_code(200);
             exit();
         } else {
             http_response_code(500);
@@ -47,5 +50,3 @@ class DeleteInmateAPI extends BaseAPI {
 
 $deleteInmateAPI = new DeleteInmateAPI();
 $deleteInmateAPI->handleRequest();
-
-?>

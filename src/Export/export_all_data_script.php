@@ -1,14 +1,16 @@
 <?php
 require '../Utils/BaseAPI.php';
 
-class ExportController extends BaseAPI {
+class ExportController extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $method = $_SERVER['REQUEST_METHOD'];
-        
+
         switch ($method) {
             case 'GET':
-                $this->jwtValidation->validateAdminToken(); 
+                $this->jwtValidation->validateAdminToken();
                 $this->ExportData();
                 break;
             default:
@@ -17,8 +19,9 @@ class ExportController extends BaseAPI {
         }
     }
 
-    private function ExportData() {
-        
+    private function ExportData()
+    {
+
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             $this->sendResponse(405, 'Method Not Allowed');
         }
@@ -63,7 +66,8 @@ class ExportController extends BaseAPI {
         }
     }
 
-    private function exportUsers(&$exportData, &$stats, $sorted) {
+    private function exportUsers(&$exportData, &$stats, $sorted)
+    {
         $result = $this->conn->query("SELECT first_name, last_name, email, `function` FROM users");
         while ($row = $result->fetch_assoc()) {
             $exportData[] = $row;
@@ -78,7 +82,8 @@ class ExportController extends BaseAPI {
         }
     }
 
-    private function exportInmates(&$exportData, &$stats, $sorted) {
+    private function exportInmates(&$exportData, &$stats, $sorted)
+    {
         $result = $this->conn->query("SELECT person_id, first_name, last_name, sentence_start_date, sentence_duration, sentence_category FROM inmates");
         while ($row = $result->fetch_assoc()) {
             $exportData[] = $row;
@@ -97,14 +102,15 @@ class ExportController extends BaseAPI {
         }
     }
 
-    private function exportAllVisits(&$exportData, &$stats, $sorted) {
+    private function exportAllVisits(&$exportData, &$stats, $sorted)
+    {
         $result = $this->conn->query("SELECT a.person_id, a.first_name, a.last_name, a.relationship, a.visit_nature, a.source_of_income, a.date, a.visit_start, a.visit_end, a.is_active, b.visitor_id, b.inmate_id, b.witnesses, b.items_provided_to_inmate, b.items_offered_by_inmate, b.health_status, b.summary 
                                       FROM visits a INNER JOIN visits_info b ON a.visit_id = b.visit_refID");
         while ($row = $result->fetch_assoc()) {
             $exportData[] = $row;
         }
 
-        $visitDurations = array_map(function($visit) {
+        $visitDurations = array_map(function ($visit) {
             return strtotime($visit['visit_end']) - strtotime($visit['visit_start']);
         }, $exportData);
 
@@ -132,7 +138,8 @@ class ExportController extends BaseAPI {
         }
     }
 
-    private function getVisitCountPerInmate() {
+    private function getVisitCountPerInmate()
+    {
         $stats = [];
         $result = $this->conn->query("SELECT inmate_id, COUNT(*) AS visit_count_per_inmate FROM visits_info GROUP BY inmate_id");
         while ($row = $result->fetch_assoc()) {
@@ -141,7 +148,8 @@ class ExportController extends BaseAPI {
         return $stats;
     }
 
-    private function getVisitNatureCount() {
+    private function getVisitNatureCount()
+    {
         $stats = [];
         $result = $this->conn->query("SELECT visit_nature, COUNT(*) AS visit_nature_count FROM visits GROUP BY visit_nature");
         while ($row = $result->fetch_assoc()) {
@@ -150,7 +158,8 @@ class ExportController extends BaseAPI {
         return $stats;
     }
 
-    private function getRelationshipCount() {
+    private function getRelationshipCount()
+    {
         $stats = [];
         $result = $this->conn->query("SELECT relationship, COUNT(*) AS relationship_count FROM visits GROUP BY relationship");
         while ($row = $result->fetch_assoc()) {
@@ -159,7 +168,8 @@ class ExportController extends BaseAPI {
         return $stats;
     }
 
-    private function getSourceOfIncomeCount() {
+    private function getSourceOfIncomeCount()
+    {
         $stats = [];
         $result = $this->conn->query("SELECT source_of_income, COUNT(*) AS source_of_income_count FROM visits GROUP BY source_of_income");
         while ($row = $result->fetch_assoc()) {
@@ -168,7 +178,8 @@ class ExportController extends BaseAPI {
         return $stats;
     }
 
-    private function getWitnessesCount() {
+    private function getWitnessesCount()
+    {
         $stats = [];
         $result = $this->conn->query("SELECT witnesses, COUNT(*) AS witnesses_count FROM visits_info GROUP BY witnesses");
         while ($row = $result->fetch_assoc()) {
@@ -177,7 +188,8 @@ class ExportController extends BaseAPI {
         return $stats;
     }
 
-    private function getHealthStatusCount() {
+    private function getHealthStatusCount()
+    {
         $stats = [];
         $result = $this->conn->query("SELECT health_status, COUNT(*) AS health_status_count FROM visits_info GROUP BY health_status");
         while ($row = $result->fetch_assoc()) {
@@ -186,7 +198,8 @@ class ExportController extends BaseAPI {
         return $stats;
     }
 
-    private function exportAsJSON($exportData, $stats) {
+    private function exportAsJSON($exportData, $stats)
+    {
         $exportDataJson = json_encode($exportData, JSON_PRETTY_PRINT);
         $statsJson = json_encode($stats, JSON_PRETTY_PRINT);
         $combinedJson = json_encode(['export_data' => json_decode($exportDataJson), 'stats' => json_decode($statsJson)], JSON_PRETTY_PRINT);
@@ -197,7 +210,8 @@ class ExportController extends BaseAPI {
         exit();
     }
 
-    private function exportAsCSV($exportData, $stats) {
+    private function exportAsCSV($exportData, $stats)
+    {
         $filename = "export_" . date("Y-m-d") . ".csv";
         header("Content-type: text/csv");
         header("Content-Disposition: attachment; filename=$filename");
@@ -225,7 +239,8 @@ class ExportController extends BaseAPI {
         exit();
     }
 
-    private function exportAsHTML($exportData, $stats) {
+    private function exportAsHTML($exportData, $stats)
+    {
         $filename = "export_" . date("Y-m-d") . ".html";
         header("Content-type: text/html");
         header("Content-Disposition: attachment; filename=$filename");
@@ -261,32 +276,39 @@ class ExportController extends BaseAPI {
         exit();
     }
 
-    private function sortByName($a, $b) {
+    private function sortByName($a, $b)
+    {
         $firstNameComparison = strcmp($a['first_name'], $b['first_name']);
         return $firstNameComparison === 0 ? strcmp($a['last_name'], $b['last_name']) : $firstNameComparison;
     }
 
-    private function sortBySentenceStartDate($a, $b) {
+    private function sortBySentenceStartDate($a, $b)
+    {
         return strtotime($a['sentence_start_date']) - strtotime($b['sentence_start_date']);
     }
 
-    private function sortBySentenceDuration($a, $b) {
+    private function sortBySentenceDuration($a, $b)
+    {
         return intval($a['sentence_duration']) - intval($b['sentence_duration']);
     }
 
-    private function sortByDate($a, $b) {
+    private function sortByDate($a, $b)
+    {
         return strtotime($a['date']) - strtotime($b['date']);
     }
 
-    private function sortByVisitor($a, $b) {
+    private function sortByVisitor($a, $b)
+    {
         return intval($a['person_id']) - intval($b['person_id']);
     }
 
-    private function sortByInmate($a, $b) {
+    private function sortByInmate($a, $b)
+    {
         return intval($a['inmate_id']) - intval($b['inmate_id']);
     }
 
-    private function sendResponse($statusCode, $message) {
+    private function sendResponse($statusCode, $message)
+    {
         http_response_code($statusCode);
         echo json_encode(['message' => $message]);
         exit();

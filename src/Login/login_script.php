@@ -1,19 +1,23 @@
 <?php
 
 use Firebase\JWT\JWT;
+
 require_once '../../vendor/autoload.php';
 require '../Utils/Connection.php';
 
-class AuthAPI {
+class AuthAPI
+{
     private $conn;
     private $config;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Connection::getInstance()->getConnection();
         $this->config = require '../../config.php';
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->login();
         } else {
@@ -21,7 +25,8 @@ class AuthAPI {
         }
     }
 
-    private function login() {
+    private function login()
+    {
         $input = json_decode(file_get_contents("php://input"), true);
         $email = $input['email'] ?? '';
         $password = $input['password'] ?? '';
@@ -51,7 +56,8 @@ class AuthAPI {
         }
     }
 
-    private function createSession($user) {
+    private function createSession($user)
+    {
         session_start();
         $_SESSION['is_logged_in'] = true;
         $_SESSION['email'] = $user['email'];
@@ -62,7 +68,8 @@ class AuthAPI {
         $_SESSION['photo'] = $user['photo'];
     }
 
-    private function createJWT($user) {
+    private function createJWT($user)
+    {
         $issuedAt = new DateTimeImmutable();
         $expire = $issuedAt->modify('+6 hours')->getTimestamp();
         $data = [
@@ -77,7 +84,8 @@ class AuthAPI {
         return JWT::encode($data, $this->config['secret_key'], 'HS256');
     }
 
-    private function setTokenCookie($token) {
+    private function setTokenCookie($token)
+    {
         setcookie('auth_token', $token, [
             'expires' => time() + (6 * 60 * 60), // 6 hours
             'path' => '/',
@@ -88,24 +96,28 @@ class AuthAPI {
         ]);
     }
 
-    private function respondSuccess($role) {
+    private function respondSuccess($role)
+    {
         header('Content-Type: application/json');
         echo json_encode(['role' => $role]);
     }
 
-    private function respondUnauthorized($message) {
+    private function respondUnauthorized($message)
+    {
         http_response_code(401);
         header('Content-Type: application/json');
         echo json_encode(['error' => $message]);
     }
 
-    private function respondInternalError($message) {
+    private function respondInternalError($message)
+    {
         http_response_code(500);
         header('Content-Type: application/json');
         echo json_encode(['error' => $message]);
     }
 
-    private function respondMethodNotAllowed() {
+    private function respondMethodNotAllowed()
+    {
         http_response_code(405);
         header('Content-Type: application/json');
         echo json_encode(['error' => 'Method Not Allowed']);
@@ -114,5 +126,3 @@ class AuthAPI {
 
 $authAPI = new AuthAPI();
 $authAPI->handleRequest();
-
-?>

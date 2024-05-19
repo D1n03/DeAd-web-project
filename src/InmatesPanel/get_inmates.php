@@ -2,9 +2,11 @@
 
 require '../Utils/BaseAPI.php';
 
-class InmateAPI extends BaseAPI {
+class InmateAPI extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $this->jwtValidation->validateAdminToken();
             $this->getAllInmates();
@@ -14,7 +16,8 @@ class InmateAPI extends BaseAPI {
         }
     }
 
-    private function getAllInmates() {
+    private function getAllInmates()
+    {
         $stmt = $this->conn->prepare("SELECT inmate_id, first_name, last_name, sentence_start_date, sentence_category FROM inmates");
         $stmt->execute();
         $result = $stmt->get_result();
@@ -39,4 +42,3 @@ class InmateAPI extends BaseAPI {
 
 $inmateAPI = new InmateAPI();
 $inmateAPI->handleRequest();
-?>

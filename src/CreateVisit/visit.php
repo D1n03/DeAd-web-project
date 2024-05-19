@@ -15,7 +15,7 @@ session_start();
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -49,18 +49,18 @@ session_start();
             </a>
           </li>
           <li class="list__item">
-          <a href="#" class="profile-link">
-            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
-              <?php if (isset($_SESSION['photo'])) : ?>
-                <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+            <a href="#" class="profile-link">
+              <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
+                <?php if (isset($_SESSION['photo'])) : ?>
+                  <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php else : ?>
+                  <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php endif; ?>
               <?php else : ?>
-                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
               <?php endif; ?>
-            <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
-            <?php endif; ?>
-          </a>
-        </li>
+            </a>
+          </li>
         </ul>
         <?php
         if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
@@ -165,8 +165,8 @@ session_start();
 
         </div>
         <div class="messages">
-            <p class="error-message" id="error-message"></p>
-            <p class="success-message" id="success-message"></p>
+          <p class="error-message" id="error-message"></p>
+          <p class="success-message" id="success-message"></p>
         </div>
       </div>
       </div>
@@ -194,37 +194,37 @@ session_start();
       const successMessageElement = document.getElementById('success-message');
 
       fetch('visit_script.php', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          if (data.error === 'Invalid inmate name!') {
-            errorMessageElement.innerHTML = '<p class="error">Invalid inmate name!</p>';
-          } else if (data.error === 'Invalid file type!') {
-            errorMessageElement.innerHTML = '<p class="error">Invalid file type!</p>';
-          } else if (data.error === 'Visit time is exceeding the maximum duration!') {
-            errorMessageElement.innerHTML = '<p class="error">Visit time is exceeding the maximum duration!</p>';
-          } else if (data.error === 'Invalid start and end times!') {
-            errorMessageElement.innerHTML = '<p class="error">Invalid start and end times!</p>';
-          } else if (data.error === 'The inmate already has a visit at that time!') {
-            errorMessageElement.innerHTML = '<p class="error">The inmate already has a visit at that time!</p>';
-          } else if (data.error === 'Missing required fields') {
-            errorMessageElement.innerHTML = '<p class="error">Missing required fields</p>';
-          } else {
-            errorMessageElement.innerHTML = '<p class="error">An unknown error occurred.</p>';
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            if (data.error === 'Invalid inmate name!') {
+              errorMessageElement.innerHTML = '<p class="error">Invalid inmate name!</p>';
+            } else if (data.error === 'Invalid file type!') {
+              errorMessageElement.innerHTML = '<p class="error">Invalid file type!</p>';
+            } else if (data.error === 'Visit time is exceeding the maximum duration!') {
+              errorMessageElement.innerHTML = '<p class="error">Visit time is exceeding the maximum duration!</p>';
+            } else if (data.error === 'Invalid start and end times!') {
+              errorMessageElement.innerHTML = '<p class="error">Invalid start and end times!</p>';
+            } else if (data.error === 'The inmate already has a visit at that time!') {
+              errorMessageElement.innerHTML = '<p class="error">The inmate already has a visit at that time!</p>';
+            } else if (data.error === 'Missing required fields') {
+              errorMessageElement.innerHTML = '<p class="error">Missing required fields</p>';
+            } else {
+              errorMessageElement.innerHTML = '<p class="error">An unknown error occurred.</p>';
+            }
+            successMessageElement.textContent = '';
+          } else if (data.message) {
+            successMessageElement.innerHTML = '<p class="success">' + data.message + '</p>';
+            errorMessageElement.textContent = '';
+            setTimeout(function() {
+              window.location.href = '../VisitorMain/visitormain.php';
+            }, 1000);
           }
-          successMessageElement.textContent = ''; 
-        } else if (data.message) {
-          successMessageElement.innerHTML = '<p class="success">' + data.message + '</p>';
-          errorMessageElement.textContent = ''; 
-          setTimeout(function() {
-            window.location.href = '../VisitorMain/visitormain.php';
-          }, 1000); 
-        }
-      })
-      .catch(error => console.error('Error:', error));
+        })
+        .catch(error => console.error('Error:', error));
     });
   </script>
 </body>

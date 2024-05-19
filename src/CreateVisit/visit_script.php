@@ -2,14 +2,16 @@
 
 require '../Utils/BaseAPI.php';
 
-class AddVisitAPI extends BaseAPI {
+class AddVisitAPI extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case 'POST':
-                $this->jwtValidation->validateUserToken(); 
+                $this->jwtValidation->validateUserToken();
                 $this->addVisit();
                 break;
             default:
@@ -18,8 +20,9 @@ class AddVisitAPI extends BaseAPI {
         }
     }
 
-    private function addVisit() {
-        
+    private function addVisit()
+    {
+
         $person_id = $this->jwtValidation->getUserId();
         $first_name_inmate = $_POST['first_name'] ?? null;
         $last_name_inmate = $_POST['last_name'] ?? null;
@@ -31,7 +34,7 @@ class AddVisitAPI extends BaseAPI {
         $visit_end = $_POST['visit_time_end'] ?? null;
 
         if (!$first_name_inmate || !$last_name_inmate || !$relationship || !$visit_nature || !$source_of_income || !$date || !$visit_start || !$visit_end) {
-            http_response_code(400); 
+            http_response_code(400);
             exit(json_encode(array("error" => "Missing required fields")));
         }
 
@@ -43,7 +46,7 @@ class AddVisitAPI extends BaseAPI {
         $stmt->close();
 
         if (!$inmate) {
-            http_response_code(400); 
+            http_response_code(400);
             exit(json_encode(array("error" => "Invalid inmate name!")));
         }
 
@@ -57,7 +60,7 @@ class AddVisitAPI extends BaseAPI {
         $valid_extensions_photo = array('jpeg', 'jpg', 'png');
         $ext = strtolower(pathinfo($_FILES['profile_photo']['name'], PATHINFO_EXTENSION));
         if (!in_array($ext, $valid_extensions_photo)) {
-            http_response_code(400); 
+            http_response_code(400);
             exit(json_encode(array("error" => "Invalid file type!")));
         }
 
@@ -65,12 +68,12 @@ class AddVisitAPI extends BaseAPI {
         $end_time = new DateTime($visit_end);
         $duration = $start_time->diff($end_time)->h;
         if ($duration > 3) {
-            http_response_code(400); 
+            http_response_code(400);
             exit(json_encode(array("error" => "Visit time is exceeding the maximum duration!")));
         }
 
         if ($start_time >= $end_time) {
-            http_response_code(400); 
+            http_response_code(400);
             exit(json_encode(array("error" => "Invalid start and end times!")));
         }
 
@@ -81,7 +84,7 @@ class AddVisitAPI extends BaseAPI {
             (visit_start >= ? AND visit_start <= ?) OR
             (visit_end >= ? AND visit_end <= ?)
         ) AND first_name = ? AND last_name = ?");
-            
+
         $stmt->bind_param("sssssssssssss", $date, $visit_start, $visit_start, $visit_end, $visit_end, $visit_start, $visit_end, $visit_start, $visit_end, $visit_start, $visit_end, $first_name_inmate, $last_name_inmate);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -103,7 +106,7 @@ class AddVisitAPI extends BaseAPI {
         $stmt->execute();
         $stmt->close();
 
-        http_response_code(200); 
+        http_response_code(200);
         exit(json_encode(array("message" => "Visit created successfully!")));
     }
 }

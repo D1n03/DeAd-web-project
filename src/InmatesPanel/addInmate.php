@@ -15,7 +15,7 @@ session_start();
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -49,18 +49,18 @@ session_start();
             </a>
           </li>
           <li class="list__item">
-          <a href="#" class="profile-link">
-            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
-              <?php if (isset($_SESSION['photo'])) : ?>
-                <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+            <a href="#" class="profile-link">
+              <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
+                <?php if (isset($_SESSION['photo'])) : ?>
+                  <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php else : ?>
+                  <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php endif; ?>
               <?php else : ?>
-                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
               <?php endif; ?>
-            <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
-            <?php endif; ?>
-          </a>
-        </li>
+            </a>
+          </li>
         </ul>
         <?php
         if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
@@ -100,39 +100,39 @@ session_start();
         </div>
         <div class="add-inmate__form__labels__container">
           <label class="form-text" for="first_name">First name:</label>
-          <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required  />
+          <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required />
         </div>
 
         <div class="add-inmate__form__labels__container">
           <label class="form-text" for="last_name">Last name:</label>
-          <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required  />
+          <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required />
         </div>
 
         <div class="add-inmate__form__labels__container">
-            <label for="sentence_start_date" class="label-title">Sentence start date:</label>
-            <input type="date" id="sentence_start_date" name="sentence_start_date" class="form-input" required>
+          <label for="sentence_start_date" class="label-title">Sentence start date:</label>
+          <input type="date" id="sentence_start_date" name="sentence_start_date" class="form-input" required>
         </div>
 
         <div class="add-inmate__form__labels__container">
-            <label for="sentence_duration" class="label-title">Sentence duration (in days):</label>
-            <input type="number" id="sentence_duration" name="sentence_duration" class="form-input" placeholder="Enter the sentence duration" min="1" step="1" required>
+          <label for="sentence_duration" class="label-title">Sentence duration (in days):</label>
+          <input type="number" id="sentence_duration" name="sentence_duration" class="form-input" placeholder="Enter the sentence duration" min="1" step="1" required>
         </div>
 
         <div class="add-inmate__form__labels__container">
-            <label class="component__label-title" for="sentence_category">Sentence category: </label>
-            <div class="add-inmate-group">
-                <select class="form-input" id="sentence_category" name="sentence_category" required>
-                <option name="sentence_category" value="Violent Crime">Violent Crime</option>
-                <option name="sentence_category" value="Armed robbery and assault">Armed robbery and assault</option>
-                <option name="sentence_category" value="Manslaughter">Manslaughter</option>
-                <option name="sentence_category" value="Burglary and theft">Burglary and theft</option>
-                <option name="sentence_category" value="Money laundering">Money laundering</option>
-                <option name="sentence_category" value="Fraud and embezzlement">Fraud and embezzlement</option>
-                <option name="sentence_category" value="Carjacking">Carjacking</option>
-                <option name="sentence_category" value="Terrorism">Terrorism</option>
-                <option name="sentence_category" value="Illegal possesion of firearms">Illegal possesion of firearms</option>
-                </select>
-            </div>
+          <label class="component__label-title" for="sentence_category">Sentence category: </label>
+          <div class="add-inmate-group">
+            <select class="form-input" id="sentence_category" name="sentence_category" required>
+              <option name="sentence_category" value="Violent Crime">Violent Crime</option>
+              <option name="sentence_category" value="Armed robbery and assault">Armed robbery and assault</option>
+              <option name="sentence_category" value="Manslaughter">Manslaughter</option>
+              <option name="sentence_category" value="Burglary and theft">Burglary and theft</option>
+              <option name="sentence_category" value="Money laundering">Money laundering</option>
+              <option name="sentence_category" value="Fraud and embezzlement">Fraud and embezzlement</option>
+              <option name="sentence_category" value="Carjacking">Carjacking</option>
+              <option name="sentence_category" value="Terrorism">Terrorism</option>
+              <option name="sentence_category" value="Illegal possesion of firearms">Illegal possesion of firearms</option>
+            </select>
+          </div>
         </div>
 
         <div class="add-inmate__form__labels__container-message">
@@ -140,12 +140,12 @@ session_start();
           <div class="success-message"></div>
         </div>
       </div>
-        <div class="add-inmate__form__buttons">
-          <a href="inmatespanel.php" class="add-inmate__form__buttons__back">Back</a>
-          <button type="submit" class="add-inmate__form__buttons__submit">
-            Submit
-          </button>
-        </div>
+      <div class="add-inmate__form__buttons">
+        <a href="inmatespanel.php" class="add-inmate__form__buttons__back">Back</a>
+        <button type="submit" class="add-inmate__form__buttons__submit">
+          Submit
+        </button>
+      </div>
     </form>
   </main>
   <?php
@@ -156,47 +156,47 @@ session_start();
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        function submitAddInmateForm(formData) {
-            fetch('addInmate_script.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                const successMessage = document.querySelector('.success-message');
-                const errorMessage = document.querySelector('.error-message');
+    document.addEventListener('DOMContentLoaded', function() {
+      function submitAddInmateForm(formData) {
+        fetch('addInmate_script.php', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            const successMessage = document.querySelector('.success-message');
+            const errorMessage = document.querySelector('.error-message');
 
-                // Clear any existing error or success messages
-                successMessage.innerHTML = '';
-                errorMessage.innerHTML = '';
+            // Clear any existing error or success messages
+            successMessage.innerHTML = '';
+            errorMessage.innerHTML = '';
 
-                if (data.error) {
-                    errorMessage.innerHTML = '<p class="error">Error adding inmate: ' + data.error + '</p>'; // Display error message
-                } else if (data.message) {
-                    if (data.message === 'Inmate added successfully') {
-                        successMessage.innerHTML = '<p class="success">Inmate added successfully!</p>'; // Display success message
-                        setTimeout(function() {
-                            window.location.href = 'inmatespanel.php'; // Redirect after success
-                        }, 1000); // Redirect after 1 second
-                    } else {
-                        console.error('Unknown message:', data.message);
-                    }
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
+            if (data.error) {
+              errorMessage.innerHTML = '<p class="error">Error adding inmate: ' + data.error + '</p>'; // Display error message
+            } else if (data.message) {
+              if (data.message === 'Inmate added successfully') {
+                successMessage.innerHTML = '<p class="success">Inmate added successfully!</p>'; // Display success message
+                setTimeout(function() {
+                  window.location.href = 'inmatespanel.php'; // Redirect after success
+                }, 1000); // Redirect after 1 second
+              } else {
+                console.error('Unknown message:', data.message);
+              }
+            }
+          })
+          .catch(error => console.error('Error:', error));
+      }
 
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            submitAddInmateForm(formData);
-        }
+      function handleFormSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        submitAddInmateForm(formData);
+      }
 
-        const addInmateForm = document.getElementById('add-inmate-form-info');
-        if (addInmateForm) {
-            addInmateForm.addEventListener('submit', handleFormSubmit);
-        }
+      const addInmateForm = document.getElementById('add-inmate-form-info');
+      if (addInmateForm) {
+        addInmateForm.addEventListener('submit', handleFormSubmit);
+      }
     });
   </script>
 </body>

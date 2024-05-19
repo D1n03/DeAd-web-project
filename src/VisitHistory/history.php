@@ -26,7 +26,7 @@ if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
   $lastItem = end($visitHistory);
 
   for ($i = 0; $i < $numToDuplicate; $i++) {
-      $visitHistory[] = $lastItem;
+    $visitHistory[] = $lastItem;
   }
 }
 
@@ -45,7 +45,7 @@ if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -79,18 +79,18 @@ if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
             </a>
           </li>
           <li class="list__item">
-          <a href="#" class="profile-link">
-            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
-              <?php if (isset($_SESSION['photo'])) : ?>
-                <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+            <a href="#" class="profile-link">
+              <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
+                <?php if (isset($_SESSION['photo'])) : ?>
+                  <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php else : ?>
+                  <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php endif; ?>
               <?php else : ?>
                 <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
               <?php endif; ?>
-            <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
-            <?php endif; ?>
-          </a>
-        </li>
+            </a>
+          </li>
         </ul>
         <?php
         if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
@@ -128,56 +128,56 @@ if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
         <div class="history__title">Your Visit History</div>
         <ul class="history__list">
           <?php
-            if (count($visitHistory) == 0) { // I know, this kinda looks unprofessional
-              echo '<li>';
+          if (count($visitHistory) == 0) { // I know, this kinda looks unprofessional
+            echo '<li>';
+            echo '<div class="history-element-duplicate">';
+            echo '</li>';
+            echo '<li>';
+            echo '<div class="history-element-duplicate">';
+            echo '</li>';
+            echo '<li>';
+            echo '<div class="history-element-duplicate">';
+            echo '</li>';
+            echo '<li>';
+            echo '<div class="history-element-duplicate">';
+            echo '</li>';
+            echo '<li>';
+            echo '<div class="history-element-duplicate">';
+            echo '</li>';
+          }
+          foreach ($visitHistory as $index => $visit) { // $index keeps track of the current index in the loop
+            echo '<li>';
+            if ($page == $totalPages && $index >= count($visitHistory) - $numToDuplicate) {
               echo '<div class="history-element-duplicate">';
-              echo '</li>';
-              echo '<li>';
-              echo '<div class="history-element-duplicate">';
-              echo '</li>';
-              echo '<li>';
-              echo '<div class="history-element-duplicate">';
-              echo '</li>';
-              echo '<li>';
-              echo '<div class="history-element-duplicate">';
-              echo '</li>';
-              echo '<li>';
-              echo '<div class="history-element-duplicate">';
-              echo '</li>';
+            } else {
+              echo '<div class="history-element">';
             }
-            foreach ($visitHistory as $index => $visit) { // $index keeps track of the current index in the loop
-              echo '<li>';
-              if ($page == $totalPages && $index >= count($visitHistory) - $numToDuplicate) {
-                echo '<div class="history-element-duplicate">';
-              } else {
-                echo '<div class="history-element">';
-              } 
-              echo '<img src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="inmate photo" class="history__list__show__photo" />';
-              echo '<div class="visit-info">';
-              echo '<div class="history__list__show__name">';
-              echo '<p class="history__list__show__label">Inmate: <span class="history__list__show__info">' . $visit['first_name'] . ' ' . $visit['last_name'] . '</span></p>';
-              echo '</div>';
-              echo '<div class="drop-arrow">';
-              echo '<span class="vBar"></span>';
-              echo '<span class="vBar"></span>';
-              echo '</div>';
-              echo '<div class="visitor-main__list__show__dBirth">';
-              echo '<p class="history__list__show__label">Date: <span class="history__list__show__info">' . $visit['date'] . '</span></p>';
-              echo '</div>';
-              echo '<div class="visitor-main__list__show__dBirth">';
-              echo '<p class="history__list__show__label">';
-              echo 'Duration:';
-              echo '<span class="history__list__show__info"> ' . $visit['time_interval'] . '</span>';
-              echo '</p>';
-              echo '</div>';
-              echo '</div>';
-              echo '<div class="history__list__show__buttons">';
-              echo '<a href="visit_details.php?id=' . $visit['visit_id'] . '" class="history__list__show__buttons__info">';
-              echo '<img src="../../assets/visitormain/info-icon.svg" alt="info button" />';
-              echo '</a>';
-              echo '</div>';
-              echo '</div>';
-              echo '</li>';
+            echo '<img src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="inmate photo" class="history__list__show__photo" />';
+            echo '<div class="visit-info">';
+            echo '<div class="history__list__show__name">';
+            echo '<p class="history__list__show__label">Inmate: <span class="history__list__show__info">' . $visit['first_name'] . ' ' . $visit['last_name'] . '</span></p>';
+            echo '</div>';
+            echo '<div class="drop-arrow">';
+            echo '<span class="vBar"></span>';
+            echo '<span class="vBar"></span>';
+            echo '</div>';
+            echo '<div class="visitor-main__list__show__dBirth">';
+            echo '<p class="history__list__show__label">Date: <span class="history__list__show__info">' . $visit['date'] . '</span></p>';
+            echo '</div>';
+            echo '<div class="visitor-main__list__show__dBirth">';
+            echo '<p class="history__list__show__label">';
+            echo 'Duration:';
+            echo '<span class="history__list__show__info"> ' . $visit['time_interval'] . '</span>';
+            echo '</p>';
+            echo '</div>';
+            echo '</div>';
+            echo '<div class="history__list__show__buttons">';
+            echo '<a href="visit_details.php?id=' . $visit['visit_id'] . '" class="history__list__show__buttons__info">';
+            echo '<img src="../../assets/visitormain/info-icon.svg" alt="info button" />';
+            echo '</a>';
+            echo '</div>';
+            echo '</div>';
+            echo '</li>';
           }
           ?>
         </ul>

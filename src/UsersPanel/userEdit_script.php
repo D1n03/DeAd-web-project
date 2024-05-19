@@ -2,7 +2,8 @@
 
 require '../Utils/BaseAPI.php';
 
-class UserUpdateAPI extends BaseAPI {
+class UserUpdateAPI extends BaseAPI
+{
     private $validExtensionsPhoto = array('jpeg', 'jpg', 'png');
     private $errorMessages = [
         1 => "New passwords do not match.",
@@ -10,12 +11,13 @@ class UserUpdateAPI extends BaseAPI {
         "password_strength" => "Password must contain at least 8 characters, a number, uppercase and lowercase letters"
     ];
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case 'POST':
-                $this->jwtValidation->validateAdminToken(); 
+                $this->jwtValidation->validateAdminToken();
                 $this->updateUser();
                 break;
             default:
@@ -24,7 +26,8 @@ class UserUpdateAPI extends BaseAPI {
         }
     }
 
-    private function updateUser() {
+    private function updateUser()
+    {
 
         // Get POST data
         $user_id = $_POST['user_id'] ?? null;
@@ -90,12 +93,12 @@ class UserUpdateAPI extends BaseAPI {
         $stmt->bind_param("sssi", $first_name, $last_name, $email, $user_id);
 
         if ($stmt->execute()) {
-            if($photo !== null) {
+            if ($photo !== null) {
                 $stmt2 = $this->conn->prepare("UPDATE users SET photo=? WHERE user_id=?");
                 $ceva = null;
-                $stmt2->bind_param("bi", $ceva, $user_id); 
-                $stmt2->send_long_data(0, $photo); 
-                $stmt2->execute(); 
+                $stmt2->bind_param("bi", $ceva, $user_id);
+                $stmt2->send_long_data(0, $photo);
+                $stmt2->execute();
                 $stmt2->close();
             }
 
@@ -107,17 +110,18 @@ class UserUpdateAPI extends BaseAPI {
                 $stmt3->close();
             }
 
-            http_response_code(200); 
+            http_response_code(200);
             exit(json_encode(array("message" => "User updated successfully")));
         } else {
-            http_response_code(500); 
+            http_response_code(500);
             exit(json_encode(array("error" => "Failed to update user")));
         }
 
         $stmt->close();
     }
 
-    private function checkPasswordStrength($password) {
+    private function checkPasswordStrength($password)
+    {
         $uppercase = preg_match('@[A-Z]@', $password);
         $lowercase = preg_match('@[a-z]@', $password);
         $number = preg_match('@[0-9]@', $password);

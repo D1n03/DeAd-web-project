@@ -2,11 +2,13 @@
 
 require '../Utils/BaseAPI.php';
 
-class GetVisitDetailsAPI extends BaseAPI {
+class GetVisitDetailsAPI extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $this->jwtValidation->validateUserToken(); 
+            $this->jwtValidation->validateUserToken();
             $this->getVisitDetails();
         } else {
             http_response_code(405); // Method Not Allowed
@@ -14,7 +16,8 @@ class GetVisitDetailsAPI extends BaseAPI {
         }
     }
 
-    private function getVisitDetails() {
+    private function getVisitDetails()
+    {
 
         header('Content-Type: application/json');
 
@@ -43,4 +46,3 @@ class GetVisitDetailsAPI extends BaseAPI {
 
 $getVisitDetailsAPI = new GetVisitDetailsAPI();
 $getVisitDetailsAPI->handleRequest();
-?>

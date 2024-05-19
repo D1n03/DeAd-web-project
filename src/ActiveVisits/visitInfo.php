@@ -15,7 +15,7 @@ session_start();
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -49,18 +49,18 @@ session_start();
             </a>
           </li>
           <li class="list__item">
-          <a href="#" class="profile-link">
-            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
-              <?php if (isset($_SESSION['photo'])) : ?>
-                <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+            <a href="#" class="profile-link">
+              <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
+                <?php if (isset($_SESSION['photo'])) : ?>
+                  <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php else : ?>
+                  <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php endif; ?>
               <?php else : ?>
-                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
               <?php endif; ?>
-            <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
-            <?php endif; ?>
-          </a>
-        </li>
+            </a>
+          </li>
         </ul>
         <?php
         if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
@@ -99,31 +99,31 @@ session_start();
           Details regarding the visit
         </h1>
         <?php
-          $base_url = "localhost";
-          $url = $base_url . "/DeAd-web-Project/src/ActiveVisits/get_visit_id.php" . "?visit_id=" . $_GET['visit_id'];
-          $curl = curl_init($url);
+        $base_url = "localhost";
+        $url = $base_url . "/DeAd-web-Project/src/ActiveVisits/get_visit_id.php" . "?visit_id=" . $_GET['visit_id'];
+        $curl = curl_init($url);
 
-          if (isset($_COOKIE['auth_token'])) {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: auth_token=' . $_COOKIE['auth_token']));
-          }
+        if (isset($_COOKIE['auth_token'])) {
+          curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: auth_token=' . $_COOKIE['auth_token']));
+        }
 
-          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-          curl_setopt($curl, CURLOPT_HTTPGET, true);
-          $curl_response = curl_exec($curl);
-          curl_close($curl);
-          $response = json_decode($curl_response, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPGET, true);
+        $curl_response = curl_exec($curl);
+        curl_close($curl);
+        $response = json_decode($curl_response, true);
 
-          //send the visit id to the next page
-          echo "<input type='hidden' name='visit_id' value='" . $response['visit_id'] . "'>";
-          ?>
+        //send the visit id to the next page
+        echo "<input type='hidden' name='visit_id' value='" . $response['visit_id'] . "'>";
+        ?>
         <div class="details__form-visit__labels__container">
           <label class="form-text" for="items_offered">The items offered by the inmate</label>
-          <input class="form-input" id="items_offered" type="text" name="itemsFrom"/>
+          <input class="form-input" id="items_offered" type="text" name="itemsFrom" />
         </div>
 
         <div class="details__form-visit__labels__container">
           <label class="form-text" for="items_provided">The items provided to the inmate</label>
-          <input class="form-input" id="items_provided" type="text" name="itemsTo"/>
+          <input class="form-input" id="items_provided" type="text" name="itemsTo" />
         </div>
 
         <div class="details__form-visit__labels__container">
@@ -167,10 +167,10 @@ session_start();
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const visitForm = document.getElementById('visit-form-info');
+    document.addEventListener('DOMContentLoaded', function() {
+      const visitForm = document.getElementById('visit-form-info');
 
-    visitForm.addEventListener('submit', function (event) {
+      visitForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
         const formData = new FormData(visitForm);
@@ -178,22 +178,22 @@ session_start();
         fetch('visitinfo_script.php', {
             method: 'POST',
             body: formData
-        })
-        .then(response => {
+          })
+          .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+              throw new Error('Network response was not ok');
             }
             return response.json();
-        })
-        .then(data => {
+          })
+          .then(data => {
             if (data.error) {
-                console.error('Error:', data.error);
+              console.error('Error:', data.error);
             } else {
-                window.location.href = 'activevisits.php';
+              window.location.href = 'activevisits.php';
             }
-        })
+          })
+      });
     });
-});
   </script>
 </body>
 

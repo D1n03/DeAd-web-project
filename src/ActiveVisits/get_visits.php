@@ -1,11 +1,13 @@
 <?php
 require '../Utils/BaseAPI.php';
 
-class VisitAPI extends BaseAPI{
+class VisitAPI extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $this->jwtValidation->validateUserToken(); 
+            $this->jwtValidation->validateUserToken();
             $this->getVisits();
         } else {
             http_response_code(405); // Method Not Allowed
@@ -13,7 +15,8 @@ class VisitAPI extends BaseAPI{
         }
     }
 
-    private function getVisits() {
+    private function getVisits()
+    {
         if (!isset($_GET['id'])) {
             http_response_code(400); // Bad Request
             exit();
@@ -51,4 +54,3 @@ class VisitAPI extends BaseAPI{
 
 $visitAPI = new VisitAPI();
 $visitAPI->handleRequest();
-?>

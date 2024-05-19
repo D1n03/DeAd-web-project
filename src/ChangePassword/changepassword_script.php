@@ -2,14 +2,16 @@
 
 require '../Utils/BaseAPI.php';
 
-class PasswordChangeAPI extends BaseAPI {
+class PasswordChangeAPI extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $method = $_SERVER['REQUEST_METHOD'];
-        
+
         switch ($method) {
             case 'POST':
-                $this->jwtValidation->validateAnyToken(); 
+                $this->jwtValidation->validateAnyToken();
                 $this->changePassword();
                 break;
             default:
@@ -18,7 +20,8 @@ class PasswordChangeAPI extends BaseAPI {
         }
     }
 
-    private function changePassword() {
+    private function changePassword()
+    {
         // Check if email is provided and validate it
         if (!isset($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             http_response_code(400); // Bad Request
@@ -43,7 +46,7 @@ class PasswordChangeAPI extends BaseAPI {
                 http_response_code(404); // Not Found
                 exit(json_encode(array("error" => "User not found.")));
             }
-            
+
             $hashed_password = $row['password'];
 
             if (!password_verify($current_password, $hashed_password)) {
@@ -78,7 +81,8 @@ class PasswordChangeAPI extends BaseAPI {
         }
     }
 
-    private function checkPasswordStrength($password) {
+    private function checkPasswordStrength($password)
+    {
         $uppercase = preg_match('@[A-Z]@', $password);
         $lowercase = preg_match('@[a-z]@', $password);
         $number = preg_match('@[0-9]@', $password);

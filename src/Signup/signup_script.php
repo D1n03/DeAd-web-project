@@ -1,17 +1,20 @@
 <?php
 require '../Utils/Connection.php';
 
-class UserRegistrationController {
+class UserRegistrationController
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Connection::getInstance()->getConnection();
         if ($this->conn->connect_errno) {
             $this->sendResponse(500, 'Could not connect to the database.');
         }
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $this->registerUser();
         } else {
@@ -19,7 +22,8 @@ class UserRegistrationController {
         }
     }
 
-    private function registerUser() {
+    private function registerUser()
+    {
         $first_name = $_POST['first_name'] ?? '';
         $last_name = $_POST['last_name'] ?? '';
         $email = $_POST['email'] ?? '';
@@ -66,14 +70,16 @@ class UserRegistrationController {
         }
     }
 
-    private function checkPasswordStrength($password) {
+    private function checkPasswordStrength($password)
+    {
         $uppercase = preg_match('@[A-Z]@', $password);
         $lowercase = preg_match('@[a-z]@', $password);
         $number = preg_match('@[0-9]@', $password);
         return $uppercase && $lowercase && $number && strlen($password) >= 8;
     }
 
-    private function sendResponse($statusCode, $message, $success = false) {
+    private function sendResponse($statusCode, $message, $success = false)
+    {
         http_response_code($statusCode);
         echo json_encode(["message" => $message, "success" => $success]);
         exit();
@@ -82,4 +88,3 @@ class UserRegistrationController {
 
 $controller = new UserRegistrationController();
 $controller->handleRequest();
-?>
