@@ -146,68 +146,68 @@ session_start();
   <script src="../scripts/navbar.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const exportSelect = document.getElementById("export");
-        const sortOptions = document.getElementById("sortOptions");
+      const exportSelect = document.getElementById("export");
+      const sortOptions = document.getElementById("sortOptions");
 
-        function toggleSortOptions() {
-            sortOptions.innerHTML = "";
+      function toggleSortOptions() {
+        sortOptions.innerHTML = "";
 
-            if (exportSelect.value === "users") {
-                sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name"> Name</label>';
-            } else if (exportSelect.value === "inmates") {
-                sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name"> Name</label>';
-                sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_start_date"> Sentence start date</label>';
-                sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_duration"> Sentence duration</label>';
-            } else if (exportSelect.value === "all_visits") {
-                sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="date"> Date</label>';
-                sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="visitor"> Visitor</label>';
-                sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="inmate"> Inmate</label>';
-            }
+        if (exportSelect.value === "users") {
+          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name"> Name</label>';
+        } else if (exportSelect.value === "inmates") {
+          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="name"> Name</label>';
+          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_start_date"> Sentence start date</label>';
+          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="sentence_duration"> Sentence duration</label>';
+        } else if (exportSelect.value === "all_visits") {
+          sortOptions.innerHTML = '<label><input type="radio" name="sorted" value="date"> Date</label>';
+          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="visitor"> Visitor</label>';
+          sortOptions.innerHTML += '<label><input type="radio" name="sorted" value="inmate"> Inmate</label>';
         }
+      }
 
-        toggleSortOptions();
-        exportSelect.addEventListener("change", toggleSortOptions);
+      toggleSortOptions();
+      exportSelect.addEventListener("change", toggleSortOptions);
 
-        document.getElementById("export-form").addEventListener("submit", function(event) {
-            event.preventDefault();
+      document.getElementById("export-form").addEventListener("submit", function(event) {
+        event.preventDefault();
 
-            const exportValue = document.getElementById("export").value;
-            const formatValue = document.querySelector('input[name="format"]:checked').value;
-            const sortedValue = document.querySelector('input[name="sorted"]:checked') ? document.querySelector('input[name="sorted"]:checked').value : '';
+        const exportValue = document.getElementById("export").value;
+        const formatValue = document.querySelector('input[name="format"]:checked').value;
+        const sortedValue = document.querySelector('input[name="sorted"]:checked') ? document.querySelector('input[name="sorted"]:checked').value : '';
 
-            const params = new URLSearchParams({
-                export: exportValue,
-                format: formatValue,
-                sorted: sortedValue
-            });
-
-            const url = 'export_all_data_script.php?' + params.toString();
-
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.blob();
-            })
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `export_${exportValue}_${new Date().toISOString().slice(0, 10)}.${formatValue}`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            })
-            .catch(error => console.error('There was a problem with the fetch operation:', error));
+        const params = new URLSearchParams({
+          export: exportValue,
+          format: formatValue,
+          sorted: sortedValue
         });
+
+        const url = 'export_all_data_script.php?' + params.toString();
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.blob();
+          })
+          .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `export_${exportValue}_${new Date().toISOString().slice(0, 10)}.${formatValue}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          })
+          .catch(error => console.error('There was a problem with the fetch operation:', error));
+      });
     });
-</script>
+  </script>
 </body>
 
 </html>

@@ -2,11 +2,13 @@
 
 require '../Utils/BaseAPI.php';
 
-class NonAdminUsersAPI extends BaseAPI {
+class NonAdminUsersAPI extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $this->jwtValidation->validateAdminToken(); 
+            $this->jwtValidation->validateAdminToken();
             $this->getNonAdminUsers();
         } else {
             http_response_code(405); // Method Not Allowed
@@ -14,7 +16,8 @@ class NonAdminUsersAPI extends BaseAPI {
         }
     }
 
-    private function getNonAdminUsers() {
+    private function getNonAdminUsers()
+    {
         $stmt = $this->conn->prepare("SELECT user_id, first_name, last_name, email, `function` FROM users WHERE `function` = 'user'");
         $stmt->execute();
         $result = $stmt->get_result();
@@ -39,5 +42,3 @@ class NonAdminUsersAPI extends BaseAPI {
 
 $nonAdminUsersAPI = new NonAdminUsersAPI();
 $nonAdminUsersAPI->handleRequest();
-
-?>

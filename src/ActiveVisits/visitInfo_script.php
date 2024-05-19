@@ -2,14 +2,16 @@
 
 require '../Utils/BaseAPI.php';
 
-class VisitUpdateAPI extends BaseAPI {
+class VisitUpdateAPI extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case 'POST':
-                $this->jwtValidation->validateUserToken(); 
+                $this->jwtValidation->validateUserToken();
                 $this->updateVisit();
                 break;
             default:
@@ -19,7 +21,8 @@ class VisitUpdateAPI extends BaseAPI {
         }
     }
 
-    private function updateVisit() {
+    private function updateVisit()
+    {
         // Process POST data for updating visit information
         $user_id = $this->jwtValidation->getUserId();
         $items_offered_by_inmate = $_POST['itemsFrom'] ?? '';
@@ -35,7 +38,7 @@ class VisitUpdateAPI extends BaseAPI {
             $stmt_check->bind_param("i", $visit_id);
             $stmt_check->execute();
             $result_check = $stmt_check->get_result();
-            
+
             // If the visit does not exist, return an error
             if ($result_check->num_rows == 0) {
                 http_response_code(404); // Not Found
@@ -51,14 +54,16 @@ class VisitUpdateAPI extends BaseAPI {
                 summary = ?
                 WHERE visitor_id = ? AND visit_refID = ?");
 
-            $stmt->bind_param("sssssii",
+            $stmt->bind_param(
+                "sssssii",
                 $witnesses,
                 $items_provided_to_inmate,
                 $items_offered_by_inmate,
                 $inmate_health,
                 $summary,
                 $user_id,
-                $visit_id);
+                $visit_id
+            );
             $stmt->execute();
             $stmt->close();
 
@@ -84,4 +89,3 @@ class VisitUpdateAPI extends BaseAPI {
 // Create instance of API and handle the request
 $visitUpdateAPI = new VisitUpdateAPI();
 $visitUpdateAPI->handleRequest();
-?>

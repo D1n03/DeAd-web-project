@@ -2,11 +2,13 @@
 require '../Utils/Connection.php';
 require __DIR__ . "../../mailer.php";
 
-class PasswordResetController {
+class PasswordResetController
+{
     private $conn;
     private $mailer;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Connection::getInstance()->getConnection();
         if ($this->conn->connect_errno) {
             $this->sendResponse(500, 'Could not connect to the database.');
@@ -14,7 +16,8 @@ class PasswordResetController {
         $this->mailer = require __DIR__ . "../../mailer.php";
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $this->processResetRequest();
         } else {
@@ -22,7 +25,8 @@ class PasswordResetController {
         }
     }
 
-    private function processResetRequest() {
+    private function processResetRequest()
+    {
         $email = $_POST['email'] ?? '';
 
         // Check if email is provided and validate it
@@ -46,7 +50,8 @@ class PasswordResetController {
         }
     }
 
-    private function generateResetToken($email) {
+    private function generateResetToken($email)
+    {
         $token = bin2hex(random_bytes(16));
         $token_hash = hash("sha256", $token);
         $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
@@ -63,7 +68,8 @@ class PasswordResetController {
         $this->sendResetEmail($email, $token);
     }
 
-    private function sendResetEmail($email, $token) {
+    private function sendResetEmail($email, $token)
+    {
         $this->mailer->setFrom("noreply@example.com");
         $this->mailer->addAddress($email);
         $this->mailer->Subject = "[DeAd] Password Reset";
@@ -80,7 +86,8 @@ class PasswordResetController {
         }
     }
 
-    private function sendResponse($statusCode, $message) {
+    private function sendResponse($statusCode, $message)
+    {
         http_response_code($statusCode);
         echo json_encode(["message" => $message]);
         exit();
@@ -89,4 +96,3 @@ class PasswordResetController {
 
 $controller = new PasswordResetController();
 $controller->handleRequest();
-?>

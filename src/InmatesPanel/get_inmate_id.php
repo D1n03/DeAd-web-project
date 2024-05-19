@@ -2,8 +2,10 @@
 
 require '../Utils/BaseAPI.php';
 
-class InmateAPI extends BaseAPI {
-    public function handleRequest() {
+class InmateAPI extends BaseAPI
+{
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $this->jwtValidation->validateAdminToken();
             $this->getInmateDetails();
@@ -13,7 +15,8 @@ class InmateAPI extends BaseAPI {
         }
     }
 
-    private function getInmateDetails() {
+    private function getInmateDetails()
+    {
 
         if (!isset($_GET['inmate_id'])) {
             http_response_code(400); // Bad Request
@@ -41,5 +44,3 @@ class InmateAPI extends BaseAPI {
 
 $inmateAPI = new InmateAPI();
 $inmateAPI->handleRequest();
-
-?>

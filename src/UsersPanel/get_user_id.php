@@ -2,11 +2,13 @@
 
 require '../Utils/BaseAPI.php';
 
-class GetUserAPI extends BaseAPI {
-    
-    public function handleRequest() {
+class GetUserAPI extends BaseAPI
+{
+
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $this->jwtValidation->validateAdminToken(); 
+            $this->jwtValidation->validateAdminToken();
             $this->getUser();
         } else {
             http_response_code(405); // Method Not Allowed
@@ -14,7 +16,8 @@ class GetUserAPI extends BaseAPI {
         }
     }
 
-    private function getUser() {
+    private function getUser()
+    {
         if (!isset($_GET['user_id'])) {
             http_response_code(400); // Bad Request
             exit(json_encode(array("error" => "Missing user ID")));
@@ -41,5 +44,3 @@ class GetUserAPI extends BaseAPI {
 
 $userAPI = new GetUserAPI();
 $userAPI->handleRequest();
-
-?>

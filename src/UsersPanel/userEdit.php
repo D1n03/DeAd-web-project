@@ -15,7 +15,7 @@ session_start();
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -49,18 +49,18 @@ session_start();
             </a>
           </li>
           <li class="list__item">
-          <a href="#" class="profile-link">
-            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
-              <?php if (isset($_SESSION['photo'])) : ?>
-                <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+            <a href="#" class="profile-link">
+              <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
+                <?php if (isset($_SESSION['photo'])) : ?>
+                  <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php else : ?>
+                  <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php endif; ?>
               <?php else : ?>
-                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
               <?php endif; ?>
-            <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
-            <?php endif; ?>
-          </a>
-        </li>
+            </a>
+          </li>
         </ul>
         <?php
         if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
@@ -99,57 +99,57 @@ session_start();
           Edit user's account data
         </div>
         <?php
-          $base_url = "localhost";
-          $url = $base_url . "/DeAd-web-Project/src/UsersPanel/get_user_id.php" . "?user_id=" . $_GET['user_id'];
-          $curl = curl_init($url);
+        $base_url = "localhost";
+        $url = $base_url . "/DeAd-web-Project/src/UsersPanel/get_user_id.php" . "?user_id=" . $_GET['user_id'];
+        $curl = curl_init($url);
 
-          if (isset($_COOKIE['auth_token'])) {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: auth_token=' . $_COOKIE['auth_token']));
-          }
+        if (isset($_COOKIE['auth_token'])) {
+          curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: auth_token=' . $_COOKIE['auth_token']));
+        }
 
-          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-          curl_setopt($curl, CURLOPT_HTTPGET, true);
-          $curl_response = curl_exec($curl);
-          curl_close($curl);
-          $response = json_decode($curl_response, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPGET, true);
+        $curl_response = curl_exec($curl);
+        curl_close($curl);
+        $response = json_decode($curl_response, true);
 
-          //send the appointment id to the next page
-          echo "<input type='hidden' name='user_id' value='" . $response['user_id'] . "'>";
-          ?>
+        //send the appointment id to the next page
+        echo "<input type='hidden' name='user_id' value='" . $response['user_id'] . "'>";
+        ?>
         <div class="edit-user__form__labels__container">
-            <label class="form-text" for="first_name">First name:</label>
-            <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required value="<?php echo htmlspecialchars($response['first_name']); ?>" />
+          <label class="form-text" for="first_name">First name:</label>
+          <input class="form-input" id="first_name" type="text" autocomplete='on' name="first_name" required value="<?php echo htmlspecialchars($response['first_name']); ?>" />
         </div>
 
         <div class="edit-user__form__labels__container">
-            <label class="form-text" for="last_name">Last name:</label>
-            <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required value="<?php echo htmlspecialchars($response['last_name']); ?>" />
+          <label class="form-text" for="last_name">Last name:</label>
+          <input class="form-input" id="last_name" type="text" autocomplete='on' name="last_name" required value="<?php echo htmlspecialchars($response['last_name']); ?>" />
         </div>
 
         <div class="edit-user__form__labels__container">
           <label class="form-text" for="email">Email:</label>
-          <input class="form-input" id="email" type="email" autocomplete='on' name="email" required value= <?php echo $response['email'] ?> />
+          <input class="form-input" id="email" type="email" autocomplete='on' name="email" required value=<?php echo $response['email'] ?> />
         </div>
 
         <div class="edit-user__form__labels__container">
           <div class="form-text">Photo:</div>
           <label class="form-text" for="new_photo">Upload a photo</label>
           <input type="file" id="new_photo" name="new_photo" accept="image/*">
-        </div>  
+        </div>
 
         <div class="edit-user__form__labels__container">
           <label class="form-text" for="password">Password:</label>
-          <input class="form-input" id="password" type="password" name="password" placeholder="Empty for no password change"/>
+          <input class="form-input" id="password" type="password" name="password" placeholder="Empty for no password change" />
         </div>
 
         <div class="edit-user__form__labels__container">
           <label class="form-text" for="password_confirm">Password confirm:</label>
-          <input class="form-input" id="password_confirm" type="password" name="password_confirm" placeholder="Empty for no password change"/>
+          <input class="form-input" id="password_confirm" type="password" name="password_confirm" placeholder="Empty for no password change" />
         </div>
 
         <div class="edit-user__form__labels__container">
           <label class="form-text" for="function">Function: </label>
-          <input class="form-input" id="function" type="text" name="function" value="<?php echo $response['function']; ?>" disabled style="color: white"; />
+          <input class="form-input" id="function" type="text" name="function" value="<?php echo $response['function']; ?>" disabled style="color: white" ; />
           </select>
         </div>
         <div class="edit-user__form__labels__container-message">
@@ -157,12 +157,12 @@ session_start();
           <div class="success-message"></div>
         </div>
       </div>
-        <div class="edit-user__form__buttons">
-          <a href="userspanel.php" class="edit-user__form__buttons__back">Back</a>
-          <button type="submit" class="edit-user__form__buttons__submit">
-            Submit
-          </button>
-        </div>
+      <div class="edit-user__form__buttons">
+        <a href="userspanel.php" class="edit-user__form__buttons__back">Back</a>
+        <button type="submit" class="edit-user__form__buttons__submit">
+          Submit
+        </button>
+      </div>
     </form>
   </main>
   <?php
@@ -196,7 +196,7 @@ session_start();
             if (data.error) {
               errorMessage.innerHTML = '<p class="error">Error updating user: ' + data.error + '</p>';
             } else if (data.message && data.message === 'User updated successfully') {
-              successMessage.innerHTML = '<p class="success">User updated successfully!</p>'; 
+              successMessage.innerHTML = '<p class="success">User updated successfully!</p>';
               setTimeout(function() {
                 window.location.href = './userspanel.php';
               }, 1000);

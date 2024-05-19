@@ -15,7 +15,7 @@ session_start();
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -49,18 +49,18 @@ session_start();
             </a>
           </li>
           <li class="list__item">
-          <a href="#" class="profile-link">
-            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
-              <?php if (isset($_SESSION['photo'])) : ?>
-                <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+            <a href="#" class="profile-link">
+              <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
+                <?php if (isset($_SESSION['photo'])) : ?>
+                  <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php else : ?>
+                  <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php endif; ?>
               <?php else : ?>
-                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
               <?php endif; ?>
-            <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
-            <?php endif; ?>
-          </a>
-        </li>
+            </a>
+          </li>
         </ul>
         <?php
         if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
@@ -179,8 +179,8 @@ session_start();
   <?php
   if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
   ?>
-  <script src="../scripts/submenu.js"></script>
-  <script src="../scripts/logout.js"></script>
+    <script src="../scripts/submenu.js"></script>
+    <script src="../scripts/logout.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
 </body>

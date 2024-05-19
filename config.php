@@ -18,4 +18,3 @@ $config = array(
     'secret_key' => $_ENV['SECRET_KEY'],
 );
 return $config;
-?>

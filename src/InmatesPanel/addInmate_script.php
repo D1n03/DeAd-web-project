@@ -2,14 +2,16 @@
 
 require '../Utils/BaseAPI.php';
 
-class AddInmateAPI extends BaseAPI {
+class AddInmateAPI extends BaseAPI
+{
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $method = $_SERVER['REQUEST_METHOD'];
-        
+
         switch ($method) {
             case 'POST':
-                $this->jwtValidation->validateAdminToken(); 
+                $this->jwtValidation->validateAdminToken();
                 $this->addInmate();
                 break;
             default:
@@ -18,7 +20,8 @@ class AddInmateAPI extends BaseAPI {
         }
     }
 
-    private function addInmate() {
+    private function addInmate()
+    {
         $user_id = $this->jwtValidation->getUserId();
 
         // Get POST data
@@ -60,5 +63,3 @@ class AddInmateAPI extends BaseAPI {
 
 $addInmateAPI = new AddInmateAPI();
 $addInmateAPI->handleRequest();
-
-?>

@@ -15,7 +15,7 @@ session_start();
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -49,18 +49,18 @@ session_start();
             </a>
           </li>
           <li class="list__item">
-          <a href="#" class="profile-link">
-            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
-              <?php if (isset($_SESSION['photo'])) : ?>
-                <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+            <a href="#" class="profile-link">
+              <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
+                <?php if (isset($_SESSION['photo'])) : ?>
+                  <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php else : ?>
+                  <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php endif; ?>
               <?php else : ?>
-                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
               <?php endif; ?>
-            <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
-            <?php endif; ?>
-          </a>
-        </li>
+            </a>
+          </li>
         </ul>
         <?php
         if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
@@ -94,45 +94,45 @@ session_start();
   </header>
 
   <main class="login">
-  <div class="container">
-    <h1 class="container__title">Sign Up</h1>
-    <form id="signup-form" class="container__form">
-      <div class="container__form-field">
-        <input id="first_name" required type="text" name="first_name" autocomplete="on" placeholder="First name" value="<?php echo isset($_GET['first_name']) ? $_GET['first_name'] : ''; ?>" />
-        <p class="validation-error first_name-error"></p>
-      </div>
-      <div class="container__form-field">
-        <input id="last_name" required type="text" name="last_name" autocomplete="on" placeholder="Last name" value="<?php echo isset($_GET['last_name']) ? $_GET['last_name'] : ''; ?>" />
-        <p class="validation-error last_name-error"></p>
-      </div>
-      <div class="container__form-field">
-        <input id="email" required type="email" name="email" autocomplete="on" placeholder="Email" value="<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>" />
-        <p class="validation-error email-error"></p>
-      </div>
-      <div class="container__form-field">
-        <input id="password" required type="password" name="password" placeholder="Password" />
-        <p class="validation-error password-error"></p>
-      </div>
-      <div class="container__form-field">
-        <input id="password_confirm" required type="password" name="password_confirm" placeholder="Confirm Password" />
-        <p class="validation-error password_confirm-error"></p>
-      </div>
-      <p class="error-message" id="error-message"></p>
-      <p class="success-message" id="success-message"></p>
-      <div class="container__form-buttons">
-        <button type="submit" class="container__form-submit-signup">Sign up</button>
-      </div>
-    </form>
-  </div>
-</main>
+    <div class="container">
+      <h1 class="container__title">Sign Up</h1>
+      <form id="signup-form" class="container__form">
+        <div class="container__form-field">
+          <input id="first_name" required type="text" name="first_name" autocomplete="on" placeholder="First name" value="<?php echo isset($_GET['first_name']) ? $_GET['first_name'] : ''; ?>" />
+          <p class="validation-error first_name-error"></p>
+        </div>
+        <div class="container__form-field">
+          <input id="last_name" required type="text" name="last_name" autocomplete="on" placeholder="Last name" value="<?php echo isset($_GET['last_name']) ? $_GET['last_name'] : ''; ?>" />
+          <p class="validation-error last_name-error"></p>
+        </div>
+        <div class="container__form-field">
+          <input id="email" required type="email" name="email" autocomplete="on" placeholder="Email" value="<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>" />
+          <p class="validation-error email-error"></p>
+        </div>
+        <div class="container__form-field">
+          <input id="password" required type="password" name="password" placeholder="Password" />
+          <p class="validation-error password-error"></p>
+        </div>
+        <div class="container__form-field">
+          <input id="password_confirm" required type="password" name="password_confirm" placeholder="Confirm Password" />
+          <p class="validation-error password_confirm-error"></p>
+        </div>
+        <p class="error-message" id="error-message"></p>
+        <p class="success-message" id="success-message"></p>
+        <div class="container__form-buttons">
+          <button type="submit" class="container__form-submit-signup">Sign up</button>
+        </div>
+      </form>
+    </div>
+  </main>
   <?php
-    if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
-    ?>
+  if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
+  ?>
     <script src="../scripts/submenu.js"></script>
     <script src="../scripts/logout.js"></script>
-    <?php endif; ?>
+  <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
-  <script> 
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('signup-form');
 

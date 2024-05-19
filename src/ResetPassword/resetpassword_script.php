@@ -1,17 +1,20 @@
 <?php
 require '../Utils/Connection.php';
 
-class PasswordResetController {
+class PasswordResetController
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Connection::getInstance()->getConnection();
         if ($this->conn->connect_errno) {
             $this->sendResponse(500, 'Database connection error.');
         }
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $this->processPasswordReset();
         } else {
@@ -19,7 +22,8 @@ class PasswordResetController {
         }
     }
 
-    private function processPasswordReset() {
+    private function processPasswordReset()
+    {
         $token = $_POST["token"] ?? '';
         $password = $_POST['password'] ?? '';
         $password_confirm = $_POST['password_confirm'] ?? '';
@@ -59,7 +63,8 @@ class PasswordResetController {
         $this->sendResponse(200, 'Password reset successfully.');
     }
 
-    private function checkPasswordStrength($password) {
+    private function checkPasswordStrength($password)
+    {
         $uppercase = preg_match('@[A-Z]@', $password);
         $lowercase = preg_match('@[a-z]@', $password);
         $number = preg_match('@[0-9]@', $password);
@@ -67,7 +72,8 @@ class PasswordResetController {
         return $uppercase && $lowercase && $number && strlen($password) >= 8;
     }
 
-    private function sendResponse($statusCode, $message) {
+    private function sendResponse($statusCode, $message)
+    {
         http_response_code($statusCode);
         echo json_encode(["message" => $message]);
         exit();
@@ -76,4 +82,3 @@ class PasswordResetController {
 
 $controller = new PasswordResetController();
 $controller->handleRequest();
-?>

@@ -2,16 +2,19 @@
 
 require '../Utils/Connection.php';
 
-class ContactAPI {
+class ContactAPI
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Connection::getInstance()->getConnection();
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $method = $_SERVER['REQUEST_METHOD'];
-        
+
         switch ($method) {
             case 'POST':
                 $this->createContact();
@@ -22,28 +25,29 @@ class ContactAPI {
         }
     }
 
-    private function createContact() {
+    private function createContact()
+    {
         $name = $_POST['name'] ?? '';
         $email = $_POST['email'] ?? '';
         $feedback = $_POST['feedback'] ?? '';
-    
+
         // Validate input data
         if (empty($name) || empty($email) || empty($feedback)) {
             http_response_code(400); // Bad Request
             exit(json_encode(array("error" => "All fields are required.")));
         }
-    
+
         // Validate email
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             http_response_code(400); // Bad Request
             exit(json_encode(array("error" => "Invalid email format.")));
         }
-    
+
         try {
             $stmt = $this->conn->prepare("INSERT INTO contact (name, email, feedback) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $name, $email, $feedback);
             $result = $stmt->execute();
-    
+
             if ($result) {
                 // Success
                 http_response_code(201); // Created

@@ -15,7 +15,7 @@ session_start();
 </head>
 
 <body>
-<header class="header" id="page-header">
+  <header class="header" id="page-header">
     <div class="nav-container">
       <nav class="navbar">
         <div class="menu-toggle" id="mobile-menu">
@@ -49,18 +49,18 @@ session_start();
             </a>
           </li>
           <li class="list__item">
-          <a href="#" class="profile-link">
-            <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
-              <?php if (isset($_SESSION['photo'])) : ?>
-                <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+            <a href="#" class="profile-link">
+              <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) : ?>
+                <?php if (isset($_SESSION['photo'])) : ?>
+                  <img class="person-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['photo']); ?>" alt="profile-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php else : ?>
+                  <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <?php endif; ?>
               <?php else : ?>
-                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" onclick="toggleMenu()" id="person-icon" />
+                <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
               <?php endif; ?>
-            <?php else : ?>
-              <img class="person-icon" src="../../assets/header/person-icon.webp" alt="person-icon" id="person-icon" />
-            <?php endif; ?>
-          </a>
-        </li>
+            </a>
+          </li>
         </ul>
         <?php
         if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true && isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) :
@@ -105,8 +105,8 @@ session_start();
           <p class="validation-error email-error"></p>
         </div>
         <div class="messages">
-            <p class="error-message" id="error-message"></p>
-            <p class="success-message" id="success-message"></p>
+          <p class="error-message" id="error-message"></p>
+          <p class="success-message" id="success-message"></p>
         </div>
         <div class="container__form-buttons">
           <button type="submit" class="container__form-submit-signup">
@@ -124,49 +124,52 @@ session_start();
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
   <script>
-      document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       function submitRecoveryForm(formData) {
-          fetch('forgotpass_script.php', {
-              method: 'POST',
-              body: formData
+        fetch('forgotpass_script.php', {
+            method: 'POST',
+            body: formData
           })
-          .then(response => response.json().then(data => ({ status: response.status, body: data })))
+          .then(response => response.json().then(data => ({
+            status: response.status,
+            body: data
+          })))
           .then(response => {
-              const errorMessage = document.querySelector('.error-message');
-              const successMessage = document.querySelector('.success-message');
+            const errorMessage = document.querySelector('.error-message');
+            const successMessage = document.querySelector('.success-message');
 
-              errorMessage.innerHTML = '';
-              successMessage.innerHTML = '';
+            errorMessage.innerHTML = '';
+            successMessage.innerHTML = '';
 
-              if (response.status === 200) {
-                  successMessage.innerHTML = '<p class="success">' + response.body.message + '</p>';
-                  setTimeout(() => {
-                      window.location.href = '../Index/index.php';
-                  }, 2000);
-              } else {
-                  errorMessage.innerHTML = '<p class="error">' + response.body.message + '</p>';
-              }
+            if (response.status === 200) {
+              successMessage.innerHTML = '<p class="success">' + response.body.message + '</p>';
+              setTimeout(() => {
+                window.location.href = '../Index/index.php';
+              }, 2000);
+            } else {
+              errorMessage.innerHTML = '<p class="error">' + response.body.message + '</p>';
+            }
           })
           .catch(error => {
-              const errorMessage = document.querySelector('.error-message');
-              const successMessage = document.querySelector('.success-message');
-              
-              errorMessage.innerHTML = '<p class="error">An error occurred: ' + error.message + '</p>';
-              successMessage.innerHTML = '';
+            const errorMessage = document.querySelector('.error-message');
+            const successMessage = document.querySelector('.success-message');
+
+            errorMessage.innerHTML = '<p class="error">An error occurred: ' + error.message + '</p>';
+            successMessage.innerHTML = '';
           });
       }
 
       function handleFormSubmit(event) {
-          event.preventDefault();
-          const formData = new FormData(event.target);
-          submitRecoveryForm(formData);
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        submitRecoveryForm(formData);
       }
 
       const recoverForm = document.getElementById('recover-form');
       if (recoverForm) {
-          recoverForm.addEventListener('submit', handleFormSubmit);
+        recoverForm.addEventListener('submit', handleFormSubmit);
       }
-  });
+    });
   </script>
 </body>
 

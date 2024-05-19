@@ -2,14 +2,17 @@
 
 require '../Utils/Connection.php';
 
-class TokenValidationAPI {
+class TokenValidationAPI
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Connection::getInstance()->getConnection();
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
@@ -22,7 +25,8 @@ class TokenValidationAPI {
         }
     }
 
-    private function validateToken() {
+    private function validateToken()
+    {
         session_start();
 
         if (!isset($_GET['token'])) {
@@ -61,4 +65,3 @@ class TokenValidationAPI {
 
 $tokenValidationAPI = new TokenValidationAPI();
 $tokenValidationAPI->handleRequest();
-?>
