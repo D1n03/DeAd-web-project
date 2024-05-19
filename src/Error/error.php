@@ -117,7 +117,7 @@ session_start();
         echo "<p class='error__container-info'>The page you wanted to access does not exist, has been deleted, its name has been changed, or it is temporarily unavailable.</p>";
       }
       ?>
-      <button class="error__container-button" onclick="location.href = './index.php';" type="button">
+      <button class="error__container-button" onclick="location.href = '../Index/index.php';" type="button">
         Go to the Home Page
       </button>
     </div>
