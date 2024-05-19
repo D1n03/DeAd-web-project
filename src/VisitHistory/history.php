@@ -111,7 +111,7 @@ if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
                 <p>Profile</p>
                 <span>⯈</span>
               </a>
-              <a href="../logout_script.php" class="sub-menu-link">
+              <a href="#" class="sub-menu-link" onclick="logout()">
                 <img src="../../assets/header/logout-icon.png" alt="logout-icon" />
                 <p>Logout</p>
                 <span>⯈</span>
@@ -201,6 +201,7 @@ if ($page == $totalPages && count($visitHistory) < $numOfEntriesPerPage) {
   if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
   ?>
     <script src="../scripts/submenu.js"></script>
+    <script src="../scripts/logout.js"></script>
   <?php endif; ?>
   <script src="../scripts/navbar.js"></script>
 </body>
