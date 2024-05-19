@@ -3,12 +3,19 @@
 // configuration file
 // return an array of configuration settings
 
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Dotenv\Dotenv as Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 $config = array(
-    'hostname' => 'localhost',
-    'username' => 'root',
-    'password' => '',
-    'database' => 'deaddb3',
-    'secret_key' => 'Qs_E9~SSV5< KWh#|U|}+cV{Qi$r_`#*dj|9+WuF|}-`.-a6kIR:RS7WYn>+9^VQ'
+    'hostname' => $_ENV['HOSTNAME'],
+    'username' => $_ENV['DB_USER'],
+    'password' => $_ENV['DB_PASS'],
+    'database' => $_ENV['DB_NAME'],
+    'secret_key' => $_ENV['SECRET_KEY'],
 );
 return $config;
 ?>
