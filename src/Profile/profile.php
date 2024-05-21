@@ -109,7 +109,12 @@ session_start();
       <p class="container__text"><?php echo isset($_SESSION['email']) ? $_SESSION['email'] : 'Email'; ?></p>
       <a class="link" href="../EditProfile/editprofile.php">Edit Profile</a>
       <a class="link" id="changepassword" href="../ChangePassword/changepassword.php">Change Password</a>
-      <a class="link" href="../VisitHistory/history.php">Visit History</a>
+      <?php
+      if (isset($_SESSION['function']) && $_SESSION['function'] === 'user') {
+          echo '<a class="link" href="../VisitHistory/history.php">Visit History</a>';
+      }
+      ?>
+      
     </div>
   </main>
   <?php

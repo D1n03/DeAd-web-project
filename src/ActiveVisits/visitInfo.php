@@ -143,7 +143,7 @@ session_start();
               <label for="police">
                 <input type="radio" name="witnesses" value="police_guard" id="police"> Police Guard</label>
               <label for="police">
-                <input type="radio" name="witnesses" value="legal_gurdian" id="legal_gurdian"> Legal
+                <input type="radio" name="witnesses" value="legal_guardian" id="legal_guardian"> Legal
                 Guardian</label>
               <label for="doctor">
                 <input type="radio" name="witnesses" value="doctor" id="doctor"> Doctor</label>

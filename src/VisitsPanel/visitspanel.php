@@ -1,5 +1,7 @@
 <?php
 session_start();
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$numToDuplicate = 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,6 +101,8 @@ session_start();
                 </div>
                 <ol class="visit-panel__list">
                     <?php
+                    $noresults = 0;
+
                     // we use curl to make a request to the api
                     $base_url = "localhost";
                     $url = $base_url . "/DeAd-web-Project/src/VisitsPanel/get_visits.php";
@@ -115,50 +119,97 @@ session_start();
                     // we parse the response
                     // if there are no appointments, display a message
                     if (empty($response)) {
-                        // button to create an visits, copy paste lmao
-                        echo '<div class="user-panel-not-found">';
-                        echo '<h3> The database for the visits is empty</h3>';
-                        echo '</div>';
-                        exit();
+                      echo '<div class="user-panel-not-found">';
+                      echo '<h3> The database for the visits is empty</h3>';
+                      echo '</div>';
+                      $noresults = 1;
                     }
-                    foreach ($response as $visit) {
-                        echo '<li>';
-                        echo '<div class="table-element">';
-                        echo '<img src="../../assets/visitormain/profile-icon.png" alt="visitor photo" class="visit-panel__list__show__photo" />';
-                        echo '<div class="visit-panel__list__show__name">';
-                        echo '<p class="visit-panel__list__show__label">';
-                        echo 'Inmate:';
-                        echo '<span class="visit-panel__list__show__info"> ' . $visit['inmate_name'] . '</span>';
-                        echo '</p>';
-                        echo '</div>';
-                        echo '<div class="visit-panel__list__show__element-value">';
-                        echo '<p class="visit-panel__list__show__label">';
-                        echo 'Date:';
-                        echo '<span class="visit-panel__list__show__info"> ' . $visit['date'] . '</span>';
-                        echo '</p>';
-                        echo '</div>';
-                        echo '<div class="visit-panel__list__show__element-value">';
-                        echo '<p class="visit-panel__list__show__label">';
-                        echo 'Time:';
-                        echo '<span class="visit-panel__list__show__info"> ' . $visit['time_interval'] . '</span>';
-                        echo '</p>';
-                        echo '</div>';
-                        echo '<div class="visit-panel__list__show__buttons">';
-                        echo '<button class="visit-panel__list__show__buttons__edit">';
-                        $visit_info_href = "visitEdit.php?visit_id=" . $visit['visit_id'];
-                        echo '<a href=' . $visit_info_href . '>';
-                        echo '<img src="../../assets/visitormain/edit-icon.svg" alt="edit button"/>';
-                        echo '</a>';
-                        echo '</button>';
-                        echo '<button class="visit-panel__list__show__buttons__delete" visit_id_data="' . $visit['visit_id'] . '">';
-                        echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
-                        echo '</button>';
-                        echo '</div>';
-                        echo '</li>';
+                    else
+                    {
+                      // pagination logic
+                      $numOfEntriesPerPage = 3;
+                      $totalEntries = count($response);
+                      $totalPages = ceil($totalEntries / $numOfEntriesPerPage);
+                      $offset = ($page - 1) * $numOfEntriesPerPage;
+
+                      // Display visits for the current page
+                      $visitsToDisplay = array_slice($response, $offset, $numOfEntriesPerPage);
+
+                      if ($page == $totalPages && count($visitsToDisplay) < 3) {
+                        // the number of element duplicates needed
+                        $numToDuplicate = 3 - count($visitsToDisplay);
+
+                        // duplicate last visit to fill the remaining slots
+                        $lastVisit = end($visitsToDisplay);
+                        for ($i = 0; $i < $numToDuplicate; $i++) {
+                          $visitsToDisplay[] = $lastVisit;
+                        }
+                      }
+
+                      foreach ($visitsToDisplay as $index => $visit) {
+                          echo '<li>';
+                          if ($page == $totalPages && $index >= count($visitsToDisplay) - $numToDuplicate) {
+                            echo '<div class="table-element-duplicate">';
+                          } else {
+                            echo '<div class="table-element">';
+                          }
+                          if ($visit['photo']) {
+                            echo '<img src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="visit photo" class="visit-panel__list__show__photo" />';
+                          } else {
+                              echo '<img src="../../assets/visitormain/profile-icon-medium.png" alt="visit photo" class="visit-panel__list__show__photo" />';
+                          }
+                          echo '<div class="visit-panel__list__show__name">';
+                          echo '<p class="visit-panel__list__show__label">';
+                          echo 'Inmate:';
+                          echo '<span class="visit-panel__list__show__info"> ' . $visit['inmate_name'] . '</span>';
+                          echo '</p>';
+                          echo '</div>';
+                          echo '<div class="visit-panel__list__show__element-value">';
+                          echo '<p class="visit-panel__list__show__label">';
+                          echo 'Date:';
+                          echo '<span class="visit-panel__list__show__info"> ' . $visit['date'] . '</span>';
+                          echo '</p>';
+                          echo '</div>';
+                          echo '<div class="visit-panel__list__show__element-value">';
+                          echo '<p class="visit-panel__list__show__label">';
+                          echo 'Time:';
+                          echo '<span class="visit-panel__list__show__info"> ' . $visit['time_interval'] . '</span>';
+                          echo '</p>';
+                          echo '</div>';
+                          echo '<div class="visit-panel__list__show__buttons">';
+                          echo '<button class="visit-panel__list__show__buttons__edit">';
+                          $visit_info_href = "visitEdit.php?visit_id=" . $visit['visit_id'];
+                          echo '<a href=' . $visit_info_href . '>';
+                          echo '<img src="../../assets/visitormain/edit-icon.svg" alt="edit button"/>';
+                          echo '</a>';
+                          echo '</button>';
+                          echo '<button class="visit-panel__list__show__buttons__delete" visit_id_data="' . $visit['visit_id'] . '">';
+                          echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
+                          echo '</button>';
+                          echo '</div>';
+                          echo '</li>';
+                      }
                     }
                     ?>
                 </ol>
             </div>
+            <nav class="pagination-container">
+              <?php if ($noresults == 0) : ?>
+                <?php if ($page > 1) : ?>
+                  <a href="visitspanel.php?page=<?php echo $page - 1; ?>" class="pagination-button-prev">Prev</a>
+                <?php else : ?>
+                  <button class="pagination-button-disabled disabled">Prev</button>
+                <?php endif; ?>
+                <a href="../AdminMain/adminmain.php" class="visit-panel__form__buttons__back">Back</a>
+                <?php if ($page < $totalPages) : ?>
+                  <a href="visitspanel.php?page=<?php echo $page + 1; ?>" class="pagination-button-next">Next</a>
+                <?php else : ?>
+                  <button class="pagination-button-disabled disabled">Next</button>
+                <?php endif; ?>
+              <?php else : ?>
+                <a href="../AdminMain/adminmain.php" class="visit-active__buttons__back">Back</a>
+              <?php endif; ?>
+            </nav>
         </div>
     </main>
     <?php
