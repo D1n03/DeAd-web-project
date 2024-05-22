@@ -128,9 +128,7 @@ session_start();
           <input type="radio" name="accordion" id="help:history">
           <div class="accordion__content">
             <p>This page provides you with a chronological list of past
-              visits, allowing you to view details about each visit. Additionally,
-              you have the option to export this data in various formats, such as
-              HTML, CSV, or JSON, using the provided export button.
+              visits, allowing you to view details about each of them.
             </p>
           </div>
         </li>

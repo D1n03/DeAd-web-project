@@ -133,35 +133,72 @@ session_start();
             echo '<p class="container__text">Duration: ' . $visit['visit_start'] . ' - ' . $visit['visit_end'] . '</p>';
             echo '</div>';
 
+            switch ($visit['relationship']) {
+              case 'first_degree_relative':
+                $relationshipText = 'first-degree relative';
+                break;
+              case 'second_degree_relative':
+                $relationshipText = 'second-degree relative';
+                break;
+              default:
+                $relationshipText = $visit['relationship'];
+            }
             echo '<div class="visit-details-visit__labels__container">';
-            echo '<p class="container__text">Relationship: ' . $visit['relationship'] . '</p>';
+            echo '<p class="container__text">Relationship: ' . $relationshipText . '</p>';
             echo '</div>';
 
             echo '<div class="visit-details-visit__labels__container">';
             echo '<p class="container__text">Source of income: ' . $visit['source_of_income'] . '</p>';
             echo '</div>';
 
+            switch ($visit['witnesses']) {
+              case 'police_guard':
+                $witnessText = 'police guard';
+                break;
+              case 'legal_guardian':
+                $witnessText = 'legal guardian';
+                break;
+              default:
+                $witnessText = $visit['witnesses'];
+            }
             echo '<div class="visit-details-visit__labels__container">';
-            echo '<p class="container__text">Witnesses: ' . $visit['witnesses'] . '</p>';
+            echo '<p class="container__text">Witnesses: ' . $witnessText . '</p>';
             echo '</div>';
+
             echo '</div>';
 
             echo '<div class="visit-details-visit__labels__container">';
             echo '<div class="visit-details-visit__labels__container">';
-            echo '<p class="container__text">Items offered by inmate: ' . $visit['items_offered_by_inmate'] . '</p>';
-            echo '</div>';
-            echo '<div class="visit-details-visit__labels__container">';
-            echo '<p class="container__text">Items provided to inmate: ' . $visit['items_provided_to_inmate'] . '</p>';
+            switch ($visit['items_offered_by_inmate']) {
+              case '':
+                $itemsOfferedByInmate = 'none';
+                break;
+              default:
+                $itemsOfferedByInmate = $visit['items_offered_by_inmate'];
+                break;
+            }
+            echo '<p class="container__text">Items offered by inmate: ' . $itemsOfferedByInmate . '</p>';
             echo '</div>';
 
+            echo '<div class="visit-details-visit__labels__container">';
+            switch ($visit['items_provided_to_inmate']) {
+              case '':
+                $itemsProvidedToInmate = 'none';
+                break;
+              default:
+                $itemsProvidedToInmate = $visit['items_provided_to_inmate'];
+                break;
+            }
+            echo '<p class="container__text">Items provided to inmate: ' . $itemsProvidedToInmate . '</p>';
             echo '</div>';
-
+            echo '</div>';
             echo '<div class="visit-details-visit__labels__container">';
             echo '<div class="visit-details-visit__labels__container">';
+            
             echo '<p class="container__text">Visit nature: ' . $visit['visit_nature'] . '</p>';
             echo '</div>';
+
             echo '<div class="visit-details-visit__labels__container">';
-            // echo '<p class="container__text">Summary of discussions: ' . $visit['summary'] . '</p>';
             echo '<p class="container__text">Summary of discussions:</p>';
             echo '<textarea class="form-textarea" id="visit-summary" name="visit-summary" readonly>' . htmlspecialchars($visit['summary'], ENT_QUOTES, 'UTF-8') . '</textarea>';
             echo '</div>';
@@ -173,11 +210,12 @@ session_start();
           echo 'Visit ID not provided.';
         }
         ?>
-
-        <a class="link" href="history.php">Back</a>
         </h1>
       </div>
     </div>
+    <nav class="button-container">
+    <a href="../VisitHistory/history.php" class="visit-details__buttons__back">Back</a>
+    </nav>
 
   </main>
   <?php

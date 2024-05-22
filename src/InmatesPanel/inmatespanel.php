@@ -1,5 +1,7 @@
 <?php
 session_start();
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$numToDuplicate = 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,6 +101,8 @@ session_start();
         </div>
         <ol class="inmate-panel__list">
           <?php
+          $noresults = 0;
+
           // Set the base URL for the API endpoint
           $base_url = "http://localhost/DeAd-web-Project/src/InmatesPanel/get_inmates.php";
 
@@ -128,50 +132,92 @@ session_start();
             echo '<div class="inmate-panel-not-found">';
             echo '<h3>The database for the inmates is empty</h3>';
             echo '</div>';
-            exit();
+            $noresults = 1;
           }
-          foreach ($response as $inmate) {
-            echo '<li>';
-            echo '<div class="table-element">';
-            echo '<div class="inmate-panel__list__show__name">';
-            echo '<p class="inmate-panel__list__show__label">';
-            echo 'Inmate name:';
-            echo '<span class="inmate-panel__list__show__info"> ' . $inmate['inmate_name'] . '</span>';
-            echo '</p>';
-            echo '</div>';
-            echo '<div class="inmate-panel__list__show__element-value">';
-            echo '<p class="inmate-panel__list__show__label">';
-            echo 'Start date:';
-            echo '<span class="inmate-panel__list__show__info"> ' . $inmate['sentence_start_date'] . '</span>';
-            echo '</p>';
-            echo '</div>';
-            echo '<div class="inmate-panel__list__show__element-value">';
-            echo '<p class="inmate-panel__list__show__label">';
-            echo 'Sentence category:';
-            echo '<span class="inmate-panel__list__show__info"> ' . $inmate['sentence_category'] . '</span>';
-            echo '</p>';
-            echo '</div>';
-            echo '<div class="inmate-panel__list__show__buttons">';
-            echo '<button class="inmate-panel__list__show__buttons__edit">';
-            $inmate_href = "inmateEdit.php?inmate_id=" . $inmate['inmate_id'];
-            echo '<a href=' . $inmate_href . '>';
-            echo '<img src="../../assets/visitormain/edit-icon.svg" alt="edit button"/>';
-            echo '</a>';
-            echo '</button>';
-            echo '<button class="inmate-panel__list__show__buttons__delete" inmate_id_data="' . $inmate['inmate_id'] . '">';
-            echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
-            echo '</button>';
-            echo '</div>';
-            echo '</li>';
+          else
+          {
+            // pagination logic
+            $numOfEntriesPerPage = 3;
+            $totalEntries = count($response);
+            $totalPages = ceil($totalEntries / $numOfEntriesPerPage);
+            $offset = ($page - 1) * $numOfEntriesPerPage;
+
+            // Display inmates for the current page
+            $inmatesToDisplay = array_slice($response, $offset, $numOfEntriesPerPage);
+
+            if ($page == $totalPages && count($inmatesToDisplay) < 3) {
+              // the number of element duplicates needed
+              $numToDuplicate = 3 - count($inmatesToDisplay);
+
+              // duplicate last user to fill the remaining slots
+              $lastInmate = end($inmatesToDisplay);
+              for ($i = 0; $i < $numToDuplicate; $i++) {
+                $inmatesToDisplay[] = $lastInmate;
+              }
+            }
+
+            foreach ($inmatesToDisplay as $index => $inmate) {
+              echo '<li>';
+              if ($page == $totalPages && $index >= count($inmatesToDisplay) - $numToDuplicate) {
+                echo '<div class="table-element-duplicate">';
+              } else {
+                echo '<div class="table-element">';
+              }
+              echo '<div class="inmate-panel__list__show__name">';
+              echo '<p class="inmate-panel__list__show__label">';
+              echo 'Inmate name:';
+              echo '<span class="inmate-panel__list__show__info"> ' . $inmate['inmate_name'] . '</span>';
+              echo '</p>';
+              echo '</div>';
+              echo '<div class="inmate-panel__list__show__element-value">';
+              echo '<p class="inmate-panel__list__show__label">';
+              echo 'Start date:';
+              echo '<span class="inmate-panel__list__show__info"> ' . $inmate['sentence_start_date'] . '</span>';
+              echo '</p>';
+              echo '</div>';
+              echo '<div class="inmate-panel__list__show__element-value">';
+              echo '<p class="inmate-panel__list__show__label">';
+              echo 'Sentence category:';
+              echo '<span class="inmate-panel__list__show__info"> ' . $inmate['sentence_category'] . '</span>';
+              echo '</p>';
+              echo '</div>';
+              echo '<div class="inmate-panel__list__show__buttons">';
+              echo '<button class="inmate-panel__list__show__buttons__edit">';
+              $inmate_href = "inmateEdit.php?inmate_id=" . $inmate['inmate_id'];
+              echo '<a href=' . $inmate_href . '>';
+              echo '<img src="../../assets/visitormain/edit-icon.svg" alt="edit button"/>';
+              echo '</a>';
+              echo '</button>';
+              echo '<button class="inmate-panel__list__show__buttons__delete" inmate_id_data="' . $inmate['inmate_id'] . '">';
+              echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
+              echo '</button>';
+              echo '</div>';
+              echo '</li>';
+            }
           }
           ?>
         </ol>
       </div>
-      <div class="inmate-panel__form__buttons">
-        <a href="../AdminMain/adminmain.php" class="inmate-panel__form__buttons__back">Back</a>
-        <a href="addInmate.php" class="inmate-panel__form__buttons__add">
+      <nav class="pagination-container">
+        <?php if ($noresults == 0) : ?>
+          <a href="../AdminMain/adminmain.php" class="inmate-panel__form__buttons__back">Back</a>
+          <?php if ($page > 1) : ?>
+            <a href="inmatespanel.php?page=<?php echo $page - 1; ?>" class="pagination-button-prev">Prev</a>
+          <?php else : ?>
+            <button class="pagination-button-disabled disabled">Prev</button>
+          <?php endif; ?>
+          <?php if ($page < $totalPages) : ?>
+            <a href="inmatespanel.php?page=<?php echo $page + 1; ?>" class="pagination-button-next">Next</a>
+          <?php else : ?>
+            <button class="pagination-button-disabled disabled">Next</button>
+          <?php endif; ?>
+          <a href="addInmate.php" class="inmate-panel__form__buttons__add">
           Add inmate
-        </a>
+          </a>
+        <?php else : ?>
+          <a href="../AdminMain/adminmain.php" class="visit-active__buttons__back">Back</a>
+        <?php endif; ?>
+        </nav>
       </div>
     </div>
   </main>

@@ -18,17 +18,19 @@ class NonAdminUsersAPI extends BaseAPI
 
     private function getNonAdminUsers()
     {
-        $stmt = $this->conn->prepare("SELECT user_id, first_name, last_name, email, `function` FROM users WHERE `function` = 'user'");
+        $stmt = $this->conn->prepare("SELECT user_id, photo, first_name, last_name, email, `function` FROM users WHERE `function` = 'user'");
         $stmt->execute();
         $result = $stmt->get_result();
 
         $response = array();
         while ($row = $result->fetch_assoc()) {
+            $photo = base64_encode($row['photo']);
             $line = array(
                 "person_name" => $row['first_name'] . " " . $row['last_name'],
                 "email" => $row['email'],
                 "function" => $row['function'],
-                "user_id" => $row['user_id']
+                "user_id" => $row['user_id'],
+                "photo" => $photo
             );
             $response[] = $line;
         }

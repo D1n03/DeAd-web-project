@@ -101,6 +101,8 @@ $numToDuplicate = 0;
         </div>
         <ol class="visit-active__list">
           <?php
+          $noresults = 0;
+
           // we use curl to make a request to the api
           $base_url = "http://localhost/DeAd-web-Project/src/ActiveVisits/get_visits.php";
 
@@ -119,92 +121,97 @@ $numToDuplicate = 0;
           // we parse the response
           // if there are no appointments, display a message
           if (empty($response)) {
-            // button to create an visits, copy paste lmao
+            $noresults = 1;
             echo '<div class="visit-active-not-found">';
             echo '<h3>You do not have any active visits</h3>';
             echo '<a href="../CreateVisit/visit.php" class="visit-active-main__button-add">';
             echo 'Create a visit';
             echo '</a>';
             echo '</div>';
-            exit();
           }
-          // pagination logic
-          $numOfEntriesPerPage = 3;
-          $totalEntries = count($response);
-          $totalPages = ceil($totalEntries / $numOfEntriesPerPage);
-          $offset = ($page - 1) * $numOfEntriesPerPage;
+          else
+          {
+            // pagination logic
+            $numOfEntriesPerPage = 3;
+            $totalEntries = count($response);
+            $totalPages = ceil($totalEntries / $numOfEntriesPerPage);
+            $offset = ($page - 1) * $numOfEntriesPerPage;
 
-          // Display active visits for the current page
-          $visitsToDisplay = array_slice($response, $offset, $numOfEntriesPerPage);
+            // Display active visits for the current page
+            $visitsToDisplay = array_slice($response, $offset, $numOfEntriesPerPage);
 
-          if ($page == $totalPages && count($visitsToDisplay) < 3) {
-            // the number of element duplicates needed
-            $numToDuplicate = 3 - count($visitsToDisplay);
+            if ($page == $totalPages && count($visitsToDisplay) < 3) {
+              // the number of element duplicates needed
+              $numToDuplicate = 3 - count($visitsToDisplay);
 
-            // duplicate last visit to fill the remaining slots
-            $lastVisit = end($visitsToDisplay);
-            for ($i = 0; $i < $numToDuplicate; $i++) {
-              $visitsToDisplay[] = $lastVisit;
+              // duplicate last visit to fill the remaining slots
+              $lastVisit = end($visitsToDisplay);
+              for ($i = 0; $i < $numToDuplicate; $i++) {
+                $visitsToDisplay[] = $lastVisit;
+              }
+            }
+
+            foreach ($visitsToDisplay as $index => $visit) {
+              echo '<li>';
+              if ($page == $totalPages && $index >= count($visitsToDisplay) - $numToDuplicate) {
+                echo '<div class="table-element-duplicate">';
+              } else {
+                echo '<div class="table-element">';
+              }
+              echo '<img src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="visitor photo" class="visitor-main__list__show__photo" />';
+              echo '<div class="visitor-main__list__show__name">';
+              echo '<p class="visitor-main__list__show__label">';
+              echo 'Inmate:';
+              echo '<span class="visit-active__list__show__info"> ' . $visit['inmate_name'] . '</span>';
+              echo '</p>';
+              echo '</div>';
+              echo '<div class="visit-active__list__show__element-value">';
+              echo '<p class="visit-active__list__show__label">';
+              echo 'Date:';
+              echo '<span class="visit-active__list__show__info"> ' . $visit['date'] . '</span>';
+              echo '</p>';
+              echo '</div>';
+              echo '<div class="visit-active__list__show__element-value">';
+              echo '<p class="visit-active__list__show__label">';
+              echo 'Time:';
+              echo '<span class="visit-active__list__show__info"> ' . $visit['time_interval'] . '</span>';
+              echo '</p>';
+              echo '</div>';
+              echo '<div class="visit-active__list__show__buttons">';
+              echo '<button class="visit-active__list__show__buttons__confirm">';
+              $visit_info_href = "visitInfo.php?visit_id=" . $visit['visit_id'];
+              echo '<a href=' . $visit_info_href . '>';
+              echo '<img src="../../assets/visitormain/confirm-icon.svg" alt="confirm button"/>';
+              echo '</a>';
+              echo '</button>';
+              echo '<button class="visit-active__list__show__buttons__delete" visit_id_data="' . $visit['visit_id'] . '">';
+              echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
+              echo '</button>';
+              echo '</div>';
+              echo '<input type="hidden" name="visit_id" value="' . $visit['visit_id'] . '">';
+              echo '</li>';
             }
           }
-
-          foreach ($visitsToDisplay as $index => $visit) {
-            echo '<li>';
-            if ($page == $totalPages && $index >= count($visitsToDisplay) - $numToDuplicate) {
-              echo '<div class="table-element-duplicate">';
-            } else {
-              echo '<div class="table-element">';
-            }
-            echo '<img src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="visitor photo" class="visitor-main__list__show__photo" />';
-            echo '<div class="visitor-main__list__show__name">';
-            echo '<p class="visitor-main__list__show__label">';
-            echo 'Inmate:';
-            echo '<span class="visit-active__list__show__info"> ' . $visit['inmate_name'] . '</span>';
-            echo '</p>';
-            echo '</div>';
-            echo '<div class="visit-active__list__show__element-value">';
-            echo '<p class="visit-active__list__show__label">';
-            echo 'Date:';
-            echo '<span class="visit-active__list__show__info"> ' . $visit['date'] . '</span>';
-            echo '</p>';
-            echo '</div>';
-            echo '<div class="visit-active__list__show__element-value">';
-            echo '<p class="visit-active__list__show__label">';
-            echo 'Time:';
-            echo '<span class="visit-active__list__show__info"> ' . $visit['time_interval'] . '</span>';
-            echo '</p>';
-            echo '</div>';
-            echo '<div class="visit-active__list__show__buttons">';
-            echo '<button class="visit-active__list__show__buttons__confirm">';
-            $visit_info_href = "visitInfo.php?visit_id=" . $visit['visit_id'];
-            echo '<a href=' . $visit_info_href . '>';
-            echo '<img src="../../assets/visitormain/confirm-icon.svg" alt="confirm button"/>';
-            echo '</a>';
-            echo '</button>';
-            echo '<button class="visit-active__list__show__buttons__delete" visit_id_data="' . $visit['visit_id'] . '">';
-            echo '<img src="../../assets/visitormain/delete-icon.svg" alt="delete button" />';
-            echo '</button>';
-            echo '</div>';
-            echo '<input type="hidden" name="visit_id" value="' . $visit['visit_id'] . '">';
-            echo '</li>';
-          }
-
           ?>
         </ol>
-        <nav class="pagination-container">
+      </div>
+      <nav class="pagination-container">
+        <?php if ($noresults == 0) : ?>
           <?php if ($page > 1) : ?>
             <a href="activevisits.php?page=<?php echo $page - 1; ?>" class="pagination-button-prev">Prev</a>
           <?php else : ?>
             <button class="pagination-button-disabled disabled">Prev</button>
           <?php endif; ?>
-
+          <a href="../VisitorMain/visitormain.php" class="visit-active__buttons__back">Back</a>
           <?php if ($page < $totalPages) : ?>
             <a href="activevisits.php?page=<?php echo $page + 1; ?>" class="pagination-button-next">Next</a>
           <?php else : ?>
             <button class="pagination-button-disabled disabled">Next</button>
           <?php endif; ?>
-        </nav>
-      </div>
+        <?php else : ?>
+          <a href="../VisitorMain/visitormain.php" class="visit-active__buttons__back">Back</a>
+        <?php endif; ?>
+      </nav>
     </div>
   </main>
   <?php
