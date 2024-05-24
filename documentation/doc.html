@@ -137,11 +137,13 @@
         </figure>
       </section>
       <section id="component-2">
-        <h3>The <code>index.html</code> page</h3>
+        <h3>The <code>Index</code> page</h3>
         <p>
           The primary page of the application comprises a solitary "first"
           section. The central element within this section is the button
-          designated for scheduling a visit.
+          designated for scheduling a visit. If the user is logged, based on his
+          function, the user will be redirected to the Vistor Main or Admin Main
+          page.
         </p>
         <figure type="sa:image">
           <img src="images/index.png" alt="index-img" />
@@ -149,7 +151,7 @@
         </figure>
       </section>
       <section id="component-3">
-        <h3>The <code>login.html</code> page</h3>
+        <h3>The <code>Login</code> page</h3>
         <p>
           To schedule a visit, users must log in to their account in our
           database. This leads to the "Login" page, featuring a bordered box
@@ -166,7 +168,7 @@
         </figure>
       </section>
       <section id="component-4">
-        <h3>The <code>signup.html</code> page</h3>
+        <h3>The <code>Signup</code> page</h3>
         <p>
           The Signup page serves as a registration form for new users to create
           an account on the website. It includes fields for inputting the user's
@@ -183,36 +185,32 @@
         </figure>
       </section>
       <section id="component-5">
-        <h3>The <code>visitormain.html</code> page</h3>
+        <h3>The <code>Forgot Password</code> page</h3>
         <p>
-          The page for registering the details of each visitor of the same
-          inmate offers users two distinct areas of action. In the first area,
-          users can search for the inmate intended for the visit and add a new
-          visitor as needed. In the second area, users can access the list of
-          visitors along with their associated information. Here, users have the
-          option to delete a specific visitor, edit the information pertaining
-          to them or delete all existing visitors.
+          The "Forgot Password" page includes a single field for users to enter
+          their email address. After pressing the button below, users will
+          receive an email with a link. Clicking on this link will redirect them
+          to a page with a form to proceed with the password reset.
         </p>
         <figure type="sa:image">
-          <img src="images/visitormain.png" alt="visitormain-img" />
-          <figcaption>User Main Page</figcaption>
+          <img src="images/forgotpassword.png" alt="forgotpassword-img" />
+          <figcaption>Forgot Password form</figcaption>
         </figure>
       </section>
       <section id="component-6">
-        <h3>The <code>visitInfo.html</code> page</h3>
+        <h3>The <code>Reset Password</code> page</h3>
         <p>
-          The page dedicated to visit information for a user comprises a form
-          for recording details such as the date and duration of the visit,
-          items provided by the inmate, the inmate's status, the purpose of the
-          visit, and a summary of discussions.
+          On this page, the user can reset the password by entering a new one in
+          the two fields provided below. To complete the process, they simply
+          need to click the button below.
         </p>
         <figure type="sa:image">
-          <img src="images/visitInfo.png" alt="visitInfo-img" />
-          <figcaption>Visit Detalis Form</figcaption>
+          <img src="images/resetpassword.png" alt="resetpassword-img" />
+          <figcaption>Reset password form</figcaption>
         </figure>
       </section>
       <section id="component-7">
-        <h3>The <code>about.html</code> page</h3>
+        <h3>The <code>About</code> page</h3>
         <p>
           This page provides a concise overview of our platform, highlighting
           its purpose to improve the visitation process for individuals in
@@ -228,7 +226,7 @@
         </figure>
       </section>
       <section id="component-8">
-        <h3>The <code>help.html</code> page</h3>
+        <h3>The <code>Help</code> page</h3>
         <p>
           The purpose of this page is to provide general information about the
           main pages and functionalities within the application, along with
@@ -241,7 +239,7 @@
         </figure>
       </section>
       <section id="component-9">
-        <h3>The <code>contact.html</code> page</h3>
+        <h3>The <code>Contact</code> page</h3>
         <p>
           On this page, users, whether registered or not, can submit suggestions
           or report system issues to administrators. Upon accessing the page,
@@ -258,7 +256,7 @@
         </figure>
       </section>
       <section id="component-10">
-        <h3>The <code>error.html</code> page</h3>
+        <h3>The <code>Error</code> page</h3>
         <p>
           In case users attempt to access a non-existent page or encounter an
           error, they are directed to this "Page Not Found" error page, which
@@ -271,11 +269,12 @@
         </figure>
       </section>
       <section id="component-11">
-        <h3>The <code>profile.html</code> page</h3>
+        <h3>The <code>Profile</code> page</h3>
         <p>
           In the main content area of this page, there is a section displaying
           the user's profile information, including their name, email address,
-          and options to edit their profile or view their visit history.
+          and options to edit their profile, change password or, if they are a
+          regular user, view their visit history.
         </p>
         <figure type="sa:image">
           <img src="images/profile.png" alt="profile-img" />
@@ -283,59 +282,229 @@
         </figure>
       </section>
       <section id="component-12">
-        <h3>The <code>history.html</code> page</h3>
+        <h3>The <code>Edit Profile</code> page</h3>
         <p>
-          The "History" page provides users with a chronological list of past
-          visits, allowing them to view details about each visit. Additionally,
-          users have the option to export this data in various formats, such as
-          HTML, CSV, or JSON, using the provided export button.
+          On this page, the user can change their first name, last name, email
+          and photo.
+        </p>
+        <figure type="sa:image">
+          <img src="images/editprofile.png" alt="profile-img" />
+          <figcaption>Edit profile form</figcaption>
+        </figure>
+      </section>
+      <section id="component-13">
+        <h3>The <code>Change Password</code> page</h3>
+        <p>
+          To change the account password, the user must fill in the three fields
+          below with their current password, the new password, and a
+          confirmation of the new password. Note that the new password must meet
+          certain criteria before the user can successfully submit the form.
+        </p>
+        <figure type="sa:image">
+          <img src="images/changepassword.png" alt="profile-img" />
+          <figcaption>Change password form</figcaption>
+        </figure>
+      </section>
+      <section id="component-14">
+        <h3>The <code>Visitor Main</code> page</h3>
+        <p>
+          The page welcomes the visitor and then presents a menu where the user
+          can create a visit, view active visits, or review past visits.
+        </p>
+        <figure type="sa:image">
+          <img src="images/visitormain.png" alt="visitormain-img" />
+          <figcaption>User Main Page</figcaption>
+        </figure>
+      </section>
+      <section id="component-15">
+        <h3>The <code>Create Visit</code> page</h3>
+        <p>
+          By completing the form with all the necessary data, including the
+          inmate's first and last name, the user's relationship with the inmate,
+          the nature of the visit, source of income, a photo, the date of the
+          visit, and the time interval, the user can create a visit. Keep in
+          mind that the inmate's name must be valid, the photo must be of an
+          acceptable type, and the date and time interval must not overlap with
+          an existing visit for the same inmate. Once all the data is valid, the
+          user can submit it by pressing the "Submit" button on the bottom right
+          of the page.
+        </p>
+        <figure type="sa:image">
+          <img src="images/createvisit.png" alt="history-img" />
+          <figcaption>Create visit form</figcaption>
+        </figure>
+      </section>
+      <section id="component-16">
+        <h3>The <code>Active Visits</code> page</h3>
+        <p>
+          On this page, the user can view their scheduled active visits. If they
+          no longer wish to visit the inmate, they can delete the visit. After
+          the visit has been completed, the user should press the green button
+          to be redirected to a page where they can provide additional
+          information about how the visit went. Additionally, if the user has
+          more than three visits, they can navigate through the table by
+          pressing the next and previous buttons. And if the user has not active
+          visits, a button labed "Create a visit" will redirect the user to the
+          page to create one.
+        </p>
+        <figure type="sa:image">
+          <img src="images/activevisits.png" alt="history-img" />
+          <figcaption>Active visits table</figcaption>
+        </figure>
+      </section>
+      <section id="component-17">
+        <h3>The <code>Visit Info</code> page</h3>
+        <p>
+          The user should provide information about the visit, including items
+          offered by the inmate, items provided to the inmate, a summary of
+          discussions held with the inmate, the inmate's health status, and,
+          optionally, any witnesses present.
+        </p>
+        <figure type="sa:image">
+          <img src="images/visitinfo.png" alt="history-img" />
+          <figcaption>Visit details form</figcaption>
+        </figure>
+      </section>
+      <section id="component-18">
+        <h3>The <code>Visit History</code> page</h3>
+        <p>
+          The "Visit History" page provides users with a chronological list of
+          past visits, allowing them to view details about each visit by
+          pressing the green button on the right of the visit.
         </p>
         <figure type="sa:image">
           <img src="images/history.png" alt="history-img" />
           <figcaption>History table</figcaption>
         </figure>
       </section>
-      <section id="component-13">
-        <h3>The <code>forgotpassword.html</code> page</h3>
+      <section id="component-19">
+        <h3>The <code>Visit Details</code> page</h3>
         <p>
-          The "Forgot Password" page features a single field for users to input
-          their email address. Upon pressing the button below, users will
-          receive a verification token via email. Once received, users can input
-          the token in a newly displayed form to proceed with the password
-          reset.
+          The page provides information about the visit, including a photo, the
+          inmate's name, the date and duration of the visit, the user's
+          relationship with the inmate, the source of income, any witnesses, a
+          summary of the discussions, and items exchanged by both parties.
         </p>
         <figure type="sa:image">
-          <img src="images/forgotpassword.png" alt="forgotpassword-img" />
-          <figcaption>Forgot Password form</figcaption>
+          <img src="images/visitdetails.png" alt="history-img" />
+          <figcaption>Visit data</figcaption>
         </figure>
       </section>
-      <section id="component-14">
-        <h3>The <code>resetpassword.html</code> page</h3>
+      <section id="component-20">
+        <h3>The <code>Admin Main</code> page</h3>
         <p>
-          On this page, after users have acquired their token, they can reset
-          their password by entering a new one in the two fields provided below.
-          To complete the process, they simply need to click the button below.
-        </p>
-        <figure type="sa:image">
-          <img src="images/resetpassword.png" alt="resetpassword-img" />
-          <figcaption>Reset password form</figcaption>
-        </figure>
-      </section>
-      <section id="component-15">
-        <h3>The <code>adminmain.html</code> page</h3>
-        <p>
-          This page is exclusively for the administrator, granting them the
-          ability to perform various actions involving both inmates and regular
-          users of the application. For inmates, the administrator can edit
-          their information, add new entries, or remove them from the database.
-          Regarding regular users, the administrator have the authority to
-          delete accounts, view visitation records, and make modifications to
-          visitation information. Additionally, the administrator can export
-          data based on specific criteria.
+          This page is exclusively for the administrator. It greets the
+          administrator and provides a menu with four buttons. The first button
+          redirects to the inmate management panel, the second to the user
+          management page, the third to a page where the admin can view all
+          registered visits, and the fourth to a section for exporting data
+          about users, inmates, and visits.
         </p>
         <figure type="sa:image">
           <img src="images/adminmain.png" alt="adminmain-img" />
-          <figcaption>Admin Panel</figcaption>
+          <figcaption>Administrator Main Page</figcaption>
+        </figure>
+      </section>
+      <section id="component-21">
+        <h3>The <code>Inmates Panel</code> page</h3>
+        <p>
+          The administrator can view all the inmates added to the system, delete
+          any of them, edit their information by pressing the green button, or
+          add more inmates to the database by pressing the "Add Inmate" button
+          in the bottom right corner of the page.
+        </p>
+        <figure type="sa:image">
+          <img src="images/inmatespanel.png" alt="adminmain-img" />
+          <figcaption>Inmates table</figcaption>
+        </figure>
+      </section>
+      <section id="component-22">
+        <h3>The <code>Add Inmate</code> page</h3>
+        <p>
+          On this page, the administrator can add a new inmate to the database
+          by providing the necessary data, including the inmate's first name,
+          last name, sentence start date, sentence duration, and sentence
+          category.
+        </p>
+        <figure type="sa:image">
+          <img src="images/addinmate.png" alt="adminmain-img" />
+          <figcaption>Add inmate form</figcaption>
+        </figure>
+      </section>
+      <section id="component-23">
+        <h3>The <code>Edit Inmate</code> page</h3>
+        <p>
+          Similar to the Add Inmate page, the administrator can change the data
+          about the inmate.
+        </p>
+        <figure type="sa:image">
+          <img src="images/editinmate.png" alt="adminmain-img" />
+          <figcaption>Edit Inmate form</figcaption>
+        </figure>
+      </section>
+      <section id="component-24">
+        <h3>The <code>Users Panel</code> page</h3>
+        <p>
+          Through this page, the admin can view all user accounts created on the
+          platform. The admin can delete any account by pressing the red button
+          next to it or edit the account by pressing the green button.
+        </p>
+        <figure type="sa:image">
+          <img src="images/userspanel.png" alt="adminmain-img" />
+          <figcaption>Users table</figcaption>
+        </figure>
+      </section>
+      <section id="component-25">
+        <h3>The <code>Edit User</code> page</h3>
+        <p>
+          On this page, the administrator can change user account data such as
+          first and last name, email, photo, and password. However, they cannot
+          change the user's role because they are only a regular user
+          themselves.
+        </p>
+        <figure type="sa:image">
+          <img src="images/edituser.png" alt="adminmain-img" />
+          <figcaption>Edit user form</figcaption>
+        </figure>
+      </section>
+      <section id="component-26">
+        <h3>The <code>Visits Panel</code> page</h3>
+        <p>
+          The administrator can view all visits in the database. They can delete
+          any visit by pressing the red button next to it or edit the visit by
+          pressing the green button.
+        </p>
+        <figure type="sa:image">
+          <img src="images/visitspanel.png" alt="adminmain-img" />
+          <figcaption>Visits table</figcaption>
+        </figure>
+      </section>
+      <section id="component-27">
+        <h3>The <code>Edit Visit</code> page</h3>
+        <p>
+          The main feature of this page is that the administrator can only
+          change the date, time interval, and nature of the visit. All other
+          data are displayed but cannot be modified.
+        </p>
+        <figure type="sa:image">
+          <img src="images/editvisit.png" alt="adminmain-img" />
+          <figcaption>Edit visit form</figcaption>
+        </figure>
+      </section>
+      <section id="component-28">
+        <h3>The <code>Export data</code> page</h3>
+        <p>
+          This page provides the export functionality for data related to
+          inmates, users, and visits. The administrator can choose to export the
+          data as JSON, CSV, or HTML. For inmates, the data can be sorted by
+          name, sentence date, or sentence duration. For users, sorting is
+          available by name, and for visits, sorting can be done by date,
+          visitor, or inmate. Additionally, the export function for visits
+          includes some general statistics.
+        </p>
+        <figure type="sa:image">
+          <img src="images/export.png" alt="adminmain-img" />
+          <figcaption>Export data panel</figcaption>
         </figure>
       </section>
     </section>
@@ -343,7 +512,7 @@
       <h2>Actions</h2>
       <p>
         The primary actors engaged with the web application include users and
-        the administrator.
+        the administrators.
       </p>
       <p>
         As a user, you will have the capability to perform the following
@@ -351,11 +520,10 @@
       </p>
       <ul>
         <li>
-          The user will be able to schedule a visit, which necessitates logging
-          into an existing account. Upon successful login, the user will be
-          prompted to input their personal information as well as the details of
-          accompanying individuals. Following this, the final step involves
-          providing information regarding the visit.
+          The user will be able to schedule a visit by logging into an existing
+          account. Upon successful login, the user will be prompted with a menu
+          to either create a visit, provide information about an active visit,
+          or view their visit history.
         </li>
         <li>
           A user will have the capability to access the page dedicated to
@@ -363,29 +531,28 @@
           functionalities of the application.
         </li>
         <li>
-          Additionally, the user possesses the capability to download reports
-          regarding their visits.
-        </li>
-        <li>
-          The final action available to a user actor is to provide feedback or
-          request information through the contact page.
+          The user can view their profile and update information such as name,
+          email, or photo. They can also change their password. Additionally, if
+          the user is logged in or not, they can provide feedback or request
+          information through the contact page.
         </li>
       </ul>
       <p>
-        The prison administrator assumes the role of the second main actor. They
-        are depicted through the following actions:
+        The administrator assumes the role of the second main actor. They are
+        depicted through the following actions:
       </p>
       <ul>
         <li>
           The administrator actor shares all actions of a user actor, except for
-          scheduling a visit, viewing the history of their own visits, and
-          interacting with the contact page.
+          creating a visit, providing details about the visit and viewing the
+          history of their own visits.
         </li>
         <li>
           Additional actions for the administrator would include the ability to
           delete or edit user-related information, manage information about
-          inmates (adding, deleting, or editing), and potentially download data
-          based on various criteria related to inmates, users, etc.
+          inmates (adding, deleting, or editing), delete or edit data about the
+          visits and potentially download data based on various criteria related
+          to inmates, users and visits.
         </li>
       </ul>
     </section>

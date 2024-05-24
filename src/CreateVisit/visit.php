@@ -11,7 +11,7 @@ session_start();
   <meta name="description" content="Please provide information about required below." />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>Visit Info</title>
+  <title>Create Visit</title>
 </head>
 
 <body>

@@ -12,7 +12,7 @@ $numToDuplicate = 0;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../../src/styles/css/styles.css" />
   <link rel="icon" href="../../assets/header/police-icon.svg" />
-  <title>visit</title>
+  <title>Visit History</title>
 </head>
 
 <body>
