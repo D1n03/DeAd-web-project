@@ -1,5 +1,12 @@
 <?php
 session_start();
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
+  header("Location: ../Login/login.php");
+  exit;
+} else if (!isset($_SESSION['function']) || $_SESSION['function'] !== 'admin') {
+  header("Location: ../Index/index.php");
+  exit;
+}
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $numToDuplicate = 0;
 ?>
