@@ -100,37 +100,36 @@ session_start();
         <div class="visit-details-visit__labels__title">Visit Details</div>
 
         <?php
-        if (isset($_GET['id'])) {
-          require_once '../Utils/Connection.php';
+        if (isset($_GET['visit_id'])) {
+          $base_url = "localhost";
+          $url = $base_url . "/DeAd-web-Project/src/VisitHistory/get_visit_id.php?visit_id=" . $_GET['visit_id'];
+          $curl = curl_init($url);
 
-          $visit_id = $_GET['id'];
+          if (isset($_COOKIE['auth_token'])) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: auth_token=' . $_COOKIE['auth_token']));
+          }
 
-          $conn = Connection::getInstance()->getConnection();
-          $stmt = $conn->prepare("SELECT v.visit_id, v.person_id, v.first_name, v.last_name, v.relationship, v.visit_nature, v.source_of_income, v.date, v.visit_start, v.visit_end, v.photo, vi.witnesses, vi.summary, vi.items_provided_to_inmate, vi.items_offered_by_inmate 
-                                    FROM visits v 
-                                    LEFT JOIN `visits_info` vi ON v.visit_id = vi.visit_info_id 
-                                    WHERE v.visit_id = ?");
-          $stmt->bind_param("s", $visit_id);
-          $stmt->execute();
-          $result = $stmt->get_result();
+          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($curl, CURLOPT_HTTPGET, true);
+          $curl_response = curl_exec($curl);
+          curl_close($curl);
+          $visit = json_decode($curl_response, true);
+          
+          if ($visit && isset($visit['visit_id'])) {
+            echo "<input type='hidden' name='visit_id' value='" . htmlspecialchars($visit['visit_id'], ENT_QUOTES, 'UTF-8') . "'>";
 
-          if ($result->num_rows > 0) {
-            $visit = $result->fetch_assoc();
-
-
-
-            echo '<img class="visit-icon" src="data:image/jpeg;base64,' . base64_encode($visit['photo']) . '" alt="Inmate Photo">';
+            echo '<img class="visit-icon" src="data:image/jpeg;base64,' . $visit['photo'] . '" alt="Inmate Photo">';
             echo '<div class="visit-details-visit__labels__container">';
             echo '<div class="visit-details-visit__labels__container">';
-            echo '<p class="container__text">Inmate: ' . $visit['first_name'] . ' ' . $visit['last_name'] . '</p>';
+            echo '<p class="container__text">Inmate: ' . $visit['inmate_name'] . '</p>';
             echo '</div>';
 
             echo '<div class="visit-details-visit__labels__container">';
-            echo '<p class="container__text">Date: ' . $visit['date'] . '</p>';
+            echo '<p class="container__text">Date: ' . htmlspecialchars($visit['date'], ENT_QUOTES, 'UTF-8') . '</p>';
             echo '</div>';
 
             echo '<div class="visit-details-visit__labels__container">';
-            echo '<p class="container__text">Duration: ' . $visit['visit_start'] . ' - ' . $visit['visit_end'] . '</p>';
+            echo '<p class="container__text">Duration: ' . htmlspecialchars($visit['time_interval'], ENT_QUOTES, 'UTF-8') . '</p>';
             echo '</div>';
 
             switch ($visit['relationship']) {
@@ -141,14 +140,15 @@ session_start();
                 $relationshipText = 'second-degree relative';
                 break;
               default:
-                $relationshipText = $visit['relationship'];
+                $relationshipText = htmlspecialchars($visit['relationship'], ENT_QUOTES, 'UTF-8');
             }
+
             echo '<div class="visit-details-visit__labels__container">';
             echo '<p class="container__text">Relationship: ' . $relationshipText . '</p>';
             echo '</div>';
 
             echo '<div class="visit-details-visit__labels__container">';
-            echo '<p class="container__text">Source of income: ' . $visit['source_of_income'] . '</p>';
+            echo '<p class="container__text">Source of income: ' . htmlspecialchars($visit['source_of_income'], ENT_QUOTES, 'UTF-8') . '</p>';
             echo '</div>';
 
             switch ($visit['witnesses']) {
@@ -161,12 +161,11 @@ session_start();
               default:
                 $witnessText = $visit['witnesses'];
             }
+
             echo '<div class="visit-details-visit__labels__container">';
             echo '<p class="container__text">Witnesses: ' . $witnessText . '</p>';
             echo '</div>';
-
             echo '</div>';
-
             echo '<div class="visit-details-visit__labels__container">';
             echo '<div class="visit-details-visit__labels__container">';
             switch ($visit['items_offered_by_inmate']) {
@@ -174,7 +173,7 @@ session_start();
                 $itemsOfferedByInmate = 'none';
                 break;
               default:
-                $itemsOfferedByInmate = $visit['items_offered_by_inmate'];
+                $itemsOfferedByInmate = htmlspecialchars($visit['items_offered_by_inmate'], ENT_QUOTES, 'UTF-8');
                 break;
             }
             echo '<p class="container__text">Items offered by inmate: ' . $itemsOfferedByInmate . '</p>';
@@ -186,7 +185,7 @@ session_start();
                 $itemsProvidedToInmate = 'none';
                 break;
               default:
-                $itemsProvidedToInmate = $visit['items_provided_to_inmate'];
+                $itemsProvidedToInmate = htmlspecialchars($visit['items_provided_to_inmate'], ENT_QUOTES, 'UTF-8');
                 break;
             }
             echo '<p class="container__text">Items provided to inmate: ' . $itemsProvidedToInmate . '</p>';
@@ -195,7 +194,7 @@ session_start();
             echo '<div class="visit-details-visit__labels__container">';
             echo '<div class="visit-details-visit__labels__container">';
             
-            echo '<p class="container__text">Visit nature: ' . $visit['visit_nature'] . '</p>';
+            echo '<p class="container__text">Visit nature: ' . htmlspecialchars($visit['visit_nature'], ENT_QUOTES, 'UTF-8') . '</p>';
             echo '</div>';
 
             echo '<div class="visit-details-visit__labels__container">';
@@ -210,14 +209,13 @@ session_start();
           echo 'Visit ID not provided.';
         }
         ?>
-        </h1>
       </div>
     </div>
     <nav class="button-container">
-    <a href="../VisitHistory/history.php" class="visit-details__buttons__back">Back</a>
+      <a href="../VisitHistory/history.php" class="visit-details__buttons__back">Back</a>
     </nav>
-
   </main>
+
   <?php
   if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) :
   ?>

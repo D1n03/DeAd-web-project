@@ -181,7 +181,7 @@ $numToDuplicate = 0;
               echo '</div>';
               echo '</div>';
               echo '<div class="history__list__show__buttons">';
-              echo '<a href="visit_details.php?id=' . $visit['visit_id'] . '" class="history__list__show__buttons__info">';
+              echo '<a href="visit_details.php?visit_id=' . $visit['visit_id'] . '" class="history__list__show__buttons__info">';
               echo '<img src="../../assets/visitormain/info-icon.svg" alt="info button" />';
               echo '</a>';
               echo '</div>';
