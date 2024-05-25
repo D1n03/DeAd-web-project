@@ -579,9 +579,11 @@ body {
   color: white;
   text-align: center;
 }
+
 #changepassword {
   padding: 10px 3vw;
 }
+
 .profile .link:is(:hover) {
   background-color: rgb(61, 160, 74);
 }
@@ -591,7 +593,6 @@ body {
   width: auto;
   height: auto;
 }
-
 
 /* Contact content */
 .contact {
@@ -782,9 +783,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   transition: all 150ms ease-in-out;
 }
-.editprofile .container__form-buttons button:hover, .contact .container__form-buttons button:active {
+.editprofile .container__form-buttons button:hover {
   background-color: rgb(61, 160, 74);
 }
+
+.contact .container__form-buttons button:active {
+  background-color: rgb(61, 160, 74);
+}
+
 .editprofile .container input:not([id=photo]) {
   width: 100%;
   background-color: rgb(217, 217, 217);
@@ -835,15 +841,12 @@ body {
   font-size: 1.25rem;
   margin-top: 1rem;
 }
-
 .editprofile .error {
   text-align: center;
   color: rgb(255, 0, 0);
   font-size: 1.25rem;
   margin-top: 1rem;
 }
-
-
 
 /* Login content */
 .login {
@@ -971,18 +974,17 @@ body {
 }
 
 /* Visitor Main Page reworked */
-
 .main-page-title {
   text-align: center;
   margin: 1rem;
   font-size: var(--fs-extra-large);
 }
+
 .main-page-context {
   text-align: center;
   margin: 1rem;
   font-size: var(--fs-medium);
 }
-
 
 /* Change Password content */
 .changepassword {
@@ -1081,9 +1083,14 @@ body {
 .changepassword .container__form-buttons .container__form-submit-signup:hover {
   background-color: rgb(25, 83, 189);
 }
-.changepassword .container__form-buttons button:hover, .login .container__form-buttons button:active {
+.changepassword .container__form-buttons button:hover {
   background-color: rgb(61, 160, 74);
 }
+
+.login .container__form-buttons button:active {
+  background-color: rgb(61, 160, 74);
+}
+
 .changepassword .container input:not([id=photo]) {
   width: 100%;
   background-color: rgb(217, 217, 217);
@@ -1156,7 +1163,6 @@ body {
 .visitor-main__create__button {
   background-color: rgb(67, 160, 71);
 }
-
 .visitor-main__create__button:hover {
   background-color: rgb(46, 125, 50);
 }
@@ -1164,7 +1170,6 @@ body {
 .visitor-main__update__button {
   background-color: rgb(251, 192, 45);
 }
-
 .visitor-main__update__button:hover {
   background-color: rgb(245, 127, 23);
 }
@@ -1172,7 +1177,6 @@ body {
 .visitor-main__get__button {
   background-color: rgb(0, 151, 167);
 }
-
 .visitor-main__get__button:hover {
   background-color: rgb(0, 123, 137);
 }
@@ -1541,11 +1545,7 @@ body {
   box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.39);
 }
 
-.history__list__show__name {
-  display: none;
-}
-
-.history__list__show__dBirth {
+.history__list__show__name, .history__list__show__dBirth {
   display: none;
 }
 
@@ -1619,7 +1619,6 @@ body {
   border-radius: 50%;
   transition: all 150ms ease-in-out;
 }
-
 :is(.history__list__show__buttons__info):hover {
   background-color: rgb(60, 99, 65);
 }
@@ -1640,7 +1639,6 @@ body {
   grid-column: 2/3;
   justify-self: center;
 }
-
 
 .pagination-container {
   flex-wrap: wrap;
@@ -1673,15 +1671,11 @@ body {
   background-color: rgb(75, 226, 95);
   color: rgb(255, 255, 255);
   box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
+  align-self: flex-start;
 }
-
 .history__buttons__back:is(:hover) {
   background-color: rgb(61, 160, 74);
   cursor: pointer;
-}
-
-.history__buttons__back {
-  align-self: flex-start;
 }
 
 .history-container .pagination-container .pagination-button-prev, .history-container .pagination-container .pagination-button-next {
@@ -1698,7 +1692,7 @@ body {
   padding: 0.5rem 1.5rem;
   transition: all 150ms ease-in-out;
 }
-.history-container .pagination-container .pagination-button-disabled{
+.history-container .pagination-container .pagination-button-disabled {
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
   font-size: var(--fs-regular);
@@ -1881,7 +1875,6 @@ body {
 }
 
 /* Admin Page content*/
-
 .admin-main {
   min-height: 100%;
   position: relative;
@@ -1897,7 +1890,6 @@ body {
   gap: 0rem;
   color: rgb(255, 255, 255);
 }
-
 .admin-main .admin-main-container {
   width: 100%;
   display: flex;
@@ -1932,17 +1924,15 @@ body {
 }
 
 .admin-main__inmates__button {
-  background-color: rgb(25, 118, 210)
+  background-color: rgb(25, 118, 210);
 }
-
 .admin-main__inmates__button:hover {
-  background-color: rgb(13, 71, 161)
+  background-color: rgb(13, 71, 161);
 }
 
 .admin-main__users__button {
   background-color: rgb(67, 160, 71);
 }
-
 .admin-main__users__button:hover {
   background-color: rgb(46, 125, 50);
 }
@@ -1950,7 +1940,6 @@ body {
 .admin-main__visits__button {
   background-color: rgb(251, 192, 45);
 }
-
 .admin-main__visits__button:hover {
   background-color: rgb(245, 127, 23);
 }
@@ -1958,7 +1947,6 @@ body {
 .admin-main__export__button {
   background-color: rgb(0, 151, 167);
 }
-
 .admin-main__export__button:hover {
   background-color: rgb(0, 123, 137);
 }
@@ -2008,7 +1996,6 @@ body {
   font-size: var(--fs-small);
   font-weight: 400;
 }
-
 
 .details__form-visit__labels {
   width: 100%;
@@ -2119,7 +2106,6 @@ body {
 }
 
 /* Visit Details content */
-
 .visit-details {
   display: flex;
   flex-direction: column;
@@ -2152,7 +2138,6 @@ body {
   font-size: 1.75rem;
   margin-bottom: 1rem;
 }
-
 .visit-details .container__text {
   width: 100%;
   text-align: left;
@@ -2160,7 +2145,6 @@ body {
   font-size: var(--fs-small);
   color: white;
 }
-
 .visit-details .visit-icon {
   max-width: 234px;
   max-height: 234px;
@@ -2179,6 +2163,7 @@ body {
   border-bottom: 0.25rem solid white;
   border-radius: 0.15rem;
 }
+
 .visit-details-visit__labels {
   grid-template-columns: repeat(2, 1fr);
   box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
@@ -2232,7 +2217,6 @@ body {
   visibility: visible;
   margin-top: 0;
 }
-
 .visit-details-visit__labels__container :is(input, textarea) {
   border: 0.2rem solid transparent;
 }
@@ -2257,7 +2241,6 @@ body {
   color: rgb(255, 255, 255);
   box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
 }
-
 .visit-details__buttons__back:is(:hover) {
   background-color: rgb(61, 160, 74);
   cursor: pointer;
@@ -2279,9 +2262,7 @@ body {
   justify-self: flex-start;
 }
 
-
 /* activevisits */
-
 .visit-active-main {
   min-height: 100%;
   position: relative;
@@ -2291,8 +2272,6 @@ body {
   margin-bottom: 5%;
   font-family: Arial, Helvetica, sans-serif;
 }
-
-
 .visit-active-main .visit-active-main-container {
   width: 100%;
   display: flex;
@@ -2302,7 +2281,6 @@ body {
   gap: 0rem;
   color: rgb(255, 255, 255);
 }
-
 .visit-active-main .visit-active-main-container .visit-active {
   width: min(85%, 65rem);
   min-height: 30rem;
@@ -2320,8 +2298,10 @@ body {
 .visit-active-not-found {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
+  justify-content: center;
+  /* Center vertically */
+  align-items: center;
+  /* Center horizontally */
 }
 
 .visit-active-main__button-add {
@@ -2341,7 +2321,6 @@ body {
   margin: 2.5%;
   text-align: center;
 }
-
 .visit-active-main__button-add:is(:hover) {
   background-color: rgb(4, 129, 117);
 }
@@ -2493,7 +2472,7 @@ body {
 .pagination-container {
   flex-wrap: wrap;
   margin-top: 0%;
-  width: 100%;
+  width: 85%;
   display: flex;
   justify-content: space-evenly;
   flex-direction: row;
@@ -2521,17 +2500,12 @@ body {
   background-color: rgb(75, 226, 95);
   color: rgb(255, 255, 255);
   box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
+  align-self: flex-start;
 }
-
 .visit-active__buttons__back:is(:hover) {
   background-color: rgb(61, 160, 74);
   cursor: pointer;
 }
-
-.visit-active__buttons__back {
-  align-self: flex-start;
-}
-
 
 .visit-active-main-container .pagination-container .pagination-button-prev, .visit-active-main-container .pagination-container .pagination-button-next {
   display: flex;
@@ -2547,7 +2521,7 @@ body {
   padding: 0.5rem 1.5rem;
   transition: all 150ms ease-in-out;
 }
-.visit-active-main-container .pagination-container .pagination-button-disabled{
+.visit-active-main-container .pagination-container .pagination-button-disabled {
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
   font-size: var(--fs-regular);
@@ -2565,7 +2539,6 @@ body {
 }
 
 /* users panel */
-
 .user-panel-main {
   min-height: 100%;
   position: relative;
@@ -2575,7 +2548,6 @@ body {
   margin-bottom: 5%;
   font-family: Arial, Helvetica, sans-serif;
 }
-
 .user-panel-main .user-panel-main-container {
   width: 100%;
   display: flex;
@@ -2585,8 +2557,7 @@ body {
   gap: 0rem;
   color: rgb(255, 255, 255);
 }
-
-.user-panel-main .user-panel-main-container .user-table{
+.user-panel-main .user-panel-main-container .user-table {
   width: min(85%, 65rem);
   min-height: 30rem;
   box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
@@ -2603,8 +2574,10 @@ body {
 .user-panel-not-found {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
+  justify-content: center;
+  /* Center vertically */
+  align-items: center;
+  /* Center horizontally */
 }
 
 .user-panel-main__button-add:is(:hover) {
@@ -2774,21 +2747,16 @@ body {
   background-color: rgb(75, 226, 95);
   color: rgb(255, 255, 255);
   box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
+  align-self: flex-start;
 }
-
 .user-panel__form__buttons__back:is(:hover) {
   background-color: rgb(61, 160, 74);
   cursor: pointer;
 }
 
-.user-panel__form__buttons__back {
-  align-self: flex-start;
-}
-
 .user-panel-main-container .pagination-container {
   margin-top: 0%;
 }
-
 .user-panel-main-container .pagination-container .pagination-button-prev, .user-panel-main-container .pagination-container .pagination-button-next {
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
@@ -2803,7 +2771,7 @@ body {
   padding: 0.5rem 1.5rem;
   transition: all 150ms ease-in-out;
 }
-.user-panel-main-container .pagination-container .pagination-button-disabled{
+.user-panel-main-container .pagination-container .pagination-button-disabled {
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
   font-size: var(--fs-regular);
@@ -2821,7 +2789,6 @@ body {
 }
 
 /* Inmates panel */
-
 .inmate-panel-main {
   min-height: 100%;
   width: min(80rem, 90%);
@@ -2832,7 +2799,6 @@ body {
   margin-inline: auto;
   font-family: Arial, Helvetica, sans-serif;
 }
-
 .inmate-panel-main .inmate-panel-main-container {
   width: 100%;
   display: flex;
@@ -2842,8 +2808,7 @@ body {
   gap: 0rem;
   color: rgb(255, 255, 255);
 }
-
-.inmate-panel-main .inmate-panel-main-container .inmate-table{
+.inmate-panel-main .inmate-panel-main-container .inmate-table {
   width: min(85%, 65rem);
   min-height: 30rem;
   box-shadow: 0 0 2rem rgba(255, 255, 255, 0.1);
@@ -2860,8 +2825,10 @@ body {
 .inmate-panel-not-found {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
+  justify-content: center;
+  /* Center vertically */
+  align-items: center;
+  /* Center horizontally */
 }
 
 .inmate-panel-main__button-add:is(:hover) {
@@ -3049,7 +3016,6 @@ body {
 .inmate-panel-main-container .pagination-container {
   margin-top: 0%;
 }
-
 .inmate-panel-main-container .pagination-container .pagination-button-prev, .inmate-panel-main-container .pagination-container .pagination-button-next {
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
@@ -3064,7 +3030,7 @@ body {
   padding: 0.5rem 1.5rem;
   transition: all 150ms ease-in-out;
 }
-.inmate-panel-main-container .pagination-container .pagination-button-disabled{
+.inmate-panel-main-container .pagination-container .pagination-button-disabled {
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
   font-size: var(--fs-regular);
@@ -3081,9 +3047,7 @@ body {
   background-color: rgb(17, 131, 108);
 }
 
-
 /* add inmate page */
-
 .add-inmate__form__buttons__submit, .add-inmate__form__buttons__back {
   background-color: rgb(75, 226, 95);
   color: rgb(255, 255, 255);
@@ -3217,7 +3181,6 @@ body {
   display: none;
   transition: all 350ms ease-in-out;
 }
-
 .add-inmate__form__labels__container label[for=new_photo] {
   cursor: pointer;
   width: 100%;
@@ -3260,7 +3223,6 @@ body {
 }
 
 /* Visits Panel*/
-
 .visit-panel-main {
   min-height: 100%;
   position: relative;
@@ -3270,7 +3232,6 @@ body {
   margin-bottom: 5%;
   font-family: Arial, Helvetica, sans-serif;
 }
-
 .visit-panel-main .visit-panel-main-container {
   width: 100%;
   display: flex;
@@ -3280,7 +3241,6 @@ body {
   gap: 0rem;
   color: rgb(255, 255, 255);
 }
-
 .visit-panel-main .visit-panel-main-container .visit-panel {
   width: min(85%, 65rem);
   min-height: 30rem;
@@ -3298,8 +3258,10 @@ body {
 .visit-panel-not-found {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
+  justify-content: center;
+  /* Center vertically */
+  align-items: center;
+  /* Center horizontally */
 }
 
 .visit-panel-main__button-add {
@@ -3319,7 +3281,6 @@ body {
   margin: 2.5%;
   text-align: center;
 }
-
 .visit-panel-main__button-add:is(:hover) {
   background-color: rgb(4, 129, 117);
 }
@@ -3487,21 +3448,16 @@ body {
   background-color: rgb(75, 226, 95);
   color: rgb(255, 255, 255);
   box-shadow: 0 0 1rem rgba(14, 14, 14, 0.5);
+  align-self: flex-start;
 }
-
 .visit-panel__form__buttons__back:is(:hover) {
   background-color: rgb(61, 160, 74);
   cursor: pointer;
 }
 
-.visit-panel__form__buttons__back {
-  align-self: flex-start;
-}
-
 .visit-panel-main-container .pagination-container {
   margin-top: 0%;
 }
-
 .visit-panel-main-container .pagination-container .pagination-button-prev, .visit-panel-main-container .pagination-container .pagination-button-next {
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
@@ -3516,7 +3472,7 @@ body {
   padding: 0.5rem 1.5rem;
   transition: all 150ms ease-in-out;
 }
-.visit-panel-main-container .pagination-container .pagination-button-disabled{
+.visit-panel-main-container .pagination-container .pagination-button-disabled {
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
   font-size: var(--fs-regular);
@@ -3533,9 +3489,7 @@ body {
   background-color: rgb(17, 131, 108);
 }
 
-
 /* Visit edit*/
-
 .edit-visit__form__labels__container .form-textarea {
   border-radius: 0.5rem;
   padding: 1rem;
@@ -3685,7 +3639,6 @@ body {
   font-size: 1.25rem;
   margin-top: 1rem;
 }
-
 .edit-visit .success {
   text-align: center;
   color: rgb(75, 226, 95);
@@ -3694,7 +3647,6 @@ body {
 }
 
 /* Edit User */
-
 .edit-user__form__buttons__submit, .edit-user__form__buttons__back {
   background-color: rgb(75, 226, 95);
   color: rgb(255, 255, 255);
@@ -3828,7 +3780,6 @@ body {
   display: none;
   transition: all 350ms ease-in-out;
 }
-
 .edit-user__form__labels__container label[for=new_photo] {
   cursor: pointer;
   width: 100%;
@@ -3848,7 +3799,7 @@ body {
   text-align: center;
 }
 
-.edit-user  .error {
+.edit-user .error {
   text-align: center;
   color: rgb(255, 0, 0);
   font-size: 1.25rem;
@@ -3860,7 +3811,6 @@ body {
   font-size: 1.25rem;
   margin-top: 1rem;
 }
-
 
 /* Help content */
 #accordion li {
@@ -3904,18 +3854,14 @@ body {
     display: flex;
     flex-direction: column;
   }
-  .inmate-panel-main-container .pagination-container .pagination-button-disabled,
-  .inmate-panel-main-container .pagination-container .pagination-button-next,
-  .inmate-panel-main-container .pagination-container .pagination-button-prev {
+  .inmate-panel-main-container .pagination-container .pagination-button-disabled, .inmate-panel-main-container .pagination-container .pagination-button-next, .inmate-panel-main-container .pagination-container .pagination-button-prev {
     margin-top: 0.5rem;
   }
-  .inmate-panel__form__buttons__add,
-  .inmate-panel__form__buttons__back {
+  .inmate-panel__form__buttons__add, .inmate-panel__form__buttons__back {
     align-self: center;
     margin-top: 0.5rem;
   }
 }
-
 @media screen and (max-width: 768px) {
   .nav-container {
     position: relative;
@@ -3998,8 +3944,6 @@ body {
     transition: max-height 0.5s;
   }
 }
-
-
 @media screen and (min-width: 335px) {
   .history__list__show__name {
     font-size: var(--fs-small);
@@ -4053,7 +3997,6 @@ body {
   .visit-active__list__show .drop-arrow {
     display: none;
   }
-
   .visit-panel__list__show {
     display: grid;
     grid-template-columns: 1fr 2fr 2fr 1fr;
@@ -4078,7 +4021,6 @@ body {
   .visit-panel__list__show .drop-arrow {
     display: none;
   }
-  
   .visitor-main__list__show {
     display: grid;
     grid-template-columns: 1fr 2fr 2fr 1fr;
@@ -4176,8 +4118,6 @@ body {
     padding: 2rem;
     border-radius: 0.75rem;
   }
-  
-  
   .visit-details-visit__labels__title {
     grid-area: 1/1/span 1/span 2;
   }
@@ -4231,7 +4171,7 @@ body {
 @media screen and (min-width: 850px) {
   .visit-details {
     width: min(50rem, 55%);
-    }
+  }
 }
 @media screen and (min-width: 875px) {
   .first__description {
@@ -4247,7 +4187,6 @@ body {
     right: -3rem;
     top: -2rem;
   }
-
   .history .visitor-main-container {
     flex-direction: row;
   }
@@ -4319,27 +4258,26 @@ body {
   }
   .visit-details {
     width: min(60rem, 65%);
-    }
+  }
 }
 @media screen and (min-width: 1470px) {
   .first__description {
     width: 70%;
   }
 }
-/*# sourceMappingURL=styles.css.map */
 
-.input[type="file"] {
-    outline: none;
-    cursor: pointer;
-    font-size: 17px;
+.input[type=file] {
+  outline: none;
+  cursor: pointer;
+  font-size: 17px;
 }
 
 .input-group {
-    /*make the buttons orizontal*/
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    color: var(--brown);
+  /*make the buttons orizontal*/
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  color: var(--brown);
 }
 
 .details .details__form-visit .details__form-visit__labels .error {
@@ -4375,7 +4313,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: var(--fs-small);
   font-weight: 400;
-
 }
 
 .export__main__form__labels {
@@ -4405,6 +4342,7 @@ body {
   flex-direction: column;
   margin-top: 1.5rem;
 }
+
 .export__form__buttons {
   display: flex;
   justify-content: space-between;
@@ -4456,4 +4394,4 @@ body {
   border-radius: 4px;
   background: rgb(255, 255, 255);
   outline: none;
-}
+}/*# sourceMappingURL=styles.css.map */
