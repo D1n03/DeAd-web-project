@@ -1,3 +1,10 @@
+-- Drop tables if they exist
+DROP TABLE IF EXISTS `visits_info`;
+DROP TABLE IF EXISTS `visits`;
+DROP TABLE IF EXISTS `inmates`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `contact`;
+
 CREATE TABLE `contact` (
     `id_contact` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(80) NOT NULL,
@@ -22,11 +29,15 @@ CREATE TABLE `visits` (
   PRIMARY KEY (`visit_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- insert visits
+-- insert visits data
 
 INSERT INTO `visits` (`visit_id`, `person_id`, `first_name`, `last_name`, `relationship`, `visit_nature`, `photo`, `source_of_income`, `date`, `visit_start`, `visit_end`, `is_active`) 
-VALUES (1, 1, 'Gigel', 'Phrone', 'relative', 'friendship', 0x433a5c78616d70705c746d705c706870363830382e746d70, 'self-employed', '2023-05-11', '12:00:00', '13:00:00', 1);
-
+VALUES  (1, 4, 'Gigel', 'Phrone', 'friend', 'friendship', NULL, 'self-employed', '2024-05-11', '12:00:00', '13:00:00', 0),
+        (2, 4, 'Gigel', 'Phrone', 'friend', 'friendship', NULL, 'self-employed', '2024-05-21', '14:00:00', '15:00:00', 0),
+        (3, 4, 'Lucian', 'Boicea', 'lawyer', 'lawyer', NULL, 'employed', '2024-05-13', '10:00:00', '12:00:00', 0),
+        (4, 1, 'Gigel', 'Phrone', 'lawyer', 'lawyer', NULL, 'self-employed', '2023-05-12', '11:00:00', '13:00:00', 0),
+        (5, 4, 'Ted', 'Kaczynski', 'first_degree_relative', 'parental', NULL, 'unemployed', '2021-10-12', '11:00:00', '13:00:00', 0),
+        (6, 1, 'Ted', 'Kaczynski', 'friend', 'friendship', NULL, 'unemployed', '2021-05-20', '09:00:00', '11:00:00', 0);
 
 CREATE TABLE `users` (
     `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -41,10 +52,13 @@ CREATE TABLE `users` (
     PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- insert users
+-- insert users data
 
 INSERT INTO `users` (`user_id`, `email`, `password`, `first_name`, `last_name`, `photo`, `function`, `reset_token_hash`, `reset_token_expires_at`) VALUES
-(1,'popescu.dan@email.com', '$2y$10$HoUXL6Zmd8cTdus75jntRekF18p68SJ5Rs/0VP1yCJ8VNqSYvI7.K', 'Dan', 'Popescu', NULL, 'user', NULL, NULL);
+(1,'popescu.dan@email.com', '$2y$10$HoUXL6Zmd8cTdus75jntRekF18p68SJ5Rs/0VP1yCJ8VNqSYvI7.K', 'Dan', 'Popescu', NULL, 'user', NULL, NULL),
+(2,'voicu.andrei@gov.ro', '$2y$10$vB4tTy522cKz3M2t1cYpBObsH93riDOd4waOPLTR52AmKuldufRo.', 'Andrei', 'Voicu', NULL, 'admin', NULL, NULL),
+(3,'duca.mihai@gov.ro', '$2y$10$vB4tTy522cKz3M2t1cYpBObsH93riDOd4waOPLTR52AmKuldufRo.', 'Mihai', 'Duca', NULL, 'admin', NULL, NULL),
+(4,'popescu.mircea@email.com', '$2y$10$sYCJcy.3HGWV9OATiwxRbu/.M2abwVEDvEoNMgZIZXUhb4wLaUlYO', 'Mircea', 'Popescu', NULL, 'user', NULL, NULL);
 
 CREATE TABLE `inmates` (
   `inmate_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -57,10 +71,14 @@ CREATE TABLE `inmates` (
   PRIMARY KEY (`inmate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- insert inmates
+-- insert inmates data
 
 INSERT INTO `inmates` (`inmate_id`,`person_id`,`first_name`, `last_name`, `sentence_start_date`, `sentence_duration`, `sentence_category`) VALUES
-(1,1,'Gigel', 'Phrone', '2023-03-09', 730, 'Violent crime');
+(1,2,'Gigel', 'Phrone', '2023-03-09', 2000, 'Violent crime'),
+(2,2,'Lucian', 'Boicea', '2024-05-17', 5000, 'Violent crime'),
+(3,2,'Zhao', 'Jungo', '2024-04-10', 7305, 'Manslaughter'),
+(4,2,'Stoica', 'Marian', '2023-05-30', 6666, 'Manslaughter'),
+(5,2,'Ted', 'Kaczynski', '2000-05-17', 14610, 'Manslaughter');
 
 CREATE TABLE `visits_info` (
   `visit_info_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -77,11 +95,15 @@ CREATE TABLE `visits_info` (
   PRIMARY KEY (`visit_info_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---insert visits_info
+-- insert visits_info data
 
 INSERT INTO `visits_info` (`visit_info_id`, `visitor_id`, `inmate_id`, `visit_date`, `witnesses`, `visit_nature`, `items_provided_to_inmate`, `items_offered_by_inmate`, `health_status`, `summary`, `visit_refID`) 
-VALUES
-(1, 1, 1, '2024-05-01', 'nurse', 'Friendship', 'money', 'book', 'good', 'we just chated', 1);
+VALUES  (1, 4, 1, '2024-05-11', 'police_guard', 'friendship', 'money', 'books', 'good', 'We just chated', 1),
+        (2, 4, 1, '2024-05-21', 'police_guard', 'friendship', 'food', 'letter', 'good', 'Chated about family and his health', 2),
+        (3, 4, 2, '2024-05-13', 'legal_guardian', 'lawyer', 'food and money', 'nothing', 'ok', 'We talked about the lawsuit', 3),
+        (4, 1, 1, '2024-05-12', 'nurse', 'lawyer', 'photos', 'nothing', 'ok', 'Spoke about the a precarious situation', 4),
+        (5, 4, 5, '2021-10-12', 'doctor', 'parental', 'medicine', 'nothing', 'bad', 'Spoke about the health and family', 5),
+        (6, 4, 5, '2021-05-20', 'doctor', 'friendship', 'medicine', 'letter', 'bad', 'The inmate said he is not feeling so well', 6);
 
 
 ALTER TABLE `visits`
