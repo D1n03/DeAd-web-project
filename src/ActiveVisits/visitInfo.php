@@ -4,7 +4,7 @@ if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
   header("Location: ../Login/login.php");
   exit;
 } else if (!isset($_SESSION['function']) || $_SESSION['function'] !== 'user') {
-  header("Location: ../Login/login.php");
+  header("Location: ../Index/index.php");
   exit;
 }
 ?>
