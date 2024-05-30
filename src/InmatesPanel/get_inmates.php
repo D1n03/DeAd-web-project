@@ -2,7 +2,7 @@
 
 require '../Utils/BaseAPI.php';
 
-class InmateAPI extends BaseAPI
+class InmatesAPI extends BaseAPI
 {
 
     public function handleRequest()
@@ -40,5 +40,5 @@ class InmateAPI extends BaseAPI
     }
 }
 
-$inmateAPI = new InmateAPI();
+$inmateAPI = new InmatesAPI();
 $inmateAPI->handleRequest();

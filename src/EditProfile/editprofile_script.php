@@ -2,7 +2,7 @@
 
 require '../Utils/BaseAPI.php';
 
-class ProfileController extends BaseAPI
+class EditProfileAPI extends BaseAPI
 {
 
     public function handleRequest()
@@ -93,5 +93,5 @@ class ProfileController extends BaseAPI
     }
 }
 
-$controller = new ProfileController();
+$controller = new EditProfileAPI();
 $controller->handleRequest();

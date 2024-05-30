@@ -2,7 +2,7 @@
 require '../Utils/Connection.php';
 require __DIR__ . "../../mailer.php";
 
-class PasswordResetController
+class ForgotPasswordAPI
 {
     private $conn;
     private $mailer;
@@ -94,5 +94,5 @@ class PasswordResetController
     }
 }
 
-$controller = new PasswordResetController();
+$controller = new ForgotPasswordAPI();
 $controller->handleRequest();

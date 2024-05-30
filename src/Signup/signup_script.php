@@ -1,7 +1,7 @@
 <?php
 require '../Utils/Connection.php';
 
-class UserRegistrationController
+class UserRegistrationAPI
 {
     private $conn;
 
@@ -86,5 +86,5 @@ class UserRegistrationController
     }
 }
 
-$controller = new UserRegistrationController();
+$controller = new UserRegistrationAPI();
 $controller->handleRequest();

@@ -1,7 +1,7 @@
 <?php
 require '../Utils/BaseAPI.php';
 
-class ExportController extends BaseAPI
+class ExportAPI extends BaseAPI
 {
 
     public function handleRequest()
@@ -315,5 +315,5 @@ class ExportController extends BaseAPI
     }
 }
 
-$controller = new ExportController();
+$controller = new ExportAPI();
 $controller->handleRequest();

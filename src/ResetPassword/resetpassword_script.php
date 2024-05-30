@@ -1,7 +1,7 @@
 <?php
 require '../Utils/Connection.php';
 
-class PasswordResetController
+class PasswordResetAPI
 {
     private $conn;
 
@@ -80,5 +80,5 @@ class PasswordResetController
     }
 }
 
-$controller = new PasswordResetController();
+$controller = new PasswordResetAPI();
 $controller->handleRequest();
