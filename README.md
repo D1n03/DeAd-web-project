@@ -17,3 +17,12 @@ composer require phpmailer/phpmailer
 3. vlucas/phpdotenv:
 
 composer require vlucas/phpdotenv
+
+## Team
+
+-Rusu Andrei-Dudu
+-Zloteanu Mircea
+
+## Video
+
+https://www.youtube.com/watch?v=iGbTPXT7l_U
