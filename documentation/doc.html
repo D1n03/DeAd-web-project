@@ -135,6 +135,68 @@
           <img src="images/profilemenu.png" alt="profilemenu-img" />
           <figcaption>Profile Menu</figcaption>
         </figure>
+        <p>
+          For the profile menu to appear, the user must be logged into their
+          account. If not, we only display in the header an icon for this.
+        </p>
+        <p>
+          Additionally, to display the profile menu, we check if the user is
+          logged in by verifying the session variable "is_logged_in." If the
+          user is logged in, we display their account name along with the
+          profile picture, if one is set. The profile picture is also retrieved
+          from the session variable "photo."
+        </p>
+        <p>
+          For the logout functionality, the Logout endpoint allows users to
+          terminate their session and log out from the system. It handles POST
+          requests to invalidate the authentication token associated with the
+          user session.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only POST requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates any existing authentication token to ensure that the
+                user is logged in before logging out.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Session Termination:</strong>
+            <ul>
+              <li>
+                Destroys the user session by unsetting session variables and
+                destroying the session.
+              </li>
+              <li>
+                Clears the authentication token cookie by setting its expiration
+                time to a past value.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a success message with status code 200 if the user is
+                logged out successfully.
+              </li>
+              <li>
+                Returns a 401 Unauthorized error if no authentication token is
+                found, indicating that the user is not logged in.
+              </li>
+              <li>
+                Returns a 405 Method Not Allowed error for requests using
+                unsupported HTTP methods.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-2">
         <h3>The <code>Index</code> page</h3>
@@ -149,6 +211,13 @@
           <img src="images/index.png" alt="index-img" />
           <figcaption>Main page</figcaption>
         </figure>
+        <p>
+          Depending on the role of the logged-in user, the button redirects them
+          to the appropriate main page. If the user is a regular user, they are
+          redirected to the visitor main page. If the user is an admin, they are
+          redirected to the admin main page. This is determined by checking the
+          session variable "function."
+        </p>
       </section>
       <section id="component-3">
         <h3>The <code>Login</code> page</h3>
@@ -166,6 +235,86 @@
           <img src="images/login.png" alt="login-img" />
           <figcaption>Login Form</figcaption>
         </figure>
+        <p>
+          For this page, the login endpoint is used. The Login endpoint allows
+          users to log in and obtain an authentication token (JWT) for accessing
+          protected resources within the system. It handles POST requests to
+          authenticate users based on their email and password.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only POST requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>User Authentication:</strong>
+            <ul>
+              <li>
+                Retrieves user input (email and password) from the request body.
+              </li>
+              <li>
+                Validates the provided email and password against records in the
+                database.
+              </li>
+              <li>
+                If the provided credentials are valid, it creates a session for
+                the user, generates a JWT token, and sets it as a cookie.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>JWT Creation:</strong>
+            <ul>
+              <li>
+                Generates a JWT token containing user information and role
+                (admin or user) with a specified expiration time.
+              </li>
+              <li>
+                The token is signed using the secret key defined in the
+                configuration.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Session Management:</strong>
+            <ul>
+              <li>
+                Creates a session for the authenticated user, storing essential
+                user details in session variables.
+              </li>
+              <li>
+                If authentication fails, it responds with a 401 Unauthorized
+                error.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a JSON response with the user's role if authentication
+                is successful.
+              </li>
+              <li>
+                Returns a 401 Unauthorized error if the provided credentials are
+                invalid.
+              </li>
+              <li>
+                Returns a 500 Internal Server Error if there is an issue with
+                the database connection or processing the request.
+              </li>
+              <li>
+                Returns a 405 Method Not Allowed error for requests using
+                unsupported HTTP methods.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-4">
         <h3>The <code>Signup</code> page</h3>
@@ -183,6 +332,77 @@
           <img src="images/signup.png" alt="signup-img" />
           <figcaption>Signup Form</figcaption>
         </figure>
+        <p>
+          The Signup endpoint facilitates the creation of new user accounts
+          within the system. Here's an overview of its functionality:
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only POST requests. Any other method results in a 405
+                Method Not Allowed response.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>User Registration:</strong>
+            <ul>
+              <li>
+                Retrieves user registration data (first name, last name, email,
+                password, password confirmation) from the request body.
+              </li>
+              <li>
+                Validates the presence of all required fields and checks the
+                validity of the email format.
+              </li>
+              <li>
+                Verifies that the password and password confirmation match and
+                meet the required complexity criteria (at least 8 characters,
+                containing uppercase, lowercase, and numeric characters).
+              </li>
+              <li>
+                Determines the user's role based on the email domain. Users with
+                specific domains (mapn.com, mai.com, gov.com) are assigned the
+                admin role; others are assigned the user role.
+              </li>
+              <li>
+                Checks if an account with the provided email already exists in
+                the database.
+              </li>
+              <li>
+                If all validations pass, hashes the password using PHP's
+                password_hash function and inserts the user data into the
+                database.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Password Strength Checking:</strong>
+            <ul>
+              <li>
+                Utilizes regular expressions to check if the password meets the
+                complexity requirements (uppercase, lowercase, numeric
+                characters, and minimum length).
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Sends appropriate HTTP status codes and JSON responses based on
+                the outcome of the registration process.
+              </li>
+              <li>
+                The response includes a message indicating the result of the
+                operation and, optionally, a boolean flag (success) to indicate
+                the success status of the operation.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-5">
         <h3>The <code>Forgot Password</code> page</h3>
@@ -196,6 +416,82 @@
           <img src="images/forgotpassword.png" alt="forgotpassword-img" />
           <figcaption>Forgot Password form</figcaption>
         </figure>
+        <p>
+          The Forgot Password endpoint handles the process of resetting a user's
+          password in case they forget it. Here's a breakdown of its
+          functionality:
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only POST requests. Any other method results in a 405
+                Method Not Allowed response.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Reset Password Process:</strong>
+            <ul>
+              <li>
+                Retrieves the email address from the request body and validates
+                its format.
+              </li>
+              <li>
+                Queries the database to check if the provided email exists.
+              </li>
+              <li>
+                If the email exists, generates a random reset token, hashes it,
+                and updates the user's record in the database with the hashed
+                token and its expiration time (30 minutes from the current
+                time).
+              </li>
+              <li>
+                Sends a password reset email to the user containing a link with
+                the reset token embedded in the URL.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Token Generation:</strong>
+            <ul>
+              <li>
+                Generates a random token using random_bytes() function and
+                converts it to a hexadecimal string.
+              </li>
+              <li>Hashes the token using SHA-256 algorithm for security.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Email Sending:</strong>
+            <ul>
+              <li>
+                Composes an email using the PHPMailer library, providing a link
+                to reset the password with the generated token appended to the
+                URL.
+              </li>
+              <li>Sends the email to the user's email address.</li>
+              <li>
+                If the email sending fails, it responds with a 500 Internal
+                Server Error.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Sends appropriate HTTP status codes and JSON responses based on
+                the outcome of the reset password process.
+              </li>
+              <li>
+                The response includes a message indicating the result of the
+                operation.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-6">
         <h3>The <code>Reset Password</code> page</h3>
@@ -209,6 +505,65 @@
           <figcaption>Reset password form</figcaption>
         </figure>
       </section>
+      <p>
+        The page is using two endpoints, one for the reset password and one for
+        token validation.
+      </p>
+      <ol>
+        <li>
+          <strong>Token Validation:</strong>
+          <ul>
+            <li>Checks if the reset token is valid and not expired.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Password Validation:</strong>
+          <ul>
+            <li>
+              Ensures the new password meets strength requirements and matches
+              the confirmation.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Password Update:</strong>
+          <ul>
+            <li>
+              Hashes the new password and updates it in the database, nullifying
+              the reset token.
+            </li>
+          </ul>
+        </li>
+      </ol>
+
+      <p>
+        The Token Validation endpoint validates the password reset token. When a
+        GET request is made, it checks if the token is valid and not expired,
+        responding accordingly.
+      </p>
+
+      <ol>
+        <li>
+          <strong>Token Check:</strong>
+          <ul>
+            <li>Ensures the reset token exists and is valid.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Expiration Check:</strong>
+          <ul>
+            <li>Verifies the token hasn't expired.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Response:</strong>
+          <ul>
+            <li>
+              Returns a validation status message based on the token's validity.
+            </li>
+          </ul>
+        </li>
+      </ol>
       <section id="component-7">
         <h3>The <code>About</code> page</h3>
         <p>
@@ -254,6 +609,49 @@
           <img src="images/contact.png" alt="contact-img" />
           <figcaption>Contact form</figcaption>
         </figure>
+        <p>
+          The Contact endpoint manages the creation of contact feedback entries
+          for this page. It handles POST requests to process user-provided
+          contact information and store it in the database.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Only accepts POST requests. Any other method results in a 405
+                Method Not Allowed response.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Ensures all required fields (name, email, feedback) are provided
+                and validates the email format.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Insertion:</strong>
+            <ul>
+              <li>
+                Inserts the validated contact information into the contact
+                table.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns appropriate HTTP status codes and messages based on the
+                operation's success or failure.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-10">
         <h3>The <code>Error</code> page</h3>
@@ -280,6 +678,13 @@
           <img src="images/profile.png" alt="profile-img" />
           <figcaption>Profile page</figcaption>
         </figure>
+        <p>
+          This page checks if the user has a profile picture. If a picture
+          exists, it's displayed from the session variable "photo"; otherwise, a
+          default one is shown. Additionally, it displays the user's name using
+          the "first_name" and "last_name" session variables and their email
+          using the session variable "email".
+        </p>
       </section>
       <section id="component-12">
         <h3>The <code>Edit Profile</code> page</h3>
@@ -291,6 +696,69 @@
           <img src="images/editprofile.png" alt="profile-img" />
           <figcaption>Edit profile form</figcaption>
         </figure>
+        <p>
+          The page retrieves the user's first name, last name, and email from
+          the session variables "first_name," "last_name," and "email." It
+          utilizes the edit profile endpoint to enable users to modify their
+          profile details. This endpoint manages POST requests to update profile
+          information, including first name, last name, email, and profile
+          photo.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Only accepts POST requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>Validates the user's JWT token to ensure authentication.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Session Validation:</strong>
+            <ul>
+              <li>
+                Validates that the user is logged in by checking the session
+                status.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Checks if all required fields (first name, last name, email) are
+                provided. Validates the file type if a profile photo is
+                uploaded.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operation:</strong>
+            <ul>
+              <li>Updates the user's profile information in the database.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Session Update:</strong>
+            <ul>
+              <li>
+                Updates the current session data with the new profile
+                information.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns appropriate HTTP status codes and messages based on the
+                operation's success or failure.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-13">
         <h3>The <code>Change Password</code> page</h3>
@@ -304,6 +772,66 @@
           <img src="images/changepassword.png" alt="profile-img" />
           <figcaption>Change password form</figcaption>
         </figure>
+        <p>
+          The Change Password endpoint manages the password change functionality
+          for users. It handles POST requests to update a user's password with a
+          new one.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Only accepts POST requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>Validates the user's JWT token to ensure authentication.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>Validates the email format provided in the request.</li>
+              <li>
+                Checks if the current password matches the one stored in the
+                database.
+              </li>
+              <li>
+                Verifies if the new passwords match each other and meet the
+                required strength criteria.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Password Strength Check:</strong>
+            <ul>
+              <li>
+                Ensures that the new password meets certain strength criteria,
+                including containing at least one uppercase letter, one
+                lowercase letter, one number, and being at least 8 characters
+                long.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operation:</strong>
+            <ul>
+              <li>
+                Updates the user's password in the database with the newly
+                provided one if all validation checks pass.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns appropriate HTTP status codes and messages based on the
+                operation's success or failure.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-14">
         <h3>The <code>Visitor Main</code> page</h3>
@@ -315,6 +843,10 @@
           <img src="images/visitormain.png" alt="visitormain-img" />
           <figcaption>User Main Page</figcaption>
         </figure>
+        <p>
+          Moreover, the page gets the name of the logged user from the session
+          variables "first_name" and "last_name".
+        </p>
       </section>
       <section id="component-15">
         <h3>The <code>Create Visit</code> page</h3>
@@ -333,6 +865,81 @@
           <img src="images/createvisit.png" alt="history-img" />
           <figcaption>Create visit form</figcaption>
         </figure>
+        <p>
+          The Create Visit endpoint facilitates the addition of new visit
+          records to the database. It handles POST requests to create new visit
+          entries for inmates, capturing various details such as visitor
+          information, visit nature, date, and duration.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only POST requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>Validates the user's JWT token to ensure authentication.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Validates the presence of all required fields in the request
+                data, including the inmate's first name, last name, relationship
+                with the visitor, visit nature, source of income, date, and
+                visit start and end times.
+              </li>
+              <li>
+                Checks if the provided inmate name exists in the database.
+              </li>
+              <li>
+                Verifies the file type of the profile photo uploaded, ensuring
+                it is one of the accepted image formats (JPEG, JPG, PNG).
+              </li>
+              <li>
+                Validates the visit duration, ensuring it does not exceed the
+                maximum allowable duration of 3 hours.
+              </li>
+              <li>Ensures that the visit start time is before the end time.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Concurrency Check:</strong>
+            <ul>
+              <li>
+                Checks for any overlapping visits for the same inmate at the
+                specified date and time range to prevent scheduling conflicts.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>
+                Inserts the new visit record into the visits table, capturing
+                details such as visitor ID, inmate name, relationship, visit
+                nature, photo, source of income, date, visit start, visit end,
+                and visit status.
+              </li>
+              <li>
+                Inserts corresponding visit information into the visits_info
+                table, associating the visitor ID, inmate ID, visit date, visit
+                nature, and visit reference ID.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns an appropriate HTTP status code and message indicating
+                the success or failure of the visit creation process.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-16">
         <h3>The <code>Active Visits</code> page</h3>
@@ -351,6 +958,109 @@
           <img src="images/activevisits.png" alt="history-img" />
           <figcaption>Active visits table</figcaption>
         </figure>
+        <p>
+          The following endpoints are used for this page: Delete Visit endpoint
+          and Visit endpoint.
+        </p>
+        <p>
+          The Delete Visit endpoint allows users to remove visit records from
+          the database. It handles DELETE requests and ensures that only
+          authenticated users with valid JWT tokens can perform deletion
+          operations.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only DELETE requests. Other methods result in a 405
+                Method Not Allowed response.
+              </li>
+              <li>Validates the user's JWT token to ensure authentication.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Checks if the required parameter visit_id is present in the
+                request URL.
+              </li>
+              <li>
+                Verifies the existence of the visit record associated with the
+                provided visit_id.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>
+                Deletes the visit record from the visits table based on the
+                specified visit_id.
+              </li>
+              <li>
+                Deletes associated visit information from the visits_info table
+                using the visit_info_id obtained from the visit_refID.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns appropriate HTTP status codes and messages to indicate
+                the success or failure of the deletion operation.
+              </li>
+            </ul>
+          </li>
+        </ol>
+        <p>
+          The Visit endpoint retrieves a list of visits associated with a
+          specific user ID. It handles GET requests and ensures that only
+          authenticated users with valid JWT tokens can access their visit
+          records.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>Validates the user's JWT token to ensure authentication.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Validates the presence of the required parameter id,
+                representing the user's ID.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Query:</strong>
+            <ul>
+              <li>
+                Executes an SQL query to retrieve visit records associated with
+                the specified user ID.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a JSON array containing visit details if visits are
+                found.
+              </li>
+              <li>Returns a 404 Not Found response if no visits are found.</li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-17">
         <h3>The <code>Visit Info</code> page</h3>
@@ -364,6 +1074,107 @@
           <img src="images/visitinfo.png" alt="history-img" />
           <figcaption>Visit details form</figcaption>
         </figure>
+        <p>
+          The operations of this page involve the use of the Get Visit Details
+          endpoint and Visit Update endpoint.
+        </p>
+        <p>
+          The Get Visit Details endpoint retrieves detailed information about a
+          specific visit based on its visit_id. It handles GET requests and
+          ensures that only authenticated users with valid JWT tokens can access
+          visit details.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>Validates the user's JWT token to ensure authentication.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Retrieves the visit_id parameter from the request URL and
+                validates its presence.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Query:</strong>
+            <ul>
+              <li>
+                Executes an SQL query to retrieve visit details based on the
+                provided visit_id.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns the visit details in JSON format if the visit exists.
+              </li>
+              <li>
+                Returns a 404 Not Found response if the visit does not exist.
+              </li>
+            </ul>
+          </li>
+        </ol>
+        <p>
+          The Visit Update endpoint allows users to update visit information
+          such as items offered by the inmate, items provided to the inmate,
+          summary, inmate health status, and witnesses. It handles POST requests
+          and ensures that only authenticated users with valid JWT tokens can
+          perform visit updates.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only POST requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>Validates the user's JWT token to ensure authentication.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Retrieves and processes POST data containing updated visit
+                information.
+              </li>
+              <li>Validates and sanitizes the input data.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>
+                Updates visit information in the visits_info table based on the
+                provided visit_id.
+              </li>
+              <li>Sets the visit status to inactive in the visits table.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a success message if the visit is updated successfully.
+              </li>
+              <li>
+                Returns an error message if any internal server errors occur.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-18">
         <h3>The <code>Visit History</code> page</h3>
@@ -376,6 +1187,55 @@
           <img src="images/history.png" alt="history-img" />
           <figcaption>History table</figcaption>
         </figure>
+        <p>
+          The History endpoint retrieves a list of inactive visit records
+          associated with a specific user ID. It handles GET requests and
+          ensures that only authenticated users with valid JWT tokens can access
+          their visit history.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>Validates the user's JWT token to ensure authentication.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Validates the presence of the required parameter id,
+                representing the user's ID.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Query:</strong>
+            <ul>
+              <li>
+                Executes an SQL query to retrieve inactive visit records
+                associated with the specified user ID from the visits table.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a JSON array containing visit details if inactive visits
+                are found.
+              </li>
+              <li>
+                Returns a 404 Not Found response if no inactive visits are
+                found.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-19">
         <h3>The <code>Visit Details</code> page</h3>
@@ -389,6 +1249,57 @@
           <img src="images/visitdetails.png" alt="history-img" />
           <figcaption>Visit data</figcaption>
         </figure>
+        <p>
+          The Get Inactive Visit Details endpoint retrieves detailed information
+          about an inactive visit based on its visit_id. It handles GET requests
+          and ensures that only authenticated users with valid JWT tokens can
+          access visit details.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>Validates the user's JWT token to ensure authentication.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Retrieves the visit_id parameter from the request URL and
+                validates its presence.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Query:</strong>
+            <ul>
+              <li>
+                Executes an SQL query to retrieve detailed visit information,
+                including visit details from the visits table and additional
+                information from the visits_info table, for the specified
+                visit_id.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns the visit details in JSON format if the visit exists and
+                is inactive.
+              </li>
+              <li>
+                Returns a 404 Not Found response if the visit is not found or if
+                it is active.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-20">
         <h3>The <code>Admin Main</code> page</h3>
@@ -417,6 +1328,97 @@
           <img src="images/inmatespanel.png" alt="adminmain-img" />
           <figcaption>Inmates table</figcaption>
         </figure>
+        <p>
+          To accomplish its tasks, this page relies on the Delete Inmate
+          endpoint and Get All Inmates endpoint.
+        </p>
+        <p>
+          The Delete Inmate endpoint enables an admin user to delete an existing
+          inmate from the system. It handles DELETE requests and ensures that
+          only authenticated admin users with valid JWT tokens can perform
+          inmate deletion.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>Retrieves the inmate_id parameter from the request URL.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>Checks if the specified inmate exists in the database.</li>
+              <li>
+                Deletes the inmate record from the inmates table if found.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns status code 200 if the inmate is deleted successfully.
+              </li>
+              <li>
+                Returns status code 400 if the inmate_id parameter is missing.
+              </li>
+              <li>
+                Returns status code 404 if the inmate is not found in the
+                database.
+              </li>
+            </ul>
+          </li>
+        </ol>
+        <p>
+          The Get All Inmates endpoint retrieves a list of all inmates in the
+          system. It handles GET requests and ensures that only authenticated
+          admin users with valid JWT tokens can access the list of inmates.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>Retrieves all inmate records from the inmates table.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a JSON array containing details of all inmates along
+                with status code 200.
+              </li>
+              <li>
+                Returns status code 404 if no inmates are found in the database.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-22">
         <h3>The <code>Add Inmate</code> page</h3>
@@ -430,6 +1432,66 @@
           <img src="images/addinmate.png" alt="adminmain-img" />
           <figcaption>Add inmate form</figcaption>
         </figure>
+        <p>
+          The Add Inmate endpoint allows an admin user to add a new inmate to
+          the system. It handles POST requests and ensures that only
+          authenticated admin users with valid JWT tokens can add new inmates.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only POST requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>Retrieves input data from the POST request parameters.</li>
+              <li>
+                Checks if all required fields (first_name, last_name,
+                sentence_start_date, sentence_duration, sentence_category) are
+                provided.
+              </li>
+              <li>
+                Checks if an inmate with the same name already exists in the
+                database.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>
+                Inserts the new inmate details into the inmates table in the
+                database.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a success message with status code 200 if the inmate is
+                added successfully.
+              </li>
+              <li>
+                Returns an error message with status code 400 for missing fields
+                or duplicate inmate names.
+              </li>
+              <li>
+                Returns an error message with status code 500 for internal
+                server errors during database insertion.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-23">
         <h3>The <code>Edit Inmate</code> page</h3>
@@ -441,6 +1503,120 @@
           <img src="images/editinmate.png" alt="adminmain-img" />
           <figcaption>Edit Inmate form</figcaption>
         </figure>
+        <p>
+          This page functions by utilizing the Get Inmate Details endpoint and
+          Update Inmate endpoint.
+        </p>
+        <p>
+          The Get Inmate Details retrieves detailed information about a specific
+          inmate based on their inmate_id. It handles GET requests and ensures
+          that only authenticated admin users with valid JWT tokens can access
+          inmate details.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>Retrieves the inmate_id parameter from the request URL.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>
+                Retrieves the inmate details from the inmates table based on the
+                specified inmate_id.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns inmate details in JSON format if found, along with
+                status code 200.
+              </li>
+              <li>
+                Returns status code 404 if the inmate with the specified
+                inmate_id is not found.
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+        <p>
+          The Update Inmate allows an admin user to update the details of an
+          existing inmate. It handles PUT requests and ensures that only
+          authenticated admin users with valid JWT tokens can update inmate
+          information.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only PUT requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>Retrieves input data from the PUT request body.</li>
+              <li>
+                Checks if all required fields (first_name, last_name,
+                sentence_start_date, sentence_duration, sentence_category) are
+                provided.
+              </li>
+              <li>
+                Verifies if the specified inmate_id exists in the database.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>Updates the inmate details in the inmates table.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a success message with status code 200 if the inmate is
+                updated successfully.
+              </li>
+              <li>
+                Returns an error message with status code 400 for missing fields
+                or invalid inmate_id.
+              </li>
+              <li>
+                Returns an error message with status code 404 if the inmate is
+                not found in the database.
+              </li>
+              <li>
+                Returns an error message with status code 500 for internal
+                server errors during database update.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-24">
         <h3>The <code>Users Panel</code> page</h3>
@@ -453,6 +1629,100 @@
           <img src="images/userspanel.png" alt="adminmain-img" />
           <figcaption>Users table</figcaption>
         </figure>
+        <p>
+          Within this page's operations, we employ both the Delete User endpoint
+          and the Get Non-Admin Users endpoint.
+        </p>
+        <p>
+          The Delete User enables an admin user to delete an existing user from
+          the system. It handles DELETE requests and ensures that only
+          authenticated admin users with valid JWT tokens can perform user
+          deletion.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only DELETE requests. Other methods result in a 405
+                Method Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>Retrieves the user_id parameter from the request URL.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>Checks if the specified user exists in the database.</li>
+              <li>Deletes the user record from the users table if found.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns status code 200 if the user is deleted successfully.
+              </li>
+              <li>
+                Returns status code 400 if the user_id parameter is missing.
+              </li>
+              <li>
+                Returns status code 404 if the user is not found in the
+                database.
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+        <p>
+          The Get Non-Admin Users endpoint retrieves a list of all non-admin
+          users in the system. It handles GET requests and ensures that only
+          authenticated admin users with valid JWT tokens can access the list of
+          non-admin users.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>
+                Retrieves all non-admin user records from the users table.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a JSON array containing details of all non-admin users
+                along with status code 200.
+              </li>
+              <li>
+                Returns status code 404 if no non-admin users are found in the
+                database.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-25">
         <h3>The <code>Edit User</code> page</h3>
@@ -466,6 +1736,133 @@
           <img src="images/edituser.png" alt="adminmain-img" />
           <figcaption>Edit user form</figcaption>
         </figure>
+        <p>
+          Within this page's operations, we employ both the Get User endpoint
+          and the Update User endpoint.
+        </p>
+
+        <p>
+          The Get User retrieves detailed information about a specific user
+          based on their user_id. It handles GET requests and ensures that only
+          authenticated admin users with valid JWT tokens can access user
+          details.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>Retrieves the user_id parameter from the request URL.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>
+                Retrieves the user details from the users table based on the
+                specified user_id.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns user details in JSON format if found, along with status
+                code 200.
+              </li>
+              <li>
+                Returns status code 404 if the user with the specified user_id
+                is not found.
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+        <p>
+          The Update User allows an admin user to update the details of an
+          existing user. It handles POST requests and ensures that only
+          authenticated admin users with valid JWT tokens can update user
+          information.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only POST requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>Retrieves input data from the POST request parameters.</li>
+              <li>
+                Checks if all required fields (user_id, first_name, last_name,
+                email) are provided.
+              </li>
+              <li>
+                Validates the provided password strength and checks if new
+                passwords match if provided.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>File Upload Handling:</strong>
+            <ul>
+              <li>
+                Processes photo uploads, validates file types, and updates the
+                user's photo in the database if provided.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>Updates the user details in the users table.</li>
+              <li>
+                Hashes and updates the password if a new password is provided.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a success message with status code 200 if the user is
+                updated successfully.
+              </li>
+              <li>
+                Returns an error message with status code 400 for missing
+                fields, invalid user_id, or password mismatch.
+              </li>
+              <li>
+                Returns status code 404 if the user with the specified user_id
+                is not found.
+              </li>
+              <li>
+                Returns status code 500 for internal server errors during
+                database update.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-26">
         <h3>The <code>Visits Panel</code> page</h3>
@@ -478,6 +1875,114 @@
           <img src="images/visitspanel.png" alt="adminmain-img" />
           <figcaption>Visits table</figcaption>
         </figure>
+        <p>
+          To accomplish its tasks, this page relies on the Delete Visit endpoint
+          and Visits endpoint.
+        </p>
+
+        <p>
+          The Delete Visit enables an admin user to delete an existing visit
+          from the system. It handles DELETE requests and ensures that only
+          authenticated admin users with valid JWT tokens can perform visit
+          deletion.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only DELETE requests. Other methods result in a 405
+                Method Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>Retrieves the visit_id parameter from the request URL.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>Checks if the specified visit exists in the database.</li>
+              <li>Deletes the visit record from the visits table if found.</li>
+              <li>
+                Deletes related information from the visits_info table using the
+                visit_info_id associated with the visit.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns status code 200 if the visit is deleted successfully.
+              </li>
+              <li>
+                Returns status code 400 if the visit_id parameter is missing.
+              </li>
+              <li>
+                Returns status code 404 if the visit is not found in the
+                database.
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+        <p>
+          The Visits endpoint retrieves a list of visits along with their
+          details from the system. It handles GET requests and ensures that only
+          authenticated admin users with valid JWT tokens can access visit
+          information.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>
+                Retrieves visit details such as visit_id, photo, first_name,
+                last_name, date, visit_start, and visit_end from the visits
+                table.
+              </li>
+              <li>
+                Encodes the photo data to base64 format for inclusion in the
+                response.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a JSON array containing details of all visits, including
+                inmate name, date, time interval, visit_id, and encoded photo.
+              </li>
+              <li>
+                Returns status code 200 if visits are found and returned
+                successfully.
+              </li>
+              <li>
+                Returns status code 404 if no visits are found in the database.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-27">
         <h3>The <code>Edit Visit</code> page</h3>
@@ -490,6 +1995,149 @@
           <img src="images/editvisit.png" alt="adminmain-img" />
           <figcaption>Edit visit form</figcaption>
         </figure>
+        <p>
+          This page functions by utilizing the Visit Details endpoint and Update
+          Visit endpoint.
+        </p>
+
+        <p>
+          The Visit Details retrieves detailed information about a specific
+          visit based on its visit_id. It handles GET requests and ensures that
+          only authenticated admin users with valid JWT tokens can access visit
+          details.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Validates the presence of the visit_id parameter in the request
+                URL.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>
+                Retrieves detailed information about the visit from the visits
+                table.
+              </li>
+              <li>
+                Joins data from the users table to get details about the person
+                associated with the visit.
+              </li>
+              <li>
+                Uses a LEFT JOIN with the visits_info table to include
+                additional visit information if available.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns detailed information about the visit in JSON format if
+                found, along with status code 200.
+              </li>
+              <li>
+                Returns status code 404 if the visit with the specified visit_id
+                is not found in the database.
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+        <p>
+          The Update Visit allows an admin user to modify the details of an
+          existing visit in the system. It handles POST requests and ensures
+          that only authenticated admin users with valid JWT tokens can update
+          visit information.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only POST requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Input Validation:</strong>
+            <ul>
+              <li>
+                Retrieves input data from the POST request parameters, including
+                visit_id, date, visit_time_start, visit_time_end, visit_nature,
+                inmate_first_name, and inmate_last_name.
+              </li>
+              <li>
+                Checks if all required fields are provided. If any required
+                field is missing, it returns a 400 Bad Request error.
+              </li>
+              <li>
+                Validates the duration of the visit to ensure it does not exceed
+                the maximum allowed duration.
+              </li>
+              <li>Checks if the start time is before the end time.</li>
+              <li>
+                Ensures that the inmate does not have another visit scheduled in
+                the same time interval.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Database Operations:</strong>
+            <ul>
+              <li>Checks if the specified visit exists in the database.</li>
+              <li>
+                Updates the visit details in the visits table, including
+                visit_nature, date, visit_start, and visit_end.
+              </li>
+              <li>
+                Updates the corresponding visit details in the visits_info
+                table, including visit_nature and visit_date.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Returns a success message with status code 200 if the visit is
+                updated successfully.
+              </li>
+              <li>
+                Returns an error message with status code 400 for missing fields
+                or invalid input data.
+              </li>
+              <li>
+                Returns status code 404 if the specified visit is not found in
+                the database.
+              </li>
+              <li>
+                Returns status code 500 for internal server errors during the
+                update process.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
       <section id="component-28">
         <h3>The <code>Export data</code> page</h3>
@@ -506,6 +2154,79 @@
           <img src="images/export.png" alt="adminmain-img" />
           <figcaption>Export data panel</figcaption>
         </figure>
+        <p>
+          The Export endpoint facilitates exporting various data sets from the
+          system in different formats (JSON, CSV, HTML). It handles GET requests
+          and ensures that only authenticated admin users with valid JWT tokens
+          can access the export functionality.
+        </p>
+        <ol>
+          <li>
+            <strong>Request Handling:</strong>
+            <ul>
+              <li>
+                Accepts only GET requests. Other methods result in a 405 Method
+                Not Allowed response.
+              </li>
+              <li>
+                Validates the user's JWT token to ensure admin authentication.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Data Exporting:</strong>
+            <ul>
+              <li>
+                Parses query parameters to determine the export type, format,
+                and sorting preference.
+              </li>
+              <li>
+                Retrieves data from the database based on the export type
+                (users, inmates, all_visits).
+              </li>
+              <li>
+                Calculates statistics related to the exported data, such as
+                total counts and averages.
+              </li>
+              <li>
+                Sorts the exported data based on the specified sorting
+                preference (if provided).
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Data Formatting:</strong>
+            <ul>
+              <li>Supports exporting data in JSON, CSV, and HTML formats.</li>
+              <li>
+                Converts the exported data and statistics into the selected
+                format.
+              </li>
+              <li>
+                Sends the formatted data as a downloadable file with appropriate
+                headers.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Sorting:</strong>
+            <ul>
+              <li>
+                Provides custom sorting functions for different export types and
+                sorting preferences.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Response Handling:</strong>
+            <ul>
+              <li>
+                Sends appropriate error responses (status code and message) for
+                invalid requests or scenarios.
+              </li>
+            </ul>
+          </li>
+        </ol>
       </section>
     </section>
     <section id="semantics">
