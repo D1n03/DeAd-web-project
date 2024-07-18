@@ -16,17 +16,21 @@ Users are divided into 2 categories: administrators and normal users.
 Normal users can create new visits of existing inmates, view them, and add details post-factum. 
 
 As an example, this is the form for creating a visit:
+
 ![image](https://github.com/user-attachments/assets/7b164439-a729-4cfb-b478-c0e260e58632)
 
 Admins can access certain restricted functionalities, such as managing all inmates, users, and visits, as well as exporting data in various formats.
 
 The form for adding an inmate:
+
 ![image](https://github.com/user-attachments/assets/cc8bb795-6d02-4e4e-8820-dfbb9ffabab7)
 
 An instance of the list of users, which the admin can control by deleting users or editing their personal data: 
+
 ![image](https://github.com/user-attachments/assets/2466565f-6f62-446a-83c4-4290941a1211)
 
 As for the data exporting page, which allows the admin to select the fields by which to sort the data, as well as the export format:
+
 ![image](https://github.com/user-attachments/assets/b30541ee-7c3c-4d50-a11c-0c1bf66d6fe1)
 
 ## Instructions
