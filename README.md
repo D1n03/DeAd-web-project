@@ -1,11 +1,11 @@
 # DeAd-web-project
 
 ## :ledger: Index
-[Description] (#beginner-description)
-[Video] (#movie_camera-video)
-[Functionality] (#gear-functionality)
-[Instructions] (#zap-instructions)
-[Team] (#team)
+- [Description](#beginner-description)
+- [Video](#movie_camera-video)
+- [Functionality](#gear-functionality)
+- [Instructions](#zap-instructions)
+- [Team](#team)
 
 ## :beginner: Description
 
