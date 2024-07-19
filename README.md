@@ -1,16 +1,24 @@
 # DeAd-web-project
 
-## Description
+## :ledger: Index
+[Description] (#beginner-description)
+[Video] (#movie_camera-video)
+[Functionality] (#gear-functionality)
+[Instructions] (#zap-instructions)
+[Team] (#team)
+
+## :beginner: Description
 
 Welcome to our project! This is a web application made in PHP, CSS and JS, for managing prison visits. It allows users to view, create, and delete visits using its user-friendly features.
 
-## Video
+
+## :movie_camera: Video
 
 A short video that demonstrates the functionalities offered by DeAd.
 
 https://www.youtube.com/watch?v=iGbTPXT7l_U
 
-## Functionality
+## :gear: Functionality
 Users are divided into 2 categories: administrators and normal users.
 
 Normal users can create new visits of existing inmates, view them, and add details post-factum. 
@@ -19,7 +27,7 @@ As an example, this is the form for creating a visit:
 
 ![image](https://github.com/user-attachments/assets/7b164439-a729-4cfb-b478-c0e260e58632)
 
-Admins can access certain restricted functionalities, such as managing all inmates, users, and visits, as well as exporting data in various formats.
+Administrators can access certain restricted functionalities, such as managing all inmates, users, and visits, as well as exporting data in various formats.
 
 The form for adding an inmate:
 
@@ -33,7 +41,7 @@ As for the data exporting page, which allows the admin to select the fields by w
 
 ![image](https://github.com/user-attachments/assets/b30541ee-7c3c-4d50-a11c-0c1bf66d6fe1)
 
-## Instructions
+## :zap: Instructions
 To test this web app, you will need to rule it on a localhost webserver. For the setup, you will need to proceed as follows:
 
 -	Install PHP from https://windows.php.net/download
