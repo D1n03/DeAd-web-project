@@ -5,6 +5,7 @@
 - [Video](#movie_camera-video)
 - [Functionality](#gear-functionality)
 - [Instructions](#zap-instructions)
+- [Structure](#books-structure)
 - [Team](#team)
 
 ## :beginner: Description
@@ -40,6 +41,49 @@ An instance of the list of users, which the admin can control by deleting users 
 As for the data exporting page, which allows the admin to select the fields by which to sort the data, as well as the export format:
 
 ![image](https://github.com/user-attachments/assets/b30541ee-7c3c-4d50-a11c-0c1bf66d6fe1)
+
+## :books: Structure
+
+The application is structured into several key components, each fulfilling specific roles and interacting with each other to deliver the overall functionality. Here is an overview of the main components:
+
+**1. User Roles**
+- Anonymous User: A user who is not logged in. They can visit public pages of the application.
+- User: An authenticated user who can create visits using the application.
+- Administrator: An authenticated user who manages the data within the application.
+
+**2. DeAd Web App**
+
+The core of the application, the DeAd Web App, consists of the following components:
+- DeAd Web User Pages:
+    - Container: CSS, JavaScript, PHP
+    - Description: These pages provide the user interface for authenticated users to create visits. They make API calls to the Web Application to perform various actions.
+- DeAd Web Admin Pages:
+    - Container: CSS, JavaScript, PHP
+    - Description: These pages provide the user interface for administrators to manage data. They make API calls to the Web Application to manage application data.
+- Web Application:
+    - Description: This component provides REST API endpoints that serve the user and admin pages. It handles API calls using JSON/HTTP and manages the rendering of public pages.
+    - Interactions:
+        - Receives API calls from the DeAd Web User and Admin Pages.
+        - Sends emails using Google SMTP.
+        - Reads from and writes to the SQL Database.
+- SQL Database:
+    - Container: MySQL
+    - Description: A relational database that stores information about users, inmates, visits, and feedback from users. The Web Application reads from and writes to this database using SQL/TCP.
+- Google SMTP:
+    - Description: This service is used to send password reset links via email, ensuring secure and efficient password recovery for users. The Web Application sends emails using this service.
+    
+**3. Interactions and Data Flow**
+
+- Anonymous users can visit public pages of the application.
+- Authenticated users interact with the DeAd Web User Pages to create visits. These pages make API calls to the Web Application.
+- Administrators use the DeAd Web Admin Pages to manage application data. These pages also make API calls to the Web Application.
+- The Web Application serves as the backend, providing REST APIs for both user and admin pages, handling API calls, and managing interactions with the SQL Database.
+- The Web Application also uses Google SMTP to send emails for password recovery.
+- The SQL Database stores and manages all relevant data, which the Web Application accesses as needed.
+
+This structure ensures a clear separation of concerns, allowing for maintainable and scalable application development.
+
+
 
 ## :zap: Instructions
 To test this web app, you will need to rule it on a localhost webserver. For the setup, you will need to proceed as follows:
